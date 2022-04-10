@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.khalidsyfullah.boimela.ui.auth.AuthActivity;
 import com.khalidsyfullah.boimela.ui.navigation.NavigationActivity;
 import com.khalidsyfullah.boimela.R;
 
@@ -31,6 +32,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
 
+
         Animation rotateAnimation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.accelerate_rotate);
         imageView.startAnimation(rotateAnimation);
 
@@ -40,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 progressBar.setVisibility(View.GONE);
-                Intent intent =new Intent(SplashActivity.this, NavigationActivity.class);
+                Intent intent =new Intent(SplashActivity.this, AuthActivity.class);
                 startActivity(intent);
                 finish();
 

@@ -8,20 +8,32 @@
         android:id="@+id/nav_login"
         android:name="com.khalidsyfullah.boimela.ui.auth.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_nav_login_to_nav_signup"
+            app:destination="@id/nav_signup"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/nav_login" />
+        <action
+            android:id="@+id/action_nav_login_to_phoneVerificationAFragment"
+            app:destination="@id/nav_phone_verification"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/nav_login" />
+    </fragment>
     <fragment
         android:id="@+id/nav_signup"
         android:name="com.khalidsyfullah.boimela.ui.auth.SignupFragment"
         android:label="fragment_signup"
         tools:layout="@layout/fragment_signup" />
     <fragment
-        android:id="@+id/phoneVerificationAFragment"
-        android:name="com.khalidsyfullah.boimela.ui.auth.PhoneVerificationAFragment"
+        android:id="@+id/nav_phone_verification"
+        android:name="com.khalidsyfullah.boimela.ui.auth.PhoneVerificationFragment"
         android:label="fragment_phone_verification_1"
-        tools:layout="@layout/fragment_phone_verification_1" />
-    <fragment
-        android:id="@+id/phoneVerificationBFragment"
-        android:name="com.khalidsyfullah.boimela.ui.auth.PhoneVerificationBFragment"
-        android:label="fragment_phone_verification_2"
-        tools:layout="@layout/fragment_phone_verification_2" />
+        tools:layout="@layout/fragment_phone_verification" />
 </navigation>

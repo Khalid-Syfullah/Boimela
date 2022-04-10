@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "997119546183",
+    "project_id": "boimela-8712c",
+    "storage_bucket": "boimela-8712c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997119546183:android:da28ce4dc54c430d4cf262",
+        "android_client_info": {
+          "package_name": "com.khalidsyfullah.boimela"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "997119546183-lvc4hqapk9rcqh0rff8tsjikdkpp2pi1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByeTRNsppcmtvZa8ETLyxLw-m0hVRUmXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "997119546183-lvc4hqapk9rcqh0rff8tsjikdkpp2pi1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

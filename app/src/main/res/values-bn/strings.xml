@@ -69,4 +69,7 @@
     <string name="poetry">Poetry</string>
     <string name="publishers">Publishers</string>
     <string name="search_hint">Search book, author, publisher</string>
+    <string name="enter_your_otp">Enter Your OTP Code</string>
+    <string name="random_time">5:00</string>
+    <string name="otp_via_sms">You\'ll receive OTP via SMS</string>
 </resources>
