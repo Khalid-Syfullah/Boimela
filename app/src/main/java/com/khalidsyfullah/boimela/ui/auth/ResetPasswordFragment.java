@@ -1,7 +1,5 @@
 package com.khalidsyfullah.boimela.ui.auth;
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -31,13 +29,11 @@ import com.khalidsyfullah.boimela.Repo.RemoteRequestInterface;
 import com.khalidsyfullah.boimela.datamodel.UserDataModel;
 import com.khalidsyfullah.boimela.global.StaticData;
 
-import java.util.concurrent.Executor;
-
-public class SignupFragment extends Fragment {
+public class ResetPasswordFragment extends Fragment {
 
 
-    private TextView signupBtn, loginBtn;
-    private EditText nameText, phoneText, passwordText, confirmPasswordText;
+    private TextView resetBtn;
+    private EditText phoneText, passwordText, confirmPasswordText;
     private ImageView passwordVisibility, confirmPasswordVisibility;
     private AuthRepo authRepo;
     private FirebaseAuth mAuth;
@@ -47,16 +43,14 @@ public class SignupFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View root = inflater.inflate(R.layout.fragment_signup, container, false);
+        View root = inflater.inflate(R.layout.fragment_reset_password, container, false);
 
-        nameText = root.findViewById(R.id.signup_name_edit_text);
-        phoneText = root.findViewById(R.id.signup_phone_edit_text);
-        passwordText = root.findViewById(R.id.signup_password_edit_text);
-        confirmPasswordText = root.findViewById(R.id.signup_confirm_password_edit_text);
-        passwordVisibility = root.findViewById(R.id.signup_password_visibility);
-        confirmPasswordVisibility = root.findViewById(R.id.signup_confirm_password_visibility);
-        signupBtn = root.findViewById(R.id.signup_btn);
-        loginBtn = root.findViewById(R.id.signup_subtitle5);
+        phoneText = root.findViewById(R.id.reset_password_phone_edit_text);
+        passwordText = root.findViewById(R.id.reset_password_password_edit_text);
+        confirmPasswordText = root.findViewById(R.id.reset_password_confirm_password_edit_text);
+        passwordVisibility = root.findViewById(R.id.reset_password_password_visibility);
+        confirmPasswordVisibility = root.findViewById(R.id.reset_password_confirm_password_visibility);
+        resetBtn = root.findViewById(R.id.reset_password_btn);
 
         mAuth = FirebaseAuth.getInstance();
         mAuth.setLanguageCode("bn");
@@ -104,19 +98,13 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        signupBtn.setOnClickListener(new View.OnClickListener() {
+        resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 verifySignUp();
             }
         });
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getActivity(),R.id.nav_host_fragment_auth).navigate(R.id.action_nav_signup_to_nav_login);
-            }
-        });
 
 
     }
@@ -125,14 +113,9 @@ public class SignupFragment extends Fragment {
 
 
     private void verifySignUp() {
-        String name = "", phone = "", password = "";
+        String phone = "", password = "";
 
-        if (nameText.getText().toString().isEmpty()) {
-            nameText.setError("Name Required");
-            nameText.requestFocus();
-        } else {
-            name = nameText.getText().toString();
-        }
+
 
 
         if (phoneText.getText().toString().isEmpty()) {
@@ -159,9 +142,9 @@ public class SignupFragment extends Fragment {
 
         }
 
-        if (!name.isEmpty() && !phone.isEmpty() && !password.isEmpty()) {
+        if (!phone.isEmpty() && !password.isEmpty()) {
 
-            UserDataModel userDataModel = new UserDataModel(name, "+88"+phone, password);
+            UserDataModel userDataModel = new UserDataModel("+88"+phone, password);
 
             AuthCredential credential = EmailAuthProvider.getCredential(phone+"@localhost.com", password);
 
@@ -174,7 +157,7 @@ public class SignupFragment extends Fragment {
                                 Log.d("LinkWithCredential", "linkWithCredential:success");
                                 Toast.makeText(getActivity(), "Authentication successful.", Toast.LENGTH_SHORT).show();
 
-                                signupCall(userDataModel);
+                                resetPasswordCall(userDataModel);
 
 
                             }
@@ -194,17 +177,17 @@ public class SignupFragment extends Fragment {
 
     }
 
-    private void signupCall(UserDataModel userDataModel){
+    private void resetPasswordCall(UserDataModel userDataModel){
 
-        authRepo.signupUser(userDataModel, new RemoteRequestInterface() {
+        authRepo.resetPassword(userDataModel, new RemoteRequestInterface() {
             @Override
             public void onSuccess(String msg) {
-                StaticData.successAlertDialog(getActivity(),"Signup Successful: "+msg);
+                StaticData.successAlertDialog(getActivity(),"Reset Successful: "+msg);
             }
 
             @Override
             public void onFailure(String msg) {
-                StaticData.failureAlertDialog(getActivity(),"Signup Failed: "+msg);
+                StaticData.failureAlertDialog(getActivity(),"Reset Failed: "+msg);
 
             }
         });

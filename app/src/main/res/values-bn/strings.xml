@@ -72,4 +72,22 @@
     <string name="enter_your_otp">Enter Your OTP Code</string>
     <string name="random_time">5:00</string>
     <string name="otp_via_sms">You\'ll receive OTP via SMS</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone</string>
+    <string name="name">Name</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="getting_started">Getting Started</string>
+    <string name="create_an_account">Create an account to continue</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="title">Title</string>
+    <string name="save">Save</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="message">Message</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="login">Login</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="reset">Reset</string>
 </resources>

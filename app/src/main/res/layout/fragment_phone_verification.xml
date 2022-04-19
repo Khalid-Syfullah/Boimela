@@ -11,7 +11,7 @@
         android:id="@+id/phone_verification_background"
         android:layout_width="768dp"
         android:layout_height="768dp"
-        android:layout_marginStart="128dp"
+        android:layout_marginStart="48dp"
         android:layout_marginBottom="460dp"
         android:src="@drawable/login_background"
         app:layout_constraintBottom_toBottomOf="parent"

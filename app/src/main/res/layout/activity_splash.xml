@@ -12,24 +12,26 @@
             android:id="@+id/splash_logo"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:layout_marginTop="80dp"
             android:scaleType="centerInside"
             android:src="@drawable/icon"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.32999998" />
 
         <ImageView
             android:id="@+id/splash_logo_rays"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:layout_marginTop="80dp"
             android:rotation="180"
             android:scaleType="centerInside"
             android:src="@drawable/icon2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.32999998" />
 
         <TextView
             android:id="@+id/splash_app_name"
@@ -51,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sign Up"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/splash_login_btn"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Login"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/splash_signup_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/splash_signup_btn"

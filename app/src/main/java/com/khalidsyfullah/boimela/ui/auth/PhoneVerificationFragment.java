@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +38,9 @@ public class PhoneVerificationFragment extends Fragment {
     private EditText phoneText, otpText1, otpText2, otpText3, otpText4, otpText5, otpText6;
     private CardView getOtpCardView, verifyOtpCardView;
     private FirebaseAuth mAuth;
-    private boolean isVerificationCompleted = false,isTimerOn=false;
 
+    private boolean isVerificationCompleted = false,isTimerOn=false;
+    private String arg = "";
 
     @Nullable
     @Override
@@ -68,6 +70,14 @@ public class PhoneVerificationFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         mAuth.setLanguageCode("bn");
+
+        otpText1.setText("");
+        otpText2.setText("");
+        otpText3.setText("");
+        otpText4.setText("");
+        otpText5.setText("");
+        otpText6.setText("");
+
 
 
         return root;
@@ -259,6 +269,27 @@ public class PhoneVerificationFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        otpText1.setText("");
+        otpText2.setText("");
+        otpText3.setText("");
+        otpText4.setText("");
+        otpText5.setText("");
+        otpText6.setText("");
+
+        otpText1.requestFocus();
+
+        Bundle bundle = getArguments();
+
+        if(bundle.getString("task") != null){
+
+            arg = bundle.getString("task");
+        }
+    }
+
     public void sendVerificationCode(String phoneNumber) {
 
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
@@ -340,8 +371,20 @@ public class PhoneVerificationFragment extends Fragment {
 
                             Toast.makeText(getActivity(), "Phone Verification Successful!",Toast.LENGTH_SHORT).show();
 
-                            Navigation.findNavController(getActivity(), R.id.nav_host_fragment_auth).navigateUp();
-                            Navigation.findNavController(getActivity(), R.id.nav_host_fragment_auth).navigateUp();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("phone",phonenumber);
+
+                            if(arg.equals("login")){
+                                Navigation.findNavController(getActivity(), R.id.nav_host_fragment_auth).navigate(R.id.action_nav_phone_verification_to_nav_signup, bundle);
+
+                            }
+                            else if(arg.equals("reset")){
+                                Navigation.findNavController(getActivity(), R.id.nav_host_fragment_auth).navigate(R.id.action_nav_phone_verification_to_nav_reset, bundle);
+
+                            }
+
+
+
 
 
                         } else {
