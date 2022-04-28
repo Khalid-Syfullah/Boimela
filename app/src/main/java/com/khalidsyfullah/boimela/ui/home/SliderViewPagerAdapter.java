@@ -2,10 +2,14 @@ package com.khalidsyfullah.boimela.ui.home;
 
 
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 
@@ -13,22 +17,21 @@ import java.util.ArrayList;
 
 public class SliderViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    int NUM_PAGES = 0;
-    ArrayList<SliderDataModel> sliderDataModels;
+    private ArrayList<SliderDataModel> sliderDataModels;
 
-    public SliderViewPagerAdapter(FragmentManager fm, ArrayList<SliderDataModel> sliderDataModels) {
+    public SliderViewPagerAdapter(@NonNull FragmentManager fm, ArrayList<SliderDataModel> sliderDataModels) {
         super(fm);
         this.sliderDataModels = sliderDataModels;
-        NUM_PAGES = sliderDataModels.size();
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
 
         Bundle bundle = new Bundle();
 
-        bundle.putString("title",sliderDataModels.get(position).getTitle());
-        bundle.putString("imgUrl",sliderDataModels.get(position).getImgUrl());
+        bundle.putString("title", sliderDataModels.get(position).getTitle());
+        bundle.putString("imgUrl", sliderDataModels.get(position).getImgUrl());
 
         SliderFragment sliderFragment = new SliderFragment();
         sliderFragment.setArguments(bundle);
@@ -37,7 +40,10 @@ public class SliderViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return NUM_PAGES;
+        return sliderDataModels.size();
     }
+
+
+
 }
 

@@ -1,6 +1,7 @@
 package com.khalidsyfullah.boimela.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class SliderFragment extends Fragment {
 
         TextView bookTitleText = root.findViewById(R.id.slider_title);
         ImageView sliderImage = root.findViewById(R.id.slider_image);
+
 
         if (getArguments().getString("imgUrl") != null) {
 

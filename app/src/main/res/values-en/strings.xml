@@ -89,4 +89,19 @@
     <string name="reset_password">Reset Password</string>
     <string name="enter_new_password">Enter New Password</string>
     <string name="reset">Reset</string>
+    <string name="random_book_title">Kolkatai Feluda</string>
+    <string name="random_author_name">Satyajit Ray</string>
+    <string name="random_review">6144 reviews</string>
+    <string name="awards">Awards</string>
+    <string name="random_award">Best Bangla Academy Fiction Book 2022</string>
+    <string name="random_number">21</string>
+    <string name="pages">Pages</string>
+    <string name="readers">Readers</string>
+    <string name="likes">Likes</string>
+    <string name="clear">Clear</string>
+    <string name="enter_keyword">Enter keyword</string>
+    <string name="open">Open</string>
+    <string name="play">Play</string>
+    <string name="series">Series</string>
+    <string name="reviews">reviews</string>
 </resources>

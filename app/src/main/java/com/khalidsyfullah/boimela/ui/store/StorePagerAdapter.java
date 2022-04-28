@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class StorePagerAdapter extends FragmentPagerAdapter {
+public class StorePagerAdapter extends FragmentStatePagerAdapter {
 
 
     String [] page = null;

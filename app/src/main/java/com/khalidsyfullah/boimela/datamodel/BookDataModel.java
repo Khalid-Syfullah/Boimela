@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class BookDataModel implements Serializable {
 
-    private int amount, discount, quantity, available, price, pages, year, review;
+    private int amount, discount, quantity, available, price, pages, year, review, type;
     private float rating;
-    private String _id, isBn, image, title, author, category, subcategory, genre, publisher, edition, description, quality, name, phone, search, id;
+    private String _id, isBn, image, title, author, category, subcategory, genre, publisher, edition, description, quality, name, phone, id, imageA, imageB, imageC;
 
     public BookDataModel(String image, String title, String category, String author, float rating, int review) {
         this.image = image;
@@ -18,16 +18,42 @@ public class BookDataModel implements Serializable {
         this.review = review;
     }
 
+    public BookDataModel(String title, String imageA, String imageB, String imageC, int type) {
+        this.title = title;
+        this.imageA = imageA;
+        this.imageB = imageB;
+        this.imageC = imageC;
+        this.type = type;
+    }
+
+    public BookDataModel(String image, String title, String author, int type) {
+        this.image = image;
+        this.title = title;
+        this.author = author;
+        this.type = type;
+    }
+
     public BookDataModel(String name, String author, String phone) {
         this.name = name;
         this.author = author;
         this.phone = phone;
     }
 
+
     public BookDataModel(String category, String subcategory) {
         this.category = category;
         this.subcategory = subcategory;
     }
+
+    public BookDataModel(String image) {
+        this.image = image;
+    }
+
+
+
+
+
+
 
     public int getReview() {
         return review;
@@ -51,18 +77,6 @@ public class BookDataModel implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public BookDataModel(String search) {
-        this.search = search;
-    }
-
-    public String getSearch() {
-        return search;
-    }
-
-    public void setSearch(String search) {
-        this.search = search;
     }
 
     public String getImage() {
@@ -235,5 +249,35 @@ public class BookDataModel implements Serializable {
         this.phone = phone;
     }
 
+    public String getImageA() {
+        return imageA;
+    }
 
+    public void setImageA(String imageA) {
+        this.imageA = imageA;
+    }
+
+    public String getImageB() {
+        return imageB;
+    }
+
+    public void setImageB(String imageB) {
+        this.imageB = imageB;
+    }
+
+    public String getImageC() {
+        return imageC;
+    }
+
+    public void setImageC(String imageC) {
+        this.imageC = imageC;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 }

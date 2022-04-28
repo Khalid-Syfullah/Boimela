@@ -78,12 +78,17 @@
     <style name="TextViewLabelA3" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">24dp</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">center</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:gravity">center</item>
 
 
     </style>
+
+
+
+
 
     <style name="TextViewLabelB" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">16dp</item>
@@ -110,6 +115,18 @@
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="TextViewLabelB4" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:gravity">center</item>
 
     </style>
@@ -156,6 +173,42 @@
 
     </style>
 
+    <style name="TextViewLabelD3" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="TextViewLabelD4" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/light_ash</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="TextViewLabelD5" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
     <style name="TextViewLabelE" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14dp</item>
         <item name="android:textStyle">bold</item>
@@ -169,6 +222,18 @@
     <style name="TextViewLabelE2" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="TextViewLabelE3" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">12dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:gravity">center</item>
@@ -215,8 +280,27 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingHorizontal" tools:targetApi="o">36dp</item>
-        <item name="android:paddingVertical" tools:targetApi="o">14dp</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">20dp</item>
+        <item name="android:paddingVertical" tools:targetApi="o">10dp</item>
+
+
+    </style>
+
+    <style name="ButtonA2" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/open_sans_semibold</item>
+        <item name="android:background">@drawable/button_teal</item>
+        <item name="android:elevation">10dp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">20dp</item>
+        <item name="android:paddingVertical" tools:targetApi="o">10dp</item>
 
 
     </style>
@@ -228,13 +312,34 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">@font/open_sans_semibold</item>
-        <item name="android:background">@drawable/button_white</item>
+        <item name="android:background">@drawable/button_orange_bordered</item>
+        <item name="android:elevation">10dp</item>
+        <item name="android:translationZ">10dp</item>
         <item name="android:letterSpacing">0</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingHorizontal" tools:targetApi="o">36dp</item>
-        <item name="android:paddingVertical" tools:targetApi="o">14dp</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">20dp</item>
+        <item name="android:paddingVertical" tools:targetApi="o">10dp</item>
+
+
+    </style>
+
+    <style name="ButtonB2" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/teal</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/open_sans_semibold</item>
+        <item name="android:background">@drawable/button_teal_bordered</item>
+        <item name="android:elevation">10dp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">20dp</item>
+        <item name="android:paddingVertical" tools:targetApi="o">10dp</item>
 
 
     </style>

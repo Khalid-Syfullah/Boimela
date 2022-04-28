@@ -1,6 +1,13 @@
 package com.khalidsyfullah.boimela.ui.auth;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import static com.khalidsyfullah.boimela.global.StaticData.LOGIN_SHARED_PREFS;
+import static com.khalidsyfullah.boimela.global.StaticData.LOGIN_USER_PASS;
+import static com.khalidsyfullah.boimela.global.StaticData.LOGIN_USER_PHONE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -105,7 +112,8 @@ public class LoginFragment extends Fragment {
 
 
     private void verifyLogin() {
-        String phone = "", password = "";
+        String phone = "";
+        String password = "";
 
 
         if (phoneText.getText().toString().isEmpty()) {
@@ -133,6 +141,10 @@ public class LoginFragment extends Fragment {
 
             UserDataModel userDataModel = new UserDataModel("+88"+phone, password);
 
+
+            String finalPhone = phone;
+            String finalPassword = password;
+
             authRepo.loginUser(userDataModel, new RemoteRequestInterface() {
                 @Override
                 public void onSuccess(String msg) {
@@ -142,8 +154,18 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onSuccess(String msg) {
 
+                            SharedPreferences loginSharedPrefs = getActivity().getSharedPreferences(LOGIN_SHARED_PREFS, MODE_PRIVATE);
+                            SharedPreferences.Editor loginPrefsEditor = loginSharedPrefs.edit();
+
+                            loginPrefsEditor.putString(LOGIN_USER_PHONE, finalPhone);
+                            loginPrefsEditor.putString(LOGIN_USER_PASS, finalPassword);
+                            loginPrefsEditor.apply();
+
+
                             StaticData.successAlertDialog(getActivity(),"Login Successful: "+msg);
-                            
+
+
+
                             Intent intent = new Intent(getActivity(), NavigationActivity.class);
                             getActivity().startActivity(intent);
                             getActivity().finish();

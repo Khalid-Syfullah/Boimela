@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 class BookViewHolder extends RecyclerView.ViewHolder{
 
-    TextView bookTitle, bookCategory, bookAuthor, bookReview;
+    TextView bookTitle, bookAuthor, bookReview;
     RatingBar bookRating;
     ImageView bookImage;
     ConstraintLayout bookConstraintLayout;
@@ -34,7 +34,6 @@ class BookViewHolder extends RecyclerView.ViewHolder{
         super(itemView);
 
         bookImage = itemView.findViewById(R.id.recyclerview_book_image);
-        bookCategory = itemView.findViewById(R.id.recyclerview_book_category);
         bookTitle = itemView.findViewById(R.id.recyclerview_book_title);
         bookAuthor = itemView.findViewById(R.id.recyclerview_book_author);
         bookRating = itemView.findViewById(R.id.recyclerview_book_rating);
@@ -80,13 +79,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
         BookDataModel bookDataModel = bookDataModels.get(position);
 
         holder.bookTitle.setText(bookDataModel.getTitle());
-        holder.bookCategory.setText(bookDataModel.getCategory());
         holder.bookAuthor.setText(bookDataModel.getAuthor());
         holder.bookRating.setRating(bookDataModel.getRating());
-        holder.bookReview.setText(String.valueOf(bookDataModel.getReview()));
+        holder.bookReview.setText(String.valueOf(bookDataModel.getReview()) +" "+activity.getResources().getString(R.string.reviews));
         Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
         holder.bookTitle.setSelected(true);
-        holder.bookCategory.setSelected(true);
         holder.bookAuthor.setSelected(true);
 
 
