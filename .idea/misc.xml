@@ -31,6 +31,9 @@
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable/circle_bordered_blue.xml" value="0.1845" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable/circle_bordered_yellow.xml" value="0.1845" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable/circle_borderless.xml" value="0.1845" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable/circle_grey.xml" value="0.178" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable/circle_orange.xml" value="0.178" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable/circle_teal.xml" value="0.2955" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable/constraintlayout_box.xml" value="0.289" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable/custom_thumb.xml" value="0.289" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable/display.xml" value="0.289" />
@@ -98,7 +101,10 @@
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_book_horizontal.xml" value="0.3375" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_book_search.xml" value="0.30572916666666666" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_book_series.xml" value="0.30572916666666666" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_category.xml" value="0.33" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_circular.xml" value="0.33" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_top_authors.xml" value="0.30572916666666666" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_top_books.xml" value="0.30572916666666666" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_top_rated_book.xml" value="0.30572916666666666" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_upcoming_book.xml" value="0.33" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/slider_layout.xml" value="0.33" />
@@ -109,8 +115,11 @@
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_book_reader_5.xml" value="0.2361111111111111" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_book_reader_6.xml" value="0.2361111111111111" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_store_1.xml" value="0.2781456953642384" />
-        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_store_2.xml" value="0.33" />
-        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_store_3.xml" value="0.328125" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_store_2.xml" value="0.26513098464317975" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_store_2a.xml" value="0.30572916666666666" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_store_2b.xml" value="0.30572916666666666" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_store_2c.xml" value="0.30572916666666666" />
+        <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_store_3.xml" value="0.24705387205387205" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/menu/activity_book_reader_drawer.xml" value="0.3375" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/menu/activity_main_drawer.xml" value="0.3375" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/menu/book_reader.xml" value="0.3375" />

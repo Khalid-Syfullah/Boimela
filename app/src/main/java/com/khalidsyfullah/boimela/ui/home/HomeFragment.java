@@ -54,8 +54,8 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        button = root.findViewById(R.id.home_navigate_button);
 
+        button = root.findViewById(R.id.home_navigate_button);
         sliderViewPager = root.findViewById(R.id.home_top_selection_viewpager);
         bestSellerRecycler = root.findViewById(R.id.dashboard_best_seller_recyclerview);
         popularRecycler = root.findViewById(R.id.dashboard_best_seller_recyclerview2);

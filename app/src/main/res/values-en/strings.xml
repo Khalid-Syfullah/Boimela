@@ -104,4 +104,10 @@
     <string name="play">Play</string>
     <string name="series">Series</string>
     <string name="reviews">reviews</string>
+    <string name="one">1</string>
+    <string name="top_books">Top Books</string>
+    <string name="top_authors">Top Authors</string>
+    <string name="top_publishers">Top Publishers</string>
+    <string name="books">Books</string>
+    <string name="authors">Authors</string>
 </resources>
