@@ -1,60 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginVertical="16dp"
-        app:cardElevation="8dp"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/book_series_constraint_layout"
+            android:id="@+id/recyclerview_bookshelf_constraint_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blue"
-            android:padding="16dp">
+            android:layout_height="wrap_content">
 
-
-            <TextView
-                android:id="@+id/book_series_title"
-                style="@style/TextViewLabelD5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/series"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/book_series_title">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/book_series_cardview2"
+                    android:id="@+id/recyclerview_bookshelf_cardview2"
                     android:layout_width="100dp"
                     android:layout_height="140dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    app:cardElevation="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
                     android:background="@color/transparent"
+                    android:outlineAmbientShadowColor="@color/black"
+                    android:outlineSpotShadowColor="@color/black"
                     app:cardCornerRadius="6dp"
+                    app:cardElevation="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/recyclerview_bookshelf_cardview3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -65,13 +55,14 @@
 
 
                         <ImageView
-                            android:id="@+id/book_series_imageviewA"
+                            android:id="@+id/recyclerview_bookshelf_imageviewA"
                             android:layout_width="100dp"
                             android:layout_height="140dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:scaleType="fitXY"
                             android:src="@drawable/dummy_book_1"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -81,17 +72,18 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/book_series_cardview3"
+                    android:id="@+id/recyclerview_bookshelf_cardview3"
                     android:layout_width="100dp"
                     android:layout_height="140dp"
-                    android:layout_marginStart="-16dp"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginTop="32dp"
                     android:background="@color/transparent"
-                    android:elevation="0dp"
+                    android:outlineAmbientShadowColor="@color/black"
+                    android:outlineSpotShadowColor="@color/black"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/book_series_cardview2"
+                    app:layout_constraintEnd_toStartOf="@+id/recyclerview_bookshelf_cardview4"
+                    app:layout_constraintStart_toEndOf="@+id/recyclerview_bookshelf_cardview2"
                     app:layout_constraintTop_toTopOf="parent">
 
 
@@ -101,13 +93,14 @@
 
 
                         <ImageView
-                            android:id="@+id/book_series_imageviewA2"
+                            android:id="@+id/recyclerview_bookshelf_imageviewA2"
                             android:layout_width="100dp"
                             android:layout_height="140dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:scaleType="fitXY"
                             android:src="@drawable/dummy_book_1"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -117,17 +110,20 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/book_series_cardview4"
+                    android:id="@+id/recyclerview_bookshelf_cardview4"
                     android:layout_width="100dp"
                     android:layout_height="140dp"
-                    android:layout_marginStart="-16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
                     android:background="@color/transparent"
+                    android:outlineAmbientShadowColor="@color/black"
+                    android:outlineSpotShadowColor="@color/black"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/book_series_cardview3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/recyclerview_bookshelf_cardview3"
                     app:layout_constraintTop_toTopOf="parent">
 
 
@@ -137,13 +133,14 @@
 
 
                         <ImageView
-                            android:id="@+id/book_series_imageviewA3"
+                            android:id="@+id/recyclerview_bookshelf_imageviewA3"
                             android:layout_width="100dp"
                             android:layout_height="140dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:scaleType="fitXY"
                             android:src="@drawable/dummy_book_1"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -152,12 +149,24 @@
 
                 </androidx.cardview.widget.CardView>
 
-              
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/tablerow6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

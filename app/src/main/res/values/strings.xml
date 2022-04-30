@@ -110,4 +110,9 @@
     <string name="top_publishers">Top Publishers</string>
     <string name="books">Books</string>
     <string name="authors">Authors</string>
+    <string name="bookshelf">Bookshelf</string>
+    <string name="now_reading">Now Reading</string>
+    <string name="recently_read">Recently Read</string>
+    <string name="random_percent">42%</string>
+    <string name="currently_reading">Currently Reading</string>
 </resources>

@@ -15,6 +15,7 @@
     <color name="textColorDark">#0A0819</color>
     <color name="textColorGrey">#A2A2A2</color>
     <color name="textColorWhite">#FFFFFF</color>
+    <color name="transparent_white">#80FFFFFF</color>
     <color name="green">#4CAF50</color>
     <color name="red">#DF0000</color>
     <color name="light_red">#D56A4A</color>

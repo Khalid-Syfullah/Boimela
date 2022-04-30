@@ -29,7 +29,6 @@ public class StoreFragment extends Fragment {
         viewPager = root.findViewById(R.id.store_viewpager);
         tabLayout = root.findViewById(R.id.store_tab_layout);
 
-
         storePagerAdapter = new StorePagerAdapter(getChildFragmentManager(), getActivity());
         viewPager.setAdapter(storePagerAdapter);
 

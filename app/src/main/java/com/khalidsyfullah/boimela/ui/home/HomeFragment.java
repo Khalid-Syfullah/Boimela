@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.Scroller;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -25,7 +23,7 @@ import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
-import com.khalidsyfullah.boimela.ui.epub.BookReaderActivity;
+import com.khalidsyfullah.boimela.ui.epub.ReaderActivity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -75,7 +73,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity(), BookReaderActivity.class);
+                Intent intent = new Intent(getActivity(), ReaderActivity.class);
                 getActivity().startActivity(intent);
             }
         });
@@ -299,7 +297,7 @@ public class HomeFragment extends Fragment {
 
         final int paddingPx = 300;
         final float MIN_SCALE = 0.8f;
-        final float MAX_SCALE = 1f;
+        final float MAX_SCALE = 1.0f;
 
         ViewPager.PageTransformer transformer = new ViewPager.PageTransformer() {
             @Override

@@ -6,13 +6,17 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -36,8 +40,9 @@ public class ReaderFragment extends Fragment {
     String destination="";
     String TAG_EPUB="EPUB_ACTIVITY";
     int i = 0;
-    WebView webView;
-
+    private WebView webView;
+    private ConstraintLayout menuConstraintLayout;
+    private boolean menuVisibility = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,12 +50,70 @@ public class ReaderFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_reader, container, false);
         webView = root.findViewById(R.id.reader_webview);
-
-
+        menuConstraintLayout = root.findViewById(R.id.reader_menu_constraint_layout);
 
         checkForPermissions();
 
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+
+                if(menuVisibility){
+                    menuConstraintLayout.setVisibility(View.INVISIBLE);
+                    menuVisibility = false;
+                }
+                else if(!menuVisibility){
+                    menuConstraintLayout.setVisibility(View.VISIBLE);
+                    menuVisibility = true;
+                }
+
+                Log.d("WebView","TAPPED");
+
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                super.onLongPress(e);
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                return super.onDoubleTap(e);
+            }
+        });
+
+
+        webView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
+
+        menuConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(menuVisibility){
+                    menuConstraintLayout.setVisibility(View.INVISIBLE);
+                    menuVisibility = false;
+                }
+                else if(!menuVisibility){
+                    menuConstraintLayout.setVisibility(View.VISIBLE);
+                    menuVisibility = true;
+                }
+                Log.d("MenuConstraint","TAPPED");
+
+            }
+        });
     }
 
     @Override

@@ -5,9 +5,21 @@ import java.util.ArrayList;
 
 public class BookDataModel implements Serializable {
 
-    private int amount, discount, quantity, available, price, pages, year, review, type;
+    private int amount, discount, quantity, available, price, pages, year, review, type, progress;
     private float rating;
-    private String _id, isBn, image, title, author, category, subcategory, genre, publisher, edition, description, quality, name, phone, id, imageA, imageB, imageC;
+    private String _id, isBn, image, title, author, category, subcategory, genre,
+            publisher, edition, description, quality, name, phone,
+            id, imageA, imageB, imageC;
+
+    public BookDataModel(String image, String title, String category, String author, float rating, int review, int progress) {
+        this.image = image;
+        this.title = title;
+        this.category = category;
+        this.author = author;
+        this.rating = rating;
+        this.review = review;
+        this.progress = progress;
+    }
 
     public BookDataModel(String image, String title, String category, String author, float rating, int review) {
         this.image = image;
@@ -279,5 +291,13 @@ public class BookDataModel implements Serializable {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
     }
 }

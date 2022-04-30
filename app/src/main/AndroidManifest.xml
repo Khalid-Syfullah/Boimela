@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Boimela">
 
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
@@ -42,7 +41,7 @@
         </activity>
 
         <activity
-            android:name=".ui.epub.BookReaderActivity"
+            android:name=".ui.epub.ReaderActivity"
             android:label="@string/title_activity_book_reader"
             android:theme="@style/Theme.Boimela.NoActionBar" >
         </activity>
