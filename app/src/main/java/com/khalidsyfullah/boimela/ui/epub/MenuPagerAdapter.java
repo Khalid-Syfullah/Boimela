@@ -1,6 +1,8 @@
 package com.khalidsyfullah.boimela.ui.epub;
 
 import android.app.Activity;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +15,7 @@ import com.khalidsyfullah.boimela.ui.library.LibraryViewPager1;
 import com.khalidsyfullah.boimela.ui.library.LibraryViewPager2;
 
 public class MenuPagerAdapter extends FragmentStatePagerAdapter {
+
 
     final int NUM_PAGES = 6;
     public MenuPagerAdapter(@NonNull FragmentManager fm, Activity activity) {
@@ -41,4 +44,5 @@ public class MenuPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return NUM_PAGES;
     }
+
 }

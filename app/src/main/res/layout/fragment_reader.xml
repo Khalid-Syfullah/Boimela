@@ -32,87 +32,105 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/reader_menu_top_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="240dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/reader_title_text"
+                android:id="@+id/reader_menu_page_text"
                 style="@style/TextViewB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="Page 01/200"
-                app:layout_constraintBottom_toTopOf="@+id/reader_page_seekBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/reader_title_image"
+                android:id="@+id/reader_menu_expand_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:tint="@color/silver"
-                app:layout_constraintBottom_toTopOf="@+id/reader_page_seekBar"
-                app:layout_constraintEnd_toStartOf="@id/reader_button"
-                app:layout_constraintStart_toEndOf="@+id/reader_title_text"
+                app:layout_constraintEnd_toStartOf="@id/reader_menu_expand_button"
+                app:layout_constraintStart_toEndOf="@+id/reader_menu_page_text"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/arrow_down" />
 
             <TextView
-                android:id="@+id/reader_button"
+                android:id="@+id/reader_menu_expand_button"
                 style="@style/ButtonBordered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:text="Collapse"
-                app:layout_constraintBottom_toTopOf="@+id/reader_page_seekBar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/reader_title_image"
+                app:layout_constraintStart_toEndOf="@+id/reader_menu_expand_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <SeekBar
-                android:id="@+id/reader_page_seekBar"
-                android:layout_width="300dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/reader_menu_constraint_layout_2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:maxHeight="6dp"
-                android:minHeight="6dp"
-                android:progressDrawable="@drawable/seekbar_drawable"
-                android:thumb="@drawable/seekbar_thumb"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_menu_page_text">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/reader_menu_viewpager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="140dp"
+                    android:clipToPadding="false"
+                    android:paddingLeft="96dp"
+                    android:paddingRight="96dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </androidx.viewpager.widget.ViewPager>
+
+                <SeekBar
+                    android:id="@+id/reader_menu_page_seek_bar"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:maxHeight="6dp"
+                    android:minHeight="6dp"
+                    android:progressDrawable="@drawable/seekbar_drawable"
+                    android:thumb="@drawable/seekbar_thumb"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reader_menu_viewpager" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
-                android:id="@+id/divider"
+                android:id="@+id/reader_menu_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/reader_page_seekBar" />
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.khalidsyfullah.boimela.ui.epub.MenuViewPager
-            android:id="@+id/reader_menu_viewpager"
+            android:id="@+id/reader_menu_viewpager2"
             android:layout_width="0dp"
-            android:layout_height="400dp"
+            android:layout_height="250dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/reader_menu_bottom_layout"
+            app:layout_constraintBottom_toTopOf="@id/reader_menu_bottom_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reader_menu_top_layout">
-
-        </com.khalidsyfullah.boimela.ui.epub.MenuViewPager>
+            app:layout_constraintTop_toBottomOf="@+id/reader_menu_top_layout"/>
 
         <LinearLayout
             android:id="@+id/reader_menu_bottom_layout"
@@ -121,45 +139,51 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reader_menu_viewpager">
+            app:layout_constraintTop_toBottomOf="@+id/reader_menu_viewpager2">
 
             <ImageView
-                android:id="@+id/menu_btn"
+                android:id="@+id/reader_menu_btn"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="8dp"
+                style="@style/ButtonBorderedSelected"
                 app:srcCompat="@drawable/menu" />
 
             <ImageView
-                android:id="@+id/audio_btn"
+                android:id="@+id/reader_audio_btn"
+                style="@style/ButtonTransparent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="8dp"
                 app:srcCompat="@drawable/play" />
 
             <ImageView
-                android:id="@+id/theme_btn"
+                android:id="@+id/reader_theme_btn"
+                style="@style/ButtonTransparent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="8dp"
                 app:srcCompat="@drawable/display" />
 
             <ImageView
-                android:id="@+id/screen_btn"
+                android:id="@+id/reader_screen_btn"
+                style="@style/ButtonTransparent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="8dp"
                 app:srcCompat="@drawable/full_screen" />
 
             <ImageView
-                android:id="@+id/text_btn"
+                android:id="@+id/reader_text_btn"
+                style="@style/ButtonTransparent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="8dp"
                 app:srcCompat="@drawable/line_spacing" />
 
             <ImageView
-                android:id="@+id/font_btn"
+                android:id="@+id/reader_font_btn"
+                style="@style/ButtonTransparent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="8dp"

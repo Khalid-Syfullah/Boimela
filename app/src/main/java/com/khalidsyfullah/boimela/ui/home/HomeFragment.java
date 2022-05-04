@@ -24,6 +24,8 @@ import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 import com.khalidsyfullah.boimela.ui.epub.ReaderActivity;
+import com.khalidsyfullah.boimela.ui.slider.SliderTimer;
+import com.khalidsyfullah.boimela.ui.slider.SpeedSlowScroller;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -340,59 +342,4 @@ public class HomeFragment extends Fragment {
     }
 
 
-}
-
-
-
-class SliderTimer extends TimerTask {
-    private ViewPager viewPager;
-    private int size;
-    private Activity activity;
-
-    public SliderTimer(ViewPager viewPager, int size, Activity activity) {
-        this.viewPager = viewPager;
-        this.size = size;
-        this.activity = activity;
-    }
-
-    @Override
-    public void run() {
-        activity.runOnUiThread(() -> {
-            if (viewPager.getCurrentItem() < size - 1) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
-            } else {
-                viewPager.setCurrentItem(0, true);
-            }
-        });
-    }
-}
-
-class SpeedSlowScroller extends Scroller {
-
-    private int mDuration = 2500;
-
-    public SpeedSlowScroller(Context context) {
-        super(context);
-    }
-
-    public SpeedSlowScroller(Context context, Interpolator interpolator) {
-        super(context, interpolator);
-    }
-
-    public SpeedSlowScroller(Context context, Interpolator interpolator, boolean flywheel) {
-        super(context, interpolator, flywheel);
-    }
-
-
-    @Override
-    public void startScroll(int startX, int startY, int dx, int dy, int duration) {
-        // Ignore received duration, use fixed one instead
-        super.startScroll(startX, startY, dx, dy, mDuration);
-    }
-
-    @Override
-    public void startScroll(int startX, int startY, int dx, int dy) {
-        // Ignore received duration, use fixed one instead
-        super.startScroll(startX, startY, dx, dy, mDuration);
-    }
 }

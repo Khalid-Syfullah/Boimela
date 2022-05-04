@@ -1,6 +1,340 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/reader_5_page_margin_title"
+            style="@style/TextViewB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Page Margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SeekBar
+            android:id="@+id/reader_5_page_margin_seekbar"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="8dp"
+            android:max="100"
+            android:maxHeight="6dp"
+            android:minHeight="6dp"
+            android:progressDrawable="@drawable/seekbar_drawable"
+            android:thumb="@drawable/seekbar_thumb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reader_5_page_margin_title" />
+
+        <TextView
+            android:id="@+id/reader_5_page_margin_seekbar_caption"
+            style="@style/TextViewC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/page_margin_1"
+            android:drawablePadding="2dp"
+            android:text="Small"
+            app:layout_constraintBottom_toBottomOf="@+id/reader_5_page_margin_seekbar"
+            app:layout_constraintEnd_toStartOf="@+id/reader_5_page_margin_seekbar"
+            app:layout_constraintStart_toStartOf="@+id/speed_seekbar"
+            app:layout_constraintTop_toTopOf="@+id/reader_5_page_margin_seekbar" />
+
+        <TextView
+            android:id="@+id/reader_5_page_margin_seekbar_caption2"
+            style="@style/TextViewC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/page_margin_3"
+            android:drawablePadding="2dp"
+            android:text="Large"
+            app:layout_constraintBottom_toBottomOf="@+id/reader_5_page_margin_seekbar"
+            app:layout_constraintStart_toEndOf="@+id/reader_5_page_margin_seekbar"
+            app:layout_constraintTop_toTopOf="@+id/reader_5_page_margin_seekbar" />
+
+        <TextView
+            android:id="@+id/reader_5_page_margin_seekbar_caption3"
+            style="@style/TextViewC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/page_margin_2"
+            android:drawablePadding="2dp"
+            android:text="Medium"
+            app:layout_constraintBottom_toTopOf="@+id/reader_5_page_margin_seekbar"
+            app:layout_constraintEnd_toEndOf="@+id/reader_5_page_margin_seekbar"
+            app:layout_constraintEnd_toStartOf="@+id/reader_5_page_margin_seekbar_caption2"
+            app:layout_constraintStart_toStartOf="@+id/reader_5_page_margin_seekbar" />
+
+        <View
+            android:id="@+id/reader_5_page_margin_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reader_5_page_margin_seekbar" />
+
+        <TextView
+            android:id="@+id/reader_5_line_spacing_title"
+            style="@style/TextViewB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Line Spacing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reader_5_page_margin_divider" />
+
+        <SeekBar
+            android:id="@+id/reader_5_line_spacing_seekbar"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="8dp"
+            android:max="100"
+            android:maxHeight="6dp"
+            android:minHeight="6dp"
+            android:progressDrawable="@drawable/seekbar_drawable"
+            android:thumb="@drawable/seekbar_thumb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reader_5_line_spacing_title" />
+
+        <TextView
+            android:id="@+id/reader_5_line_spacing_caption"
+            style="@style/TextViewC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/line_spacing_1"
+            android:drawablePadding="2dp"
+            android:text="Small"
+            app:layout_constraintBottom_toBottomOf="@+id/reader_5_line_spacing_seekbar"
+            app:layout_constraintEnd_toStartOf="@+id/reader_5_line_spacing_seekbar"
+            app:layout_constraintStart_toStartOf="@+id/speed_seekbar"
+            app:layout_constraintTop_toTopOf="@+id/reader_5_line_spacing_seekbar" />
+
+        <TextView
+            android:id="@+id/reader_5_line_spacing_caption2"
+            style="@style/TextViewC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/line_spacing_3"
+            android:drawablePadding="2dp"
+            android:text="Large"
+            app:layout_constraintBottom_toBottomOf="@+id/reader_5_line_spacing_seekbar"
+            app:layout_constraintStart_toEndOf="@+id/reader_5_line_spacing_seekbar"
+            app:layout_constraintTop_toTopOf="@+id/reader_5_line_spacing_seekbar" />
+
+        <TextView
+            android:id="@+id/reader_5_line_spacing_caption3"
+            style="@style/TextViewC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/line_spacing_2"
+            android:drawablePadding="2dp"
+            android:text="Medium"
+            app:layout_constraintBottom_toTopOf="@+id/reader_5_line_spacing_seekbar"
+            app:layout_constraintEnd_toEndOf="@+id/reader_5_line_spacing_seekbar"
+            app:layout_constraintStart_toStartOf="@+id/reader_5_line_spacing_seekbar" />
+
+        <TextView
+            android:id="@+id/reader_5_word_spacing_caption3"
+            style="@style/TextViewC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/line_spacing_2"
+            android:drawablePadding="2dp"
+            android:text="Medium"
+            app:layout_constraintBottom_toTopOf="@+id/reader_5_word_spacing_seekbar"
+            app:layout_constraintEnd_toEndOf="@+id/reader_5_word_spacing_seekbar"
+            app:layout_constraintStart_toStartOf="@+id/reader_5_word_spacing_seekbar" />
+
+        <View
+            android:id="@+id/reader_5_line_spacing_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reader_5_line_spacing_seekbar" />
+
+        <TextView
+            android:id="@+id/reader_5_word_spacing_title"
+            style="@style/TextViewB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Word Spacing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reader_5_line_spacing_divider" />
+
+        <SeekBar
+            android:id="@+id/reader_5_word_spacing_seekbar"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="8dp"
+            android:max="100"
+            android:maxHeight="6dp"
+            android:minHeight="6dp"
+            android:progressDrawable="@drawable/seekbar_drawable"
+            android:thumb="@drawable/seekbar_thumb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reader_5_word_spacing_title" />
+
+        <TextView
+            android:id="@+id/reader_5_word_spacing_caption"
+            style="@style/TextViewC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/line_spacing_1"
+            android:drawablePadding="2dp"
+            android:text="Small"
+            app:layout_constraintBottom_toBottomOf="@+id/reader_5_word_spacing_seekbar"
+            app:layout_constraintEnd_toStartOf="@+id/reader_5_word_spacing_seekbar"
+            app:layout_constraintStart_toStartOf="@+id/speed_seekbar"
+            app:layout_constraintTop_toTopOf="@+id/reader_5_word_spacing_seekbar" />
+
+        <TextView
+            android:id="@+id/reader_5_word_spacing_caption2"
+            style="@style/TextViewC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/line_spacing_3"
+            android:drawablePadding="2dp"
+            android:text="Large"
+            app:layout_constraintBottom_toBottomOf="@+id/reader_5_word_spacing_seekbar"
+            app:layout_constraintStart_toEndOf="@+id/reader_5_word_spacing_seekbar"
+            app:layout_constraintTop_toTopOf="@+id/reader_5_word_spacing_seekbar" />
+
+        <View
+            android:id="@+id/reader_5_word_spacing_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reader_5_word_spacing_seekbar" />
+
+                <TextView
+                    android:id="@+id/reader_5_text_alignment_title"
+                    style="@style/TextViewB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Text Alignment"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reader_5_word_spacing_divider" />
+
+                <HorizontalScrollView
+                    android:id="@+id/reader_5_text_alignment_horizontal_scroll_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:scrollbarThumbHorizontal="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reader_5_text_alignment_title">
+
+                        <LinearLayout
+                            android:id="@+id/reader_5_text_alignment_linear_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/reader_5_text_alignment_btn"
+                                    style="@style/ButtonBordered"
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="1"
+                                    android:drawableStart="@drawable/line_spacing_1"
+                                    android:drawablePadding="2dp"
+                                    android:gravity="center"
+                                    android:padding="4dp"
+                                    android:text="Left" />
+
+                                <TextView
+                                    android:id="@+id/reader_5_text_alignment_btn3"
+                                    style="@style/ButtonBordered"
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="1"
+                                    android:drawableStart="@drawable/line_spacing_1"
+                                    android:drawablePadding="2dp"
+                                    android:gravity="center"
+                                    android:padding="4dp"
+                                    android:text="Centered" />
+
+                                <TextView
+                                    android:id="@+id/reader_5_text_alignment_btn4"
+                                    style="@style/ButtonBordered"
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="1"
+                                    android:drawableStart="@drawable/line_spacing_1"
+                                    android:drawablePadding="2dp"
+                                    android:gravity="center"
+                                    android:padding="4dp"
+                                    android:text="Right" />
+
+                                <TextView
+                                    android:id="@+id/reader_5_text_alignment_btn2"
+                                    style="@style/ButtonBorderedSelected"
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="32dp"
+                                    android:layout_weight="1"
+                                    android:drawableStart="@drawable/line_spacing_1"
+                                    android:drawablePadding="2dp"
+                                    android:gravity="center"
+                                    android:padding="4dp"
+                                    android:text="Justify" />
+
+                        </LinearLayout>
+                </HorizontalScrollView>
+
+                <View
+                    android:id="@+id/reader_5_text_alignment_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/reader_5_text_alignment_horizontal_scroll_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

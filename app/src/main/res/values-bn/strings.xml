@@ -116,4 +116,18 @@
     <string name="recently_read">Recently Read</string>
     <string name="random_percent">42%</string>
     <string name="currently_reading">Currently Reading</string>
+    <string name="font_size">Font Size</string>
+    <string name="font_style">Font Style</string>
+    <string name="progress_slider">Progress Slider</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+    <string name="audiobook">Audiobook</string>
+    <string name="contents">Contents</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="notes">Notes</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="random_audio_time">01:15</string>
+    <string name="random_audio_time_2">35:40</string>
+    <string name="expand">Expand</string>
+    <string name="collapse">Collapse</string>
 </resources>

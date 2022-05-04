@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ScrollView
         android:layout_width="0dp"
@@ -16,81 +15,82 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/book_reader_layout_2"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/reader_1_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:padding="4dp">
 
             <LinearLayout
-                android:id="@+id/content_layout"
+                android:id="@+id/reader_1_contents_linear_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toStartOf="@+id/divider2"
+                app:layout_constraintEnd_toStartOf="@+id/reader_1_contents_divider"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/reader_1_contents_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/book" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/reader_1_contents_title"
                     style="@style/TextViewB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Contents" />
+                    android:text="@string/contents" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/reader_1_bookmarks_linear_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toStartOf="@+id/divider4"
-                app:layout_constraintStart_toEndOf="@+id/divider2"
+                app:layout_constraintEnd_toStartOf="@+id/reader_1_bookmarks_divider"
+                app:layout_constraintStart_toEndOf="@+id/reader_1_contents_divider"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/reader_1_bookmarks_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/bookmark" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/reader_1_bookmarks_title"
                     style="@style/TextViewB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Bookmarks" />
+                    android:text="@string/bookmarks" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/reader_1_notes_linear_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/divider4"
+                app:layout_constraintStart_toEndOf="@+id/reader_1_bookmarks_divider"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/reader_1_notes_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/pen" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/reader_1_notes_title"
                     style="@style/TextViewB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider2"
+                android:id="@+id/reader_1_contents_divider"
                 android:layout_width="2dp"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/listDivider"
@@ -110,7 +110,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/divider4"
+                android:id="@+id/reader_1_bookmarks_divider"
                 android:layout_width="2dp"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/listDivider"
@@ -121,13 +121,22 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/divider5"
+                android:id="@+id/reader_1_bottom_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reader_1_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_1_contents_linear_layout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

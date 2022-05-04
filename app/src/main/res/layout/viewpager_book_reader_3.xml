@@ -1,393 +1,411 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/book_reader_layout_4"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/reader_3_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/reader_3_brightness_title"
+                style="@style/TextViewB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Brightness"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/reader_3_brightness_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_3_brightness_title">
+
+                <ImageView
+                    android:id="@+id/reader_3_brightness_low_image"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/brightness_low" />
+
+                <SeekBar
+                    android:id="@+id/reader_3_brightness_seek_bar"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:max="100"
+                    android:maxHeight="6dp"
+                    android:minHeight="6dp"
+                    android:progressDrawable="@drawable/seekbar_drawable"
+                    android:thumb="@drawable/seekbar_thumb" />
+
+                <ImageView
+                    android:id="@+id/reader_3_brightness_high_image"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/brightness_high" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/reader_3_brightness_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_3_brightness_layout" />
+
+            <TextView
+                android:id="@+id/reader_3_theme_title"
+                style="@style/TextViewB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Theme"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_3_brightness_divider" />
+
+            <LinearLayout
+                android:id="@+id/reader_3_theme_linear_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_3_theme_title">
+
+                <ImageView
+                    android:id="@+id/reader_3_theme_image"
+                    style="@style/ButtonTransparent"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/circle_bordered" />
+
+                <ImageView
+                    android:id="@+id/reader_3_theme_image_2"
+                    style="@style/ButtonTransparent"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/circle_borderless"
+                    app:tint="@color/theme_1" />
 
-                        <TextView
-                            android:id="@+id/full_screen_title"
-                            style="@style/TextViewB"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Full Screen Mode"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/reader_3_theme_image_3"
+                    style="@style/ButtonTransparent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/circle_borderless"
+                    app:tint="@color/theme_2" />
 
-                        <LinearLayout
-                            android:id="@+id/linearLayout2"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="32dp"
-                            android:orientation="horizontal"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/full_screen_title">
+                <ImageView
+                    android:id="@+id/reader_3_theme_image_4"
+                    style="@style/ButtonTransparent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/circle_borderless"
+                    app:tint="@color/theme_3" />
 
-                                <TextView
-                                    android:id="@+id/full_screen_textView10"
-                                    style="@style/ButtonBorderedSelected"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="On" />
+                <ImageView
+                    android:id="@+id/reader_3_theme_image_5"
+                    style="@style/ButtonTransparent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/circle_borderless"
+                    app:tint="@color/theme_4" />
 
-                                <TextView
-                                    android:id="@+id/full_screen_textView"
-                                    style="@style/ButtonBordered"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="Off" />
+                <ImageView
+                    android:id="@+id/reader_3_theme_image_6"
+                    style="@style/ButtonTransparent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/circle_borderless"
+                    app:tint="@color/black" />
 
-                        </LinearLayout>
+            </LinearLayout>
 
-                        <View
-                            android:id="@+id/divider3"
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="1"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+            <View
+                android:id="@+id/reader_3_theme_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_3_theme_linear_layout" />
 
-                        <TextView
-                            android:id="@+id/orientation_title"
-                            style="@style/TextViewB"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Orientation"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/divider3" />
+            <TextView
+                android:id="@+id/reader_3_contrast_title"
+                style="@style/TextViewB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Contrast"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reader_3_theme_divider" />
 
-                        <LinearLayout
-                            android:id="@+id/linearLayout3"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="32dp"
-                            android:orientation="horizontal"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/orientation_title">
+            <LinearLayout
+                android:id="@+id/reader_3_contrast_linear_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_3_contrast_title">
 
-                                <TextView
-                                    android:id="@+id/full_screen_textView2"
-                                    style="@style/ButtonBorderedSelected"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="Auto-rotate" />
+                <ImageView
+                    android:id="@+id/reader_3_contrast_low_image"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/font_white" />
 
-                                <TextView
-                                    android:id="@+id/full_screen_textView3"
-                                    style="@style/ButtonBordered"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="Locked" />
-                        </LinearLayout>
+                <SeekBar
+                    android:id="@+id/reader_3_contrast_seek_bar"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:maxHeight="6dp"
+                    android:minHeight="6dp"
+                    android:progressDrawable="@drawable/seekbar_drawable"
+                    android:thumb="@drawable/seekbar_thumb" />
 
-                        <View
-                            android:id="@+id/divider12"
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="1"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+                <ImageView
+                    android:id="@+id/reader_3_contrast_high_image"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/font_filled" />
+            </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/scrollview_title"
-                            style="@style/TextViewB"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Scroll View"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/divider12" />
+            <View
+                android:id="@+id/reader_3_contrast_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_3_contrast_linear_layout" />
 
-                        <LinearLayout
-                            android:id="@+id/linearLayout4"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="32dp"
-                            android:orientation="horizontal"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/scrollview_title">
+            <TextView
+                android:id="@+id/reader_3_blue_light_fliter_title"
+                style="@style/TextViewB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Blue Light Filter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reader_3_contrast_divider" />
 
-                                <TextView
-                                    android:id="@+id/full_screen_textView4"
-                                    style="@style/ButtonBorderedSelected"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="On" />
+            <TextView
+                android:id="@+id/reader_3_blue_light_fliter_text"
+                style="@style/ButtonBorderedSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="4dp"
+                android:text="On"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_3_blue_light_fliter_title" />
 
-                                <TextView
-                                    android:id="@+id/full_screen_textView5"
-                                    style="@style/ButtonBordered"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="Off" />
-                        </LinearLayout>
+            <TextView
+                android:id="@+id/reader_3_blue_light_fliter_text_2"
+                style="@style/ButtonBordered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="Off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/reader_3_blue_light_fliter_text" />
 
-                        <View
-                            android:id="@+id/divider13"
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="1"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+            <LinearLayout
+                android:id="@+id/blue_light_filter_linear_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reader_3_blue_light_fliter_text">
 
-                        <TextView
-                            android:id="@+id/autoscrolling_title"
-                            style="@style/TextViewB"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Auto Scrolling"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/divider13" />
+                <ImageView
+                    android:id="@+id/reader_3_blue_light_fliter_low_image"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/circle_bordered_blue" />
 
-                        <LinearLayout
-                            android:id="@+id/linearLayout5"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="32dp"
-                            android:orientation="horizontal"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/autoscrolling_title">
+                <SeekBar
+                    android:id="@+id/reader_3_blue_light_fliter_seek_bar"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:maxHeight="6dp"
+                    android:minHeight="6dp"
+                    android:progressDrawable="@drawable/seekbar_drawable"
+                    android:thumb="@drawable/seekbar_thumb" />
 
-                                <TextView
-                                    android:id="@+id/full_screen_textView6"
-                                    style="@style/ButtonBorderedSelected"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="On" />
+                <ImageView
+                    android:id="@+id/reader_3_blue_light_fliter_high_image"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/circle_bordered_yellow" />
+            </LinearLayout>
 
-                                <TextView
-                                    android:id="@+id/full_screen_textView7"
-                                    style="@style/ButtonBordered"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="Off" />
-                        </LinearLayout>
+            <View
+                android:id="@+id/reader_3_blue_light_fliter_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/blue_light_filter_linear_layout" />
 
-                        <TextView
-                            android:id="@+id/speed_title"
-                            style="@style/TextViewC"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="Speed"
-                            app:layout_constraintBottom_toBottomOf="@+id/speed_seekbar"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/speed_seekbar" />
+            <TextView
+                android:id="@+id/reader_3_screen_timeout_title"
+                style="@style/TextViewB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Screen Timeout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reader_3_blue_light_fliter_divider" />
 
-                        <SeekBar
-                            android:id="@+id/speed_seekbar"
-                            android:layout_width="220dp"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginTop="8dp"
-                            android:max="100"
-                            android:maxHeight="6dp"
-                            android:minHeight="6dp"
-                            android:progressDrawable="@drawable/seekbar_drawable"
-                            android:thumb="@drawable/seekbar_thumb"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/speed_title"
-                            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+            <LinearLayout
+                android:id="@+id/reader_3_screen_timeout_linear_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reader_3_screen_timeout_title">
 
-                        <TextView
-                            android:id="@+id/speed_title2"
-                            style="@style/TextViewC"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5s"
-                            app:layout_constraintEnd_toEndOf="@+id/speed_seekbar"
-                            app:layout_constraintHorizontal_bias="0.21"
-                            app:layout_constraintStart_toStartOf="@+id/speed_seekbar"
-                            app:layout_constraintTop_toBottomOf="@+id/speed_seekbar" />
+                <TextView
+                    android:id="@+id/reader_3_screen_timeout_text"
+                    style="@style/ButtonBorderedSelected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="5 mins" />
 
-                        <TextView
-                            android:id="@+id/speed_title3"
-                            style="@style/TextViewC"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="10s"
-                            app:layout_constraintEnd_toEndOf="@+id/speed_seekbar"
-                            app:layout_constraintHorizontal_bias="0.45"
-                            app:layout_constraintStart_toStartOf="@+id/speed_seekbar"
-                            app:layout_constraintTop_toBottomOf="@+id/speed_seekbar" />
+                <TextView
+                    android:id="@+id/reader_3_screen_timeout_text_2"
+                    style="@style/ButtonBordered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="10 mins" />
 
-                        <TextView
-                            android:id="@+id/speed_title4"
-                            style="@style/TextViewC"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="20s"
-                            app:layout_constraintEnd_toEndOf="@+id/speed_seekbar"
-                            app:layout_constraintHorizontal_bias="0.7"
-                            app:layout_constraintStart_toStartOf="@+id/speed_seekbar"
-                            app:layout_constraintTop_toBottomOf="@+id/speed_seekbar" />
+                <TextView
+                    android:id="@+id/reader_3_screen_timeout_text_3"
+                    style="@style/ButtonBordered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="15 mins" />
 
-                        <TextView
-                            android:id="@+id/speed_title5"
-                            style="@style/TextViewC"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="40s"
-                            app:layout_constraintEnd_toEndOf="@+id/speed_seekbar"
-                            app:layout_constraintHorizontal_bias="0.95"
-                            app:layout_constraintStart_toStartOf="@+id/speed_seekbar"
-                            app:layout_constraintTop_toBottomOf="@+id/speed_seekbar" />
+                <TextView
+                    android:id="@+id/reader_3_screen_timeout_text_4"
+                    style="@style/ButtonBordered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="20 mins" />
 
-                        <View
-                            android:id="@+id/divider14"
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="1"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/speed_title2" />
+            </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/volumebuttonaction_title"
-                            style="@style/TextViewB"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Volume Button Action"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/divider14" />
+            <View
+                android:id="@+id/reader_3_screen_timeout_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reader_3_screen_timeout_linear_layout" />
 
-                        <LinearLayout
-                            android:id="@+id/linearLayout6"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="32dp"
-                            android:orientation="horizontal"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/volumebuttonaction_title">
-
-                                <TextView
-                                    android:id="@+id/full_screen_textView8"
-                                    style="@style/ButtonBorderedSelected"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="Scrolling" />
-
-                                <TextView
-                                    android:id="@+id/full_screen_textView9"
-                                    style="@style/ButtonBordered"
-                                    android:layout_width="60dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:padding="4dp"
-                                    android:text="Brightness" />
-                        </LinearLayout>
-
-                        <View
-                            android:id="@+id/divider15"
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="1"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>

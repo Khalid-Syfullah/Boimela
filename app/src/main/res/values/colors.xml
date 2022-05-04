@@ -23,6 +23,7 @@
     <color name="light_blue">#A4BBE7</color>
     <color name="blue">#03A9F4</color>
     <color name="navy">#283593</color>
+    <color name="navyish">#5383D3</color>
     <color name="dark_grey">#484848</color>
     <color name="grey">#636363</color>
     <color name="ash">#707070</color>
@@ -40,12 +41,12 @@
     <color name="theme_4">#3A363C</color>
     <color name="theme_5">#ACD5EB</color>
     <color name="theme_6">#EBE1AC</color>
-    <color name="oboshor">#52341E</color>
+    <color name="oboshor">#491F00</color>
     <color name="oboshor_light">#F6F5F3</color>
-    <color name="divider">#19EFEFEF</color>
+    <color name="divider">#03000000</color>
     <color name="border">#DDDDDD</color>
-    <color name="yellow">#FDBC00</color>
-    <color name="yellowish">#E6E367</color>
+    <color name="yellow">#FF8F00</color>
+    <color name="yellowish">#D6A923</color>
     <color name="transparent">#00FFFFFF</color>
 
 </resources>

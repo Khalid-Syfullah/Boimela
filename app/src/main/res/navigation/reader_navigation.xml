@@ -8,5 +8,19 @@
         android:id="@+id/nav_reader"
         android:name="com.khalidsyfullah.boimela.ui.epub.ReaderFragment"
         android:label="fragment_reader"
-        tools:layout="@layout/fragment_reader" />
+        tools:layout="@layout/fragment_reader" >
+        <action
+            android:id="@+id/action_nav_reader_to_nav_player"
+            app:destination="@id/nav_player"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_down"
+            app:popUpTo="@id/nav_reader" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_player"
+        android:name="com.khalidsyfullah.boimela.ui.epub.AudioPlayerFragment"
+        android:label="fragment_audio_player"
+        tools:layout="@layout/fragment_audio_player" />
 </navigation>

@@ -1,25 +1,22 @@
-package com.khalidsyfullah.boimela.ui.home;
+package com.khalidsyfullah.boimela.ui.epub;
 
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 
 import java.util.ArrayList;
 
-public class SliderViewPagerAdapter extends FragmentStatePagerAdapter {
+public class SliderViewPagerAdapter2 extends FragmentStatePagerAdapter {
 
     private ArrayList<SliderDataModel> sliderDataModels;
 
-    public SliderViewPagerAdapter(@NonNull FragmentManager fm, ArrayList<SliderDataModel> sliderDataModels) {
+    public SliderViewPagerAdapter2(@NonNull FragmentManager fm, ArrayList<SliderDataModel> sliderDataModels) {
         super(fm);
         this.sliderDataModels = sliderDataModels;
     }
@@ -33,9 +30,9 @@ public class SliderViewPagerAdapter extends FragmentStatePagerAdapter {
         bundle.putString("title", sliderDataModels.get(position).getTitle());
         bundle.putString("imgUrl", sliderDataModels.get(position).getImgUrl());
 
-        SliderFragment sliderFragment = new SliderFragment();
-        sliderFragment.setArguments(bundle);
-        return sliderFragment;
+        SliderFragment2 sliderFragment2 = new SliderFragment2();
+        sliderFragment2.setArguments(bundle);
+        return sliderFragment2;
     }
 
     @Override

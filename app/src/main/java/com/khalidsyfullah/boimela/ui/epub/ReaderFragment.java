@@ -1,56 +1,207 @@
 package com.khalidsyfullah.boimela.ui.epub;
 
+import static com.khalidsyfullah.boimela.ui.epub.FragmentViewPager1.contentRecycler;
+import static com.khalidsyfullah.boimela.ui.epub.FragmentViewPager1.contentsAdapter;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Html;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 
 import com.khalidsyfullah.boimela.R;
+import com.khalidsyfullah.boimela.datamodel.ContentDataModel;
+import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
+import com.khalidsyfullah.boimela.ui.home.SliderViewPagerAdapter;
+import com.khalidsyfullah.boimela.ui.slider.SliderTimer;
+import com.khalidsyfullah.boimela.ui.slider.SpeedSlowScroller;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import nl.siegmann.epublib.domain.Book;
+import nl.siegmann.epublib.domain.TOCReference;
+import nl.siegmann.epublib.epub.EpubReader;
 
-public class ReaderFragment extends Fragment {
 
-    String line;
-    String line1 = "";
-    String finalstr = "";
-    String destination="";
-    String TAG_EPUB="EPUB_ACTIVITY";
-    int i = 0;
-    private WebView webView;
-    private ConstraintLayout menuConstraintLayout;
-    private boolean menuVisibility = true;
+public class ReaderFragment extends Fragment implements View.OnClickListener {
 
+
+    private TextView pageText, expandButton;
+    private ImageView expandIcon, menuIcon, audioIcon, themeIcon, screenIcon, textIcon, fontIcon;
+    private SeekBar pageSeekBar;
+    public static WebView webView;
+    private ConstraintLayout menuConstraintLayout, pageConstraintLayout, menuTopConstraintLayout;
+    private ViewPager viewPager;
+    private SliderViewPagerAdapter2 sliderViewPagerAdapter;
+    private ArrayList<SliderDataModel> sliderDataModels;
+    private MenuViewPager viewPager2;
+    private MenuPagerAdapter menuPagerAdapter;
+    private ViewGroup parent;
+    public static ArrayList<ContentDataModel> contentDataModels = new ArrayList<>();
+
+    private String line, line1 = "", finalstr = "";
+    private int i = 0;
+
+    public static String letterSpacing="0px";
+    public static String wordSpacing="1px";
+    public static String textIndent="10px";
+    public static String lineHeight="3";
+    public static String fontFamily="bookerly";
+    public static String fontSize="60%";
+    public static String fontWeight="300";
+    public static String textAlignment="justify";
+    public static String paddingLeft="30px";
+    public static String paddingRight="30px";
+    public static String border="4px dotted blue";
+    public static String backgroundColorBody ="grey";
+    public static String colorBody="black";
+    public static String colorH1="black";
+    public static String colorH2="black";
+    public static String colorH3="black";
+    public static String colorP="black";
+
+    public static String input;
+
+    public static byte[] bytes;
+
+    public static String start = "<html>" +
+            "<head>" +
+            "<style type=\"text/css\">" +
+            "@font-face {" +
+            "font-family: MyFont;" +
+            "src: url(\"file:///android_asset/bookerly.ttf\")" +
+            "}"
+
+            +
+
+
+            "h1 {" +
+            "color: "+colorH1+";" +
+            "letter-spacing: "+letterSpacing+";\n" +
+            "word-spacing: "+wordSpacing+";"+
+            "line-height: "+lineHeight+";"+
+            "}"
+
+            +
+
+
+            "h2 {" +
+            "color: "+colorH2+";" +
+            "letter-spacing: "+letterSpacing+";\n" +
+            "word-spacing: "+wordSpacing+";"+
+            "line-height: "+lineHeight+";"+
+            "}"
+
+            +
+
+            "h3 {" +
+            "color: "+colorH3+";" +
+            "letter-spacing: "+letterSpacing+";\n" +
+            "word-spacing: "+wordSpacing+";"+
+            "line-height: "+lineHeight+";"+
+            "}"
+
+            +
+
+            "p {" +
+            "color: "+colorP+";" +
+            "letter-spacing: "+letterSpacing+";\n" +
+            "word-spacing: "+wordSpacing+";"+
+            "text-indent: "+textIndent+";"+
+            "line-height: "+lineHeight+";"+
+
+            "}"
+
+            +
+
+            "body {" +
+
+            "font-family: "+ fontFamily +";" +
+            "font-size: "+ fontSize +";" +
+            "font-weight: "+ fontWeight +";"+
+            "text-align: "+textAlignment+";" +
+            "padding-left: "+paddingLeft+";"+
+            "padding-right: "+paddingRight+";"+
+            "border: "+border+";"+
+            "background-color: "+ backgroundColorBody +";"+
+
+            "}" +
+
+            "</style>" +
+            "</head>" +
+            "<body>";
+    public static String end = "</body></html>";
+    public static String destination="";
+
+    private String TAG_EPUB="EPUB_ACTIVITY";
+    private boolean seekbarVisibility = true, pageVisibility = true, menuVisibility = true;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
         View root = inflater.inflate(R.layout.fragment_reader, container, false);
         webView = root.findViewById(R.id.reader_webview);
+        pageText = root.findViewById(R.id.reader_menu_page_text);
+        expandButton = root.findViewById(R.id.reader_menu_expand_button);
+        expandIcon = root.findViewById(R.id.reader_menu_expand_image);
+        pageSeekBar = root.findViewById(R.id.reader_menu_page_seek_bar);
         menuConstraintLayout = root.findViewById(R.id.reader_menu_constraint_layout);
+        menuTopConstraintLayout = root.findViewById(R.id.reader_menu_top_layout);
+        pageConstraintLayout = root.findViewById(R.id.reader_menu_constraint_layout_2);
+        menuIcon = root.findViewById(R.id.reader_menu_btn);
+        audioIcon = root.findViewById(R.id.reader_audio_btn);
+        themeIcon = root.findViewById(R.id.reader_theme_btn);
+        screenIcon = root.findViewById(R.id.reader_screen_btn);
+        textIcon = root.findViewById(R.id.reader_text_btn);
+        fontIcon = root.findViewById(R.id.reader_font_btn);
+        viewPager = root.findViewById(R.id.reader_menu_viewpager);
+        viewPager2 = root.findViewById(R.id.reader_menu_viewpager2);
+
+        parent = container;
 
         checkForPermissions();
 
@@ -61,18 +212,27 @@ public class ReaderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         final GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
 
-                if(menuVisibility){
-                    menuConstraintLayout.setVisibility(View.INVISIBLE);
+                if(menuVisibility) {
+                    toggle(menuVisibility, menuConstraintLayout, parent);
                     menuVisibility = false;
                 }
-                else if(!menuVisibility){
-                    menuConstraintLayout.setVisibility(View.VISIBLE);
+                else{
+                    toggle(menuVisibility, menuConstraintLayout, parent);
                     menuVisibility = true;
                 }
+//                if(menuVisibility){
+//                    slideDown(menuConstraintLayout);
+//                    menuVisibility = false;
+//                }
+//                else if(!menuVisibility){
+//                    slideUp(menuConstraintLayout);
+//                    menuVisibility = true;
+//                }
 
                 Log.d("WebView","TAPPED");
 
@@ -102,15 +262,182 @@ public class ReaderFragment extends Fragment {
         menuConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(menuVisibility){
-                    menuConstraintLayout.setVisibility(View.INVISIBLE);
-                    menuVisibility = false;
+
+
+            }
+        });
+
+        pageText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        expandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(pageVisibility) {
+                    toggle(pageVisibility, pageConstraintLayout, parent);
+                    expandButton.setText(getActivity().getResources().getString(R.string.expand));
+                    expandIcon.setImageDrawable(getResources().getDrawable(R.drawable.arrow_up));
+                    ViewGroup.LayoutParams params = menuConstraintLayout.getLayoutParams();
+                    params.height = 1000;
+                    menuConstraintLayout.setLayoutParams(params);
+                    ViewGroup.LayoutParams params2 = menuTopConstraintLayout.getLayoutParams();
+                    params2.height = 180;
+                    menuTopConstraintLayout.setLayoutParams(params2);
+                    pageVisibility = false;
+
                 }
-                else if(!menuVisibility){
-                    menuConstraintLayout.setVisibility(View.VISIBLE);
-                    menuVisibility = true;
+                else{
+                    toggle(pageVisibility, pageConstraintLayout, parent);
+                    expandButton.setText(getActivity().getResources().getString(R.string.collapse));
+                    expandIcon.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down));
+                    ViewGroup.LayoutParams params = menuConstraintLayout.getLayoutParams();
+                    params.height = 1460;
+                    menuConstraintLayout.setLayoutParams(params);
+                    ViewGroup.LayoutParams params2 = menuTopConstraintLayout.getLayoutParams();
+                    params2.height = 640;
+                    menuTopConstraintLayout.setLayoutParams(params2);
+                    pageVisibility = true;
+
                 }
-                Log.d("MenuConstraint","TAPPED");
+            }
+        });
+
+        expandIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(pageVisibility) {
+                    toggle(pageVisibility, pageConstraintLayout, parent);
+                    expandButton.setText(getActivity().getResources().getString(R.string.expand));
+                    expandIcon.setImageDrawable(getResources().getDrawable(R.drawable.arrow_up));
+                    ViewGroup.LayoutParams params = menuConstraintLayout.getLayoutParams();
+                    params.height = 1000;
+                    menuConstraintLayout.setLayoutParams(params);
+                    ViewGroup.LayoutParams params2 = menuTopConstraintLayout.getLayoutParams();
+                    params2.height = 600;
+                    menuTopConstraintLayout.setLayoutParams(params2);
+                    pageVisibility = false;
+
+                }
+                else{
+                    toggle(pageVisibility, pageConstraintLayout, parent);
+                    expandButton.setText(getActivity().getResources().getString(R.string.collapse));
+                    expandIcon.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down));
+                    ViewGroup.LayoutParams params = menuConstraintLayout.getLayoutParams();
+                    params.height = 1200;
+                    menuConstraintLayout.setLayoutParams(params);
+                    ViewGroup.LayoutParams params2 = menuTopConstraintLayout.getLayoutParams();
+                    params2.height = 400;
+                    menuTopConstraintLayout.setLayoutParams(params2);
+                    pageVisibility = true;
+
+                }
+            }
+        });
+
+        pageSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        menuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager2.setCurrentItem(0, true);
+                menuIcon.setBackground(getResources().getDrawable(R.drawable.button_bordered_selected));
+                audioIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                themeIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                screenIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                textIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                fontIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+
+            }
+        });
+
+        audioIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager2.setCurrentItem(1, true);
+                menuIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                audioIcon.setBackground(getResources().getDrawable(R.drawable.button_bordered_selected));
+                themeIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                screenIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                textIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                fontIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+
+            }
+        });
+
+        themeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager2.setCurrentItem(2, true);
+                menuIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                audioIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                themeIcon.setBackground(getResources().getDrawable(R.drawable.button_bordered_selected));
+                screenIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                textIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                fontIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+
+            }
+        });
+
+        screenIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager2.setCurrentItem(3, true);
+                menuIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                audioIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                themeIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                screenIcon.setBackground(getResources().getDrawable(R.drawable.button_bordered_selected));
+                textIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                fontIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+
+            }
+        });
+
+        textIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager2.setCurrentItem(4, true);
+                menuIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                audioIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                themeIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                screenIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                textIcon.setBackground(getResources().getDrawable(R.drawable.button_bordered_selected));
+                fontIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+
+            }
+        });
+
+        fontIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager2.setCurrentItem(5, true);
+                menuIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                audioIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                themeIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                screenIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                textIcon.setBackground(getResources().getDrawable(R.drawable.button_transparent));
+                fontIcon.setBackground(getResources().getDrawable(R.drawable.button_bordered_selected));
 
             }
         });
@@ -119,6 +446,155 @@ public class ReaderFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        sliderDataModels = new ArrayList<>();
+        contentDataModels = new ArrayList<>();
+
+        sliderDataModels.add(new SliderDataModel("Feluda","https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif", "Fruits"));
+        sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
+        sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
+        sliderDataModels.add(new SliderDataModel("Feluda","https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif", "Fruits"));
+        sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
+        sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
+        sliderDataModels.add(new SliderDataModel("Feluda","https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif", "Fruits"));
+        sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
+        sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
+
+
+        sliderViewPagerAdapter = new SliderViewPagerAdapter2(getChildFragmentManager(), sliderDataModels);
+        viewPager.setAdapter(sliderViewPagerAdapter);
+
+        menuPagerAdapter = new MenuPagerAdapter(getChildFragmentManager(), getActivity());
+        viewPager2.setAdapter(menuPagerAdapter);
+
+        final int paddingPx = 300;
+        final float MIN_SCALE = 0.8f;
+        final float MAX_SCALE = 1.0f;
+
+        ViewPager.PageTransformer transformer = new ViewPager.PageTransformer() {
+            @Override
+            public void transformPage(View page, float position) {
+                float pagerWidthPx = ((ViewPager) page.getParent()).getWidth();
+                float pageWidthPx = pagerWidthPx - 2 * paddingPx;
+
+                float maxVisiblePages = pagerWidthPx / pageWidthPx;
+                float center = maxVisiblePages / 2f;
+
+                float scale;
+                if (position + 0.5f < center - 0.5f || position > center) {
+                    scale = MIN_SCALE;
+                } else {
+                    float coef;
+                    if (position + 0.5f < center) {
+                        coef = (position + 1 - center) / 0.5f;
+                    } else {
+                        coef = (center - position) / 0.5f;
+                    }
+                    scale = coef * (MAX_SCALE - MIN_SCALE) + MIN_SCALE;
+                }
+                page.setScaleX(scale);
+                page.setScaleY(scale);
+            }
+        };
+
+        viewPager.setPageTransformer(true, transformer);
+
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch(v.getId()){
+
+            default:
+                break;
+        }
+    }
+
+    // slide the view from below itself to the current position
+    public void slideUp(View view){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                view.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    public void slideDown(View view){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,                 // fromYDelta
+                view.getHeight()); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+    }
+
+    private void toggleFade(boolean visible, View redLayout, ViewGroup parent) {
+
+        Transition transition = new Fade();
+        transition.setDuration(600);
+        transition.addTarget(redLayout);
+
+        TransitionManager.beginDelayedTransition(parent, transition);
+        redLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
+    }
+
+    private void toggle(boolean visible, View redLayout, ViewGroup parent) {
+
+        Transition transition = new Slide(Gravity.BOTTOM);
+        transition.setDuration(600);
+        transition.addTarget(redLayout);
+
+        TransitionManager.beginDelayedTransition(parent, transition);
+        redLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
     }
 
     void unzip(InputStream stream, String destination) {
@@ -172,6 +648,7 @@ public class ReaderFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void checkForPermissions()
     {
         // Here, thisActivity is the current activity
@@ -205,6 +682,7 @@ public class ReaderFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void onFileWritePermissionGranted()
     {
         destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/boimela/";
@@ -217,64 +695,29 @@ public class ReaderFragment extends Fragment {
             AssetManager assetManager = getActivity().getAssets();
 
             InputStream inputStream = assetManager.open("david-copperfield.epub");
+            // Load Book from inputStream
+            Book book = (new EpubReader()).readEpub(inputStream);
+
             unzip(inputStream, destination);
 
             File f1 = new File(destination+"epub/text/","chapter-1.xhtml");
             FileInputStream fileInputStream = new FileInputStream(f1);
-            byte[] bytes = new byte[(int) f1.length()];
+            bytes = new byte[(int) f1.length()];
             fileInputStream.read(bytes);
-            String input = new String(bytes);
-            String start = "<html>" +
-                    "<head>" +
-                    "<style type=\"text/css\">" +
-                    "@font-face {" +
-                    "font-family: MyFont;" +
-                    "src: url(\"file:///android_asset/bookerly.ttf\")" +
-                    "}" +
-                    "h1 {color:red;}\n" +
-                    "h2 {color:red;}\n" +
-                    "h3 {color:red;}\n" +
-                    "p {" +
-                    "color:white;" +
-
-                    "letter-spacing: 0px;\n" +
-                    "word-spacing: 1px;"+
-                    "text-indent: 10px;"+
-                    "line-height: 3;"+
-                    "}" +
-                    "body {" +
-
-                    "font-family: MyFont;" +
-                    "font-size: 60%;" +
-                    "font-weight: 400;"+
-                    "text-align: justify;" +
-                    "padding-left: 30px;"+
-                    "padding-right: 30px;"+
-                    "border: 4px dotted blue;"+
-                    "background-color: black;"+
-
-                    "}" +
-                    "</style>" +
-                    "</head>" +
-                    "<body>";
-            String end = "</body></html>";
-            String myHtmlString = start + input + end;
-
+            input = new String(bytes);
             Log.d(TAG_EPUB,input);
-            webView.loadDataWithBaseURL(destination+"", myHtmlString, "text/html", "utf-8", null);
+            String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+            webView.loadDataWithBaseURL(destination+"", data, "text/html", "utf-8", null);
 
 
-            //Book book = (new EpubReader()).readEpub(inputStream);
+            // Log the book's authors
+            Log.d("EPUB author", " : " + book.getMetadata().getAuthors());
 
+            // Log the book's title
+            Log.d("EPUB title", " : " + book.getTitle());
 
-//            int inputSize = inputStream.available();
-//            byte[] byteArray = new byte[inputSize];
-//            inputStream.read(byteArray);
-//            inputStream.close();
-//
-//            String inputString = new String(byteArray);
-//            Log.d("EPUB",inputString);
-//            FileOutputStream fileOutputStream = new FileOutputStream("kdjfdjkf");
+            // Log the tale of contents
+            logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
 
             webView.setWebViewClient(new WebViewClient());
             webView.getSettings().setSupportZoom(true);
@@ -285,7 +728,7 @@ public class ReaderFragment extends Fragment {
             webView.setVerticalScrollBarEnabled(true);
             webView.setHorizontalScrollBarEnabled(true);
             webView.getSettings().setDefaultFontSize(26);
-            webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman.ttf");
+            //webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman.ttf");
 
 //            webView.getSettings().setTextZoom(144);
 
@@ -298,5 +741,123 @@ public class ReaderFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    public static String changeWebView(byte[] bytes, String backgroundColorBody, String colorBody, String colorH1, String colorH2, String colorH3, String colorP, String letterSpacing, String wordSpacing, String lineHeight, String textIndent, String fontFamily, String fontSize, String fontWeight, String textAlignment, String paddingLeft, String paddingRight, String border){
+
+        start = "<html>" +
+                "<head>" +
+                "<style type=\"text/css\">" +
+                "@font-face {" +
+                "font-family: "+fontFamily+";" +
+                "src: url(\"file:///android_asset/"+fontFamily+".ttf\")" +
+                "}"
+
+                +
+
+
+                "h1 {" +
+                "color: "+colorH1+";" +
+                "letter-spacing: "+letterSpacing+";\n" +
+                "word-spacing: "+wordSpacing+";"+
+                "line-height: "+lineHeight+";"+
+                "}"
+
+                +
+
+
+                "h2 {" +
+                "color: "+colorH2+";" +
+                "letter-spacing: "+letterSpacing+";\n" +
+                "word-spacing: "+wordSpacing+";"+
+                "line-height: "+lineHeight+";"+
+                "}"
+
+                +
+
+                "h3 {" +
+                "color: "+colorH3+";" +
+                "letter-spacing: "+letterSpacing+";\n" +
+                "word-spacing: "+wordSpacing+";"+
+                "line-height: "+lineHeight+";"+
+                "}"
+
+                +
+
+                "p {" +
+                "color: "+colorP+";" +
+                "letter-spacing: "+letterSpacing+";\n" +
+                "word-spacing: "+wordSpacing+";"+
+                "text-indent: "+textIndent+";"+
+                "line-height: "+lineHeight+";"+
+
+                "}"
+
+                +
+
+                "body {" +
+
+                "font-family: "+ fontFamily +";" +
+                "font-size: "+ fontSize +";" +
+                "font-weight: "+ fontWeight +";"+
+                "text-align: "+textAlignment+";" +
+                "padding-left: "+paddingLeft+";"+
+                "padding-right: "+paddingRight+";"+
+                "border: "+border+";"+
+                "color: "+ colorBody + ";"+
+                "background-color: "+ backgroundColorBody +";"+
+
+                "}" +
+
+                "</style>" +
+                "</head>" +
+                "<body>";
+
+        input = new String(bytes);
+
+        end = "</body></html>";
+
+
+        return start + input + end;
+    }
+
+    @SuppressWarnings("unused")
+    private void logTableOfContents(List<TOCReference> tocReferences, int depth) {
+        if (tocReferences == null) {
+            return;
+        }
+
+        for (TOCReference tocReference : tocReferences) {
+            StringBuilder tocString = new StringBuilder();
+            for (int i = 0; i < depth; i++) {
+                tocString.append("\t");
+            }
+            tocString.append(tocReference.getTitle());
+            Log.i("TOC", tocString.toString());
+            Log.d("TOC", "Length: "+tocString.length());
+            contentDataModels.add(new ContentDataModel(tocString.toString(),1));
+            Log.d("TOC","Size: "+contentDataModels.size());
+
+//            try {
+//                InputStream is = tocReference.getResource().getInputStream();
+//                BufferedReader r = new BufferedReader(new InputStreamReader(is));
+//
+//                while ((line = r.readLine()) != null) {
+//                    // line1 = Html.fromHtml(line).toString();
+//                    Log.v("line" + i, Html.fromHtml(line).toString());
+//                    // line1 = (tocString.append(Html.fromHtml(line).toString()+
+//                    // "\n")).toString();
+//                    line1 = line1.concat(Html.fromHtml(line).toString());
+//                }
+//                finalstr = finalstr.concat("\n").concat(line1);
+//                // Log.v("Content " + i, finalstr);
+//                i++;
+//            } catch (IOException e) {
+//
+//            }
+
+            logTableOfContents(tocReference.getChildren(), depth + 1);
+        }
+//        webView.loadDataWithBaseURL("", finalstr, "text/html", "UTF-8", "");
     }
 }
