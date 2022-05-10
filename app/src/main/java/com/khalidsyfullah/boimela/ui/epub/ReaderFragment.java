@@ -46,6 +46,7 @@ import com.khalidsyfullah.boimela.ui.home.SliderViewPagerAdapter;
 import com.khalidsyfullah.boimela.ui.slider.SliderTimer;
 import com.khalidsyfullah.boimela.ui.slider.SpeedSlowScroller;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -597,6 +598,70 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
         redLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
     }
 
+    void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        fileOrDirectory.delete();
+    }
+
+    private boolean unpackZip(String path, String zipname)
+    {
+        InputStream is;
+        ZipInputStream zis;
+        try
+        {
+//            File file = new File(path);
+//            if(file.exists()){
+//                deleteRecursive(file);
+//            }
+
+            String filename;
+//            is = new FileInputStream(path + zipname);
+            is = getActivity().getAssets().open(zipname);
+            zis = new ZipInputStream(new BufferedInputStream(is));
+            ZipEntry ze;
+            byte[] buffer = new byte[1024];
+            int count;
+
+            File fmd = new File(path);
+            fmd.mkdirs();
+
+            while ((ze = zis.getNextEntry()) != null)
+            {
+                filename = ze.getName();
+
+                // Need to create directories if not exists, or
+                // it will generate an Exception...
+                if (ze.isDirectory()) {
+                    fmd = new File(path + filename);
+                    fmd.mkdirs();
+                    continue;
+                }
+
+                FileOutputStream fout = new FileOutputStream(path + filename);
+
+                while ((count = zis.read(buffer)) != -1)
+                {
+                    fout.write(buffer, 0, count);
+                }
+
+                fout.close();
+                zis.closeEntry();
+            }
+
+            zis.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     void unzip(InputStream stream, String destination) {
         dirChecker(destination, "");
         byte[] buffer = new byte[1024*10];
@@ -688,7 +753,7 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
         destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/boimela/";
 
         //destination = Environment.getExternalStorageDirectory().getAbsolutePath()+"/android/data/com.khalidsyfullah.boimela/";
-        //destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela";
+        //destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/";
         Log.d(TAG_EPUB,destination);
 
         try {
@@ -698,9 +763,11 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
             // Load Book from inputStream
             Book book = (new EpubReader()).readEpub(inputStream);
 
-            unzip(inputStream, destination);
+            //unzip(inputStream, destination);
 
-            File f1 = new File(destination+"epub/text/","chapter-1.xhtml");
+            unpackZip(destination,"3.epub");
+
+            File f1 = new File(destination+"OEBPS/","ch01.xhtml");
             FileInputStream fileInputStream = new FileInputStream(f1);
             bytes = new byte[(int) f1.length()];
             fileInputStream.read(bytes);
@@ -728,12 +795,12 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
             webView.setVerticalScrollBarEnabled(true);
             webView.setHorizontalScrollBarEnabled(true);
             webView.getSettings().setDefaultFontSize(26);
-            //webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman.ttf");
+//            webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman.ttf");
 
-//            webView.getSettings().setTextZoom(144);
+            webView.getSettings().setTextZoom(144);
 
-//            logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
-//
+            logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
+
 
 
 

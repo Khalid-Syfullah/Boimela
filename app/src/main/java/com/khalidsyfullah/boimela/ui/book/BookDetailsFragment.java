@@ -2,6 +2,7 @@ package com.khalidsyfullah.boimela.ui.book;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -32,6 +33,7 @@ import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
 import com.khalidsyfullah.boimela.global.StaticData;
+import com.khalidsyfullah.boimela.ui.epub.ReaderActivity;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -51,12 +53,13 @@ public class BookDetailsFragment extends Fragment {
 
 
 
-
+    private TextView button;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_book_details,container,false);
 
+        button = root.findViewById(R.id.book_details_open);
         return root;
     }
 
@@ -67,6 +70,14 @@ public class BookDetailsFragment extends Fragment {
 
 
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getActivity(), ReaderActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
 

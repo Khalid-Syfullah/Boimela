@@ -2,6 +2,7 @@ package com.khalidsyfullah.boimela.ui.home;
 
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,12 +50,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
     private ArrayList<BookDataModel> bookDataModels;
     private Activity activity;
     private int type;
+    private String fragmentName;
 
-    public BookAdapter(Activity activity, ArrayList<BookDataModel> booksDataModels, int type) {
+    public BookAdapter(Activity activity, ArrayList<BookDataModel> booksDataModels, int type, String fragmentName) {
         
         this.activity = activity;
         this.bookDataModels = booksDataModels;
         this.type = type;
+        this.fragmentName = fragmentName;
+
     }
 
     @NonNull
@@ -85,6 +89,25 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
         Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
         holder.bookTitle.setSelected(true);
         holder.bookAuthor.setSelected(true);
+
+        holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(fragmentName.equals("HomeFragment")){
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details);
+                }
+                else if(fragmentName.equals("Store")){
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_book_details);
+                }
+
+                else if(fragmentName.equals("SearchFragment")){
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_search_to_navigation_book_details);
+                }
+
+            }
+        });
 
 
     }

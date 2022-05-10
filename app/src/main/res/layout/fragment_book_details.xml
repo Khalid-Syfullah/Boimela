@@ -36,6 +36,7 @@
             <ImageView
                 android:id="@+id/book_details_image"
                 android:layout_width="160dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="32dp"
                 android:src="@drawable/dummy_book_1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -115,9 +116,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/book_details_award_title" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -194,37 +197,6 @@
 
     </ScrollView>
 
-    <TextView
-        android:id="@+id/book_details_wishlist"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/button_bg_outlined"
-        android:drawablePadding="8dp"
-        android:ellipsize="end"
-        android:fontFamily="@font/open_sans_semibold"
-        android:gravity="center"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:maxLines="1"
-        android:paddingVertical="8dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:text="Add to wishlist"
-        android:textAlignment="gravity"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        app:drawableEndCompat="@drawable/arrow_left_rounded"
-        app:layout_constraintBottom_toBottomOf="@+id/book_details_scrollview"
-        app:layout_constraintEnd_toStartOf="@+id/book_details_cart"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:marqueeRepeatLimit="marquee_forever" />
-
     <!--<androidx.cardview.widget.CardView
         android:id="@+id/book_details_wishlist_cardview"
         android:layout_width="0dp"
@@ -275,10 +247,12 @@
     </androidx.cardview.widget.CardView>-->
 
     <TextView
-        android:id="@+id/book_details_cart"
-        android:layout_width="0dp"
+        android:id="@+id/book_details_open"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_orange"
         android:drawablePadding="8dp"
         android:ellipsize="end"
@@ -290,15 +264,15 @@
         android:paddingVertical="8dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:text="Add to Cart"
+        android:text="@string/open"
         android:textAlignment="gravity"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:drawableEndCompat="@drawable/arrow_right_rounded"
-        app:layout_constraintBottom_toBottomOf="@+id/book_details_wishlist"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/book_details_wishlist" />
+        app:layout_constraintStart_toStartOf="parent" />
     <!--<androidx.cardview.widget.CardView
         android:id="@+id/book_details_cart_cardview"
         android:layout_width="0dp"

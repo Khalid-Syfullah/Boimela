@@ -137,11 +137,11 @@ public class StoreViewPager1 extends Fragment {
         popularAuthorRecycler.setAdapter(authorAdapter);
 
         fictionRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        fictionAdapter = new BookAdapter(getActivity(),fictionDataModels,1);
+        fictionAdapter = new BookAdapter(getActivity(),fictionDataModels,1, "StoreFragment");
         fictionRecycler.setAdapter(fictionAdapter);
 
         nonFictionRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        nonFictionAdapter = new BookAdapter(getActivity(),nonFictionDataModels, 1);
+        nonFictionAdapter = new BookAdapter(getActivity(),nonFictionDataModels, 1, "StoreFragment");
         nonFictionRecycler.setAdapter(nonFictionAdapter);
 
         seriesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
@@ -149,15 +149,15 @@ public class StoreViewPager1 extends Fragment {
         seriesRecycler.setAdapter(seriesAdapter);
 
         shortStoriesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        shortStoriesAdapter = new BookAdapter(getActivity(), shortStoriesDataModels, 1);
+        shortStoriesAdapter = new BookAdapter(getActivity(), shortStoriesDataModels, 1, "StoreFragment");
         shortStoriesRecycler.setAdapter(shortStoriesAdapter);
 
         biographyRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        biographyAdapter = new BookAdapter(getActivity(),biographyDataModels,1);
+        biographyAdapter = new BookAdapter(getActivity(),biographyDataModels,1, "StoreFragment");
         biographyRecycler.setAdapter(biographyAdapter);
 
         religiousRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        religiousAdapter = new BookAdapter(getActivity(),religiousDataModels,1);
+        religiousAdapter = new BookAdapter(getActivity(),religiousDataModels,1, "StoreFragment");
         religiousRecycler.setAdapter(religiousAdapter);
 
         newReleasesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
@@ -165,7 +165,7 @@ public class StoreViewPager1 extends Fragment {
         newReleasesRecycler.setAdapter(newReleasesAdapter);
 
         poetryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        poetryAdapter = new BookAdapter(getActivity(),poetryDataModels,1);
+        poetryAdapter = new BookAdapter(getActivity(),poetryDataModels,1, "StoreFragment");
         poetryRecycler.setAdapter(poetryAdapter);
 
         editorsChoiceRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));

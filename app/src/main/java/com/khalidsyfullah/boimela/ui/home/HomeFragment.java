@@ -180,11 +180,11 @@ public class HomeFragment extends Fragment {
         sliderViewPager.setAdapter(sliderViewPagerAdapter);
 
         bestSellerRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        bestSellerAdapter = new BookAdapter(getActivity(),bestSellerDataModels,1);
+        bestSellerAdapter = new BookAdapter(getActivity(),bestSellerDataModels,1, "HomeFragment");
         bestSellerRecycler.setAdapter(bestSellerAdapter);
 
         popularRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        popularAdapter = new BookAdapter(getActivity(),popularDataModels,1);
+        popularAdapter = new BookAdapter(getActivity(),popularDataModels,1, "HomeFragment");
         popularRecycler.setAdapter(popularAdapter);
 
         seriesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
@@ -200,11 +200,11 @@ public class HomeFragment extends Fragment {
         genresRecycler.setAdapter(bookGenreAdapter);
 
         audiobookRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        audioBooksAdapter = new BookAdapter(getActivity(),audioBooksDataModels,1);
+        audioBooksAdapter = new BookAdapter(getActivity(),audioBooksDataModels,1, "HomeFragment");
         audiobookRecycler.setAdapter(audioBooksAdapter);
 
         editorsChoiceRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        editorsChoiceAdapter = new BookAdapter(getActivity(),editorsChoiceDataModels,1);
+        editorsChoiceAdapter = new BookAdapter(getActivity(),editorsChoiceDataModels,1, "HomeFragment");
         editorsChoiceRecycler.setAdapter(editorsChoiceAdapter);
 
         newReleasesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
