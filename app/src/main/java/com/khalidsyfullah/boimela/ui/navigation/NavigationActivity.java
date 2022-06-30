@@ -2,7 +2,9 @@ package com.khalidsyfullah.boimela.ui.navigation;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -11,6 +13,7 @@ import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.global.StaticData;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -20,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class NavigationActivity extends AppCompatActivity {
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,12 @@ public class NavigationActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_main);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        boolean canWriteSettings = Settings.System.canWrite(getApplicationContext());
+        if(!canWriteSettings) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+            startActivity(intent);
+        }
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -90,6 +100,8 @@ public class NavigationActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
 }

@@ -2,7 +2,7 @@ package com.khalidsyfullah.boimela.ui.epub;
 
 import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.backgroundColorBody;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.border;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.bytes;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.data;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.changeWebView;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.colorBody;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.colorH1;
@@ -50,6 +50,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.khalidsyfullah.boimela.R;
+import com.khalidsyfullah.boimela.global.StaticData;
 
 import java.util.Set;
 
@@ -148,7 +149,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorH3 = "000000";
                 colorP = "000000";
 
-                String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
 
             }
@@ -164,7 +165,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorH3 = "000000";
                 colorP = "000000";
 
-                String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
 
 
@@ -181,7 +182,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorH3 = "000000";
                 colorP = "000000";
 
-                String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
 
 
@@ -198,7 +199,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorH3 = "FFFFFF";
                 colorP = "FFFFFF";
 
-                String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
 
             }
@@ -214,7 +215,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorH3 = "FFFFFF";
                 colorP = "FFFFFF";
 
-                String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
             }
         });
@@ -229,7 +230,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorH3 = "FFFFFF";
                 colorP = "FFFFFF";
 
-                String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
             }
         });
@@ -318,7 +319,7 @@ public class FragmentViewPager3 extends Fragment {
 //                        }
 //
 
-                        String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                        String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                         webView.loadData(data, "text/html", "utf-8");
 
                     }
@@ -351,7 +352,7 @@ public class FragmentViewPager3 extends Fragment {
                         colorH3 = "000000";
                         colorP = "000000";
 
-                        String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                        String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                         webView.loadData(data, "text/html", "utf-8");
 
 

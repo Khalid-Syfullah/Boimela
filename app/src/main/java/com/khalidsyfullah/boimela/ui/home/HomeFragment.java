@@ -1,11 +1,16 @@
 package com.khalidsyfullah.boimela.ui.home;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +19,9 @@ import android.widget.Button;
 import android.widget.Scroller;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -70,7 +78,6 @@ public class HomeFragment extends Fragment {
         upcomingRecycler2 = root.findViewById(R.id.dashboard_best_seller_recyclerview11);
 
 
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,9 +91,13 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onResume() {
         super.onResume();
+
+        checkForPermissions();
+
 
         sliderDataModels = new ArrayList<>();
         bestSellerDataModels = new ArrayList<>();
@@ -338,6 +349,36 @@ public class HomeFragment extends Fragment {
             timer.scheduleAtFixedRate(new SliderTimer(sliderViewPager, sliderDataModels.size(), getActivity()), 4000, 6000);
         } catch (Exception ignored) {
 
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    void checkForPermissions()
+    {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                // This part I didn't implement,because for my case it isn't needed
+                Log.i("Permissions","Unexpected flow");
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+
+                // MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
         }
     }
 

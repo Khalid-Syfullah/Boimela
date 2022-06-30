@@ -4,8 +4,10 @@ import static com.khalidsyfullah.boimela.ui.epub.FragmentViewPager1.contentRecyc
 import static com.khalidsyfullah.boimela.ui.epub.FragmentViewPager1.contentsAdapter;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,6 +28,7 @@ import android.view.animation.TranslateAnimation;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -39,7 +42,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.common.util.IOUtils;
 import com.khalidsyfullah.boimela.R;
+import com.khalidsyfullah.boimela.api.RestAPI;
+import com.khalidsyfullah.boimela.api.RetrofitClient;
 import com.khalidsyfullah.boimela.datamodel.ContentDataModel;
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 import com.khalidsyfullah.boimela.ui.home.SliderViewPagerAdapter;
@@ -50,10 +56,12 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +72,10 @@ import java.util.zip.ZipInputStream;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.TOCReference;
 import nl.siegmann.epublib.epub.EpubReader;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ReaderFragment extends Fragment implements View.OnClickListener {
@@ -72,6 +84,9 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
     private TextView pageText, expandButton;
     private ImageView expandIcon, menuIcon, audioIcon, themeIcon, screenIcon, textIcon, fontIcon;
     private SeekBar pageSeekBar;
+    private ProgressBar progressBar;
+    private ProgressDialog mProgressDialog;
+
     public static WebView webView;
     private ConstraintLayout menuConstraintLayout, pageConstraintLayout, menuTopConstraintLayout;
     private ViewPager viewPager;
@@ -80,6 +95,7 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
     private MenuViewPager viewPager2;
     private MenuPagerAdapter menuPagerAdapter;
     private ViewGroup parent;
+    private File file;
     public static ArrayList<ContentDataModel> contentDataModels = new ArrayList<>();
 
     private String line, line1 = "", finalstr = "";
@@ -96,7 +112,7 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
     public static String paddingLeft="30px";
     public static String paddingRight="30px";
     public static String border="4px dotted blue";
-    public static String backgroundColorBody ="grey";
+    public static String backgroundColorBody ="white";
     public static String colorBody="black";
     public static String colorH1="black";
     public static String colorH2="black";
@@ -105,7 +121,7 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
 
     public static String input;
 
-    public static byte[] bytes;
+    public static String data;
 
     public static String start = "<html>" +
             "<head>" +
@@ -177,7 +193,7 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
     public static String destination="";
 
     private String TAG_EPUB="EPUB_ACTIVITY";
-    private boolean seekbarVisibility = true, pageVisibility = true, menuVisibility = true;
+    private boolean seekbarVisibility = true, pageVisibility = true, menuVisibility = false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -201,8 +217,12 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
         fontIcon = root.findViewById(R.id.reader_font_btn);
         viewPager = root.findViewById(R.id.reader_menu_viewpager);
         viewPager2 = root.findViewById(R.id.reader_menu_viewpager2);
+        progressBar = root.findViewById(R.id.reader_progressbar);
 
         parent = container;
+
+        menuConstraintLayout.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
 
         checkForPermissions();
 
@@ -519,199 +539,13 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // slide the view from below itself to the current position
-    public void slideUp(View view){
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                view.getHeight(),  // fromYDelta
-                0);                // toYDelta
-        animate.setDuration(500);
-        animate.setFillAfter(true);
-        view.startAnimation(animate);
 
-        animate.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
 
-            }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                view.setVisibility(View.VISIBLE);
 
-            }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
-    }
 
-    public void slideDown(View view){
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                0,                 // fromYDelta
-                view.getHeight()); // toYDelta
-        animate.setDuration(500);
-        animate.setFillAfter(true);
-        view.startAnimation(animate);
-        animate.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                view.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-    }
-
-    private void toggleFade(boolean visible, View redLayout, ViewGroup parent) {
-
-        Transition transition = new Fade();
-        transition.setDuration(600);
-        transition.addTarget(redLayout);
-
-        TransitionManager.beginDelayedTransition(parent, transition);
-        redLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
-    }
-
-    private void toggle(boolean visible, View redLayout, ViewGroup parent) {
-
-        Transition transition = new Slide(Gravity.BOTTOM);
-        transition.setDuration(600);
-        transition.addTarget(redLayout);
-
-        TransitionManager.beginDelayedTransition(parent, transition);
-        redLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
-    }
-
-    void deleteRecursive(File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory())
-            for (File child : fileOrDirectory.listFiles())
-                deleteRecursive(child);
-
-        fileOrDirectory.delete();
-    }
-
-    private boolean unpackZip(String path, String zipname)
-    {
-        InputStream is;
-        ZipInputStream zis;
-        try
-        {
-//            File file = new File(path);
-//            if(file.exists()){
-//                deleteRecursive(file);
-//            }
-
-            String filename;
-//            is = new FileInputStream(path + zipname);
-            is = getActivity().getAssets().open(zipname);
-            zis = new ZipInputStream(new BufferedInputStream(is));
-            ZipEntry ze;
-            byte[] buffer = new byte[1024];
-            int count;
-
-            File fmd = new File(path);
-            fmd.mkdirs();
-
-            while ((ze = zis.getNextEntry()) != null)
-            {
-                filename = ze.getName();
-
-                // Need to create directories if not exists, or
-                // it will generate an Exception...
-                if (ze.isDirectory()) {
-                    fmd = new File(path + filename);
-                    fmd.mkdirs();
-                    continue;
-                }
-
-                FileOutputStream fout = new FileOutputStream(path + filename);
-
-                while ((count = zis.read(buffer)) != -1)
-                {
-                    fout.write(buffer, 0, count);
-                }
-
-                fout.close();
-                zis.closeEntry();
-            }
-
-            zis.close();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
-    }
-
-    void unzip(InputStream stream, String destination) {
-        dirChecker(destination, "");
-        byte[] buffer = new byte[1024*10];
-        try {
-            ZipInputStream zin = new ZipInputStream(stream);
-            ZipEntry ze = null;
-
-            while ((ze = zin.getNextEntry()) != null) {
-                Log.v(TAG_EPUB, "Unzipping " + ze.getName());
-
-                if (ze.isDirectory()) {
-                    dirChecker(destination, ze.getName());
-                } else {
-                    File f = new File(destination, ze.getName());
-                    if (!f.exists()) {
-                        boolean success = f.createNewFile();
-                        if (!success) {
-                            Log.w(TAG_EPUB, "Failed to create file " + f.getName());
-                            continue;
-                        }
-                        FileOutputStream fout = new FileOutputStream(f);
-                        int count;
-                        while ((count = zin.read(buffer)) != -1) {
-                            fout.write(buffer, 0, count);
-                        }
-                        zin.closeEntry();
-                        fout.close();
-
-                    }
-                }
-
-            }
-            zin.close();
-
-        } catch (Exception e) {
-            Log.e(TAG_EPUB, "unzip", e);
-        }
-
-    }
-
-    void dirChecker(String destination, String dir) {
-        File f = new File(destination, dir);
-
-        if (!f.isDirectory()) {
-            boolean success = f.mkdirs();
-            if (!success) {
-                Log.w(TAG_EPUB, "Failed to create folder " + f.getName());
-            }
-        }
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     void checkForPermissions()
@@ -721,31 +555,24 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Permission is not granted
-            // Should we show an explanation?
+
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                // This part I didn't implement,because for my case it isn't needed
+
                 Log.i(TAG_EPUB,"Unexpected flow");
             } else {
-                // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         1);
 
-                // MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
-            // Permission is already granted, call the function that does what you need
 
             onFileWritePermissionGranted();
         }
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     void onFileWritePermissionGranted()
@@ -756,61 +583,174 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
         //destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/";
         Log.d(TAG_EPUB,destination);
 
-        try {
-            AssetManager assetManager = getActivity().getAssets();
+//            progressBar.setVisibility(View.VISIBLE);
+        // declare the dialog as a member field of your activity
 
-            InputStream inputStream = assetManager.open("david-copperfield.epub");
-            // Load Book from inputStream
-            Book book = (new EpubReader()).readEpub(inputStream);
-
-            //unzip(inputStream, destination);
-
-            unpackZip(destination,"3.epub");
-
-            File f1 = new File(destination+"OEBPS/","ch01.xhtml");
-            FileInputStream fileInputStream = new FileInputStream(f1);
-            bytes = new byte[(int) f1.length()];
-            fileInputStream.read(bytes);
-            input = new String(bytes);
-            Log.d(TAG_EPUB,input);
-            String data = changeWebView(bytes, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-            webView.loadDataWithBaseURL(destination+"", data, "text/html", "utf-8", null);
+// instantiate it within the onCreate method
+        mProgressDialog = new ProgressDialog(getActivity(), R.style.CustomProgressDialog);
+        mProgressDialog.setMessage("Downloading");
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setCancelable(true);
 
 
-            // Log the book's authors
-            Log.d("EPUB author", " : " + book.getMetadata().getAuthors());
+            RestAPI restAPI = RetrofitClient.createRetrofitClient();
+            restAPI.downloadFileWithDynamicUrlAsync("https://boimelafoundation.com/1984.epub").enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("Download", "server contacted and has file");
 
-            // Log the book's title
-            Log.d("EPUB title", " : " + book.getTitle());
+                        mProgressDialog.show();
 
-            // Log the tale of contents
-            logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
 
-            webView.setWebViewClient(new WebViewClient());
-            webView.getSettings().setSupportZoom(true);
-            webView.getSettings().setBuiltInZoomControls(true);
-            webView.getSettings().setDisplayZoomControls(false);
-            webView.getSettings().setJavaScriptEnabled(true);
-            webView.getSettings().setAllowFileAccess(true);
-            webView.setVerticalScrollBarEnabled(true);
-            webView.setHorizontalScrollBarEnabled(true);
-            webView.getSettings().setDefaultFontSize(26);
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... voids) {
+                                boolean writtenToDisk = writeResponseBodyToDisk(response.body());
+
+                                Log.d("Download", "file download was a success? " + writtenToDisk);
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void unused) {
+                                super.onPostExecute(unused);
+
+//                                progressBar.setVisibility(View.GONE);
+                                mProgressDialog.dismiss();
+//                                AssetManager assetManager = getActivity().getAssets();
+//                                InputStream inputStream = null;
+//                                try {
+//                                    inputStream = assetManager.open("the-alchemist.epub");
+//                                    // Load Book from inputStream
+//                                    Book book = (new EpubReader()).readEpub(inputStream);
+//                                    data = new String(book.getContents().get(3).getData());
+
+                                FileInputStream inputStream = null;
+                                try {
+                                    inputStream = new FileInputStream(file);
+                                    // Load Book from inputStream
+                                    Book book = (new EpubReader()).readEpub(inputStream);
+                                    data = new String(book.getContents().get(1).getData());
+
+//            unzip(inputStream, destination);
+//            unpackZip(destination,"3.epub");
+//
+//            File f1 = new File(destination+"OEBPS/","ch01.xhtml");
+//            FileInputStream fileInputStream = new FileInputStream(f1);
+//            bytes = new byte[(int) f1.length()];
+//            fileInputStream.read(bytes);
+//            input = new String(bytes);
+//            Log.d(TAG_EPUB,input);
+
+
+                                    String customizedData = changeWebView(data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                                    webView.loadDataWithBaseURL(destination+"", customizedData, "text/html", "utf-8", null);
+
+
+                                    // Log the book's authors
+                                    Log.d("EPUB author", " : " + book.getMetadata().getAuthors());
+
+                                    // Log the book's title
+                                    Log.d("EPUB title", " : " + book.getTitle());
+
+                                    // Log the tale of contents
+                                    logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
+
+                                    webView.setWebViewClient(new WebViewClient());
+                                    webView.getSettings().setSupportZoom(true);
+                                    webView.getSettings().setBuiltInZoomControls(true);
+                                    webView.getSettings().setDisplayZoomControls(false);
+                                    webView.getSettings().setJavaScriptEnabled(true);
+                                    webView.getSettings().setAllowFileAccess(true);
+                                    webView.setVerticalScrollBarEnabled(true);
+                                    webView.setHorizontalScrollBarEnabled(true);
+                                    webView.getSettings().setDefaultFontSize(26);
 //            webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman.ttf");
 
-            webView.getSettings().setTextZoom(144);
+                                    webView.getSettings().setTextZoom(144);
 
-            logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
-
-
+                                    logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+                        }.execute();
+                    }
+                    else {
+                        Log.d("Download", "server contact failed");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
 
     }
 
-    public static String changeWebView(byte[] bytes, String backgroundColorBody, String colorBody, String colorH1, String colorH2, String colorH3, String colorP, String letterSpacing, String wordSpacing, String lineHeight, String textIndent, String fontFamily, String fontSize, String fontWeight, String textAlignment, String paddingLeft, String paddingRight, String border){
+    private boolean writeResponseBodyToDisk(ResponseBody body) {
+        try {
+            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + "1984.epub");
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(file);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setMax(100);
+                    mProgressDialog.setProgress((int) (fileSizeDownloaded*100/fileSize));
+                    Log.d("Download", "File download: " + fileSizeDownloaded + " of " + fileSize+ " "+fileSizeDownloaded/fileSize*100+ "%");
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public static String changeWebView(String input, String backgroundColorBody, String colorBody, String colorH1, String colorH2, String colorH3, String colorP, String letterSpacing, String wordSpacing, String lineHeight, String textIndent, String fontFamily, String fontSize, String fontWeight, String textAlignment, String paddingLeft, String paddingRight, String border){
 
         start = "<html>" +
                 "<head>" +
@@ -880,8 +820,6 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
                 "</head>" +
                 "<body>";
 
-        input = new String(bytes);
-
         end = "</body></html>";
 
 
@@ -927,4 +865,220 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
         }
 //        webView.loadDataWithBaseURL("", finalstr, "text/html", "UTF-8", "");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void toggle(boolean visible, View redLayout, ViewGroup parent) {
+
+        Transition transition = new Slide(Gravity.BOTTOM);
+        transition.setDuration(600);
+        transition.addTarget(redLayout);
+
+        TransitionManager.beginDelayedTransition(parent, transition);
+        redLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
+    }
+
+
+
+
+
+
+
+    // slide the view from below itself to the current position
+    public void slideUp(View view){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                view.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    public void slideDown(View view){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,                 // fromYDelta
+                view.getHeight()); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+    }
+
+    private void toggleFade(boolean visible, View redLayout, ViewGroup parent) {
+
+        Transition transition = new Fade();
+        transition.setDuration(600);
+        transition.addTarget(redLayout);
+
+        TransitionManager.beginDelayedTransition(parent, transition);
+        redLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
+    }
+
+
+    void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        fileOrDirectory.delete();
+    }
+
+    private boolean unpackZip(String path, String zipname)
+    {
+        InputStream is;
+        ZipInputStream zis;
+        try
+        {
+//            File file = new File(path);
+//            if(file.exists()){
+//                deleteRecursive(file);
+//            }
+
+            String filename;
+//            is = new FileInputStream(path + zipname);
+            is = getActivity().getAssets().open(zipname);
+            zis = new ZipInputStream(new BufferedInputStream(is));
+            ZipEntry ze;
+            byte[] buffer = new byte[1024];
+            int count;
+
+            File fmd = new File(path);
+            fmd.mkdirs();
+
+            while ((ze = zis.getNextEntry()) != null)
+            {
+                filename = ze.getName();
+
+                // Need to create directories if not exists, or
+                // it will generate an Exception...
+                if (ze.isDirectory()) {
+                    fmd = new File(path + filename);
+                    fmd.mkdirs();
+                    continue;
+                }
+
+                FileOutputStream fout = new FileOutputStream(path + filename);
+
+                while ((count = zis.read(buffer)) != -1)
+                {
+                    fout.write(buffer, 0, count);
+                }
+
+                fout.close();
+                zis.closeEntry();
+            }
+
+            zis.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+
+    void dirChecker(String destination, String dir) {
+        File f = new File(destination, dir);
+
+        if (!f.isDirectory()) {
+            boolean success = f.mkdirs();
+            if (!success) {
+                Log.w(TAG_EPUB, "Failed to create folder " + f.getName());
+            }
+        }
+    }
+
+    void unzip(InputStream stream, String destination) {
+        dirChecker(destination, "");
+        byte[] buffer = new byte[1024*10];
+        try {
+            ZipInputStream zin = new ZipInputStream(stream);
+            ZipEntry ze = null;
+
+            while ((ze = zin.getNextEntry()) != null) {
+                Log.v(TAG_EPUB, "Unzipping " + ze.getName());
+
+                if (ze.isDirectory()) {
+                    dirChecker(destination, ze.getName());
+                } else {
+                    File f = new File(destination, ze.getName());
+                    if (!f.exists()) {
+                        boolean success = f.createNewFile();
+                        if (!success) {
+                            Log.w(TAG_EPUB, "Failed to create file " + f.getName());
+                            continue;
+                        }
+                        FileOutputStream fout = new FileOutputStream(f);
+                        int count;
+                        while ((count = zin.read(buffer)) != -1) {
+                            fout.write(buffer, 0, count);
+                        }
+                        zin.closeEntry();
+                        fout.close();
+
+                    }
+                }
+
+            }
+            zin.close();
+
+        } catch (Exception e) {
+            Log.e(TAG_EPUB, "unzip", e);
+        }
+
+    }
+
+
 }
