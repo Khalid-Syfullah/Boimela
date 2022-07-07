@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,13 @@ public class StaticData {
     public static final String LOGIN_SHARED_PREFS = "login_pref";
     public static final String LOGIN_USER_PHONE = "login_phone";
     public static final String LOGIN_USER_PASS = "login_pass";
+
+    public static MediaPlayer mediaPlayer;
+    public static String mediaTitle="";
+    public static String mediaStatus="";
+    public static String mediaUrl="";
+    public static boolean isMediaActive=false;
+    public static boolean isMediaReset=true;
 
     public static void languageAlertDialog(Context ctx, String lang){
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);

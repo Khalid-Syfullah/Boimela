@@ -106,12 +106,12 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
     public static String textIndent="10px";
     public static String lineHeight="3";
     public static String fontFamily="bookerly";
-    public static String fontSize="60%";
+    public static String fontSize="40%";
     public static String fontWeight="300";
     public static String textAlignment="justify";
     public static String paddingLeft="30px";
     public static String paddingRight="30px";
-    public static String border="4px dotted blue";
+    public static String border="";
     public static String backgroundColorBody ="white";
     public static String colorBody="black";
     public static String colorH1="black";

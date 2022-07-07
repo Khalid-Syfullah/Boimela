@@ -44,7 +44,6 @@ import java.util.TimerTask;
 public class HomeFragment extends Fragment {
 
 
-    private Button button;
     private RecyclerView bestSellerRecycler, popularRecycler, seriesRecycler, audiobookRecycler, topRatedRecycler, genresRecycler, editorsChoiceRecycler, newReleasesRecycler, popularAuthorsRecycler, upcomingRecycler1, upcomingRecycler2;
     private BookAdapter bestSellerAdapter, popularAdapter, audioBooksAdapter, editorsChoiceAdapter;
     private BookSeriesAdapter bookSeriesAdapter;
@@ -63,7 +62,6 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        button = root.findViewById(R.id.home_navigate_button);
         sliderViewPager = root.findViewById(R.id.home_top_selection_viewpager);
         bestSellerRecycler = root.findViewById(R.id.dashboard_best_seller_recyclerview);
         popularRecycler = root.findViewById(R.id.dashboard_best_seller_recyclerview2);
@@ -78,14 +76,6 @@ public class HomeFragment extends Fragment {
         upcomingRecycler2 = root.findViewById(R.id.dashboard_best_seller_recyclerview11);
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getActivity(), ReaderActivity.class);
-                getActivity().startActivity(intent);
-            }
-        });
 
 
         return root;

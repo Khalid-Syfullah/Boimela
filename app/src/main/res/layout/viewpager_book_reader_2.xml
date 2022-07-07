@@ -93,7 +93,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/audio_backward" />
+                    app:srcCompat="@drawable/audio_rewind" />
 
                 <ImageView
                     android:id="@+id/reader_2_audio_play"

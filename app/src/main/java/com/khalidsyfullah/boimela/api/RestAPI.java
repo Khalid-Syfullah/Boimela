@@ -33,4 +33,8 @@ public interface RestAPI {
     @GET
     Call<ResponseBody> downloadFileWithDynamicUrlAsync(@Url String fileUrl);
 
+    @Streaming
+    @GET
+    Call<ResponseBody> downloadAudio(@Url String fileUrl);
+
 }

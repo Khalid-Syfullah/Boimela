@@ -130,4 +130,6 @@
     <string name="random_audio_time_2">35:40</string>
     <string name="expand">Expand</string>
     <string name="collapse">Collapse</string>
+    <string name="paused">Paused</string>
+    <string name="ready_to_play">Ready to Play</string>
 </resources>
