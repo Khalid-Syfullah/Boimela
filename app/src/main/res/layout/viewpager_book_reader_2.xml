@@ -59,8 +59,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/reader_2_author_title"
                 app:srcCompat="@drawable/dummy_book_1" />
 
-            <ProgressBar
-                android:id="@+id/reader_2_audio_progress_bar"
+            <SeekBar
+                android:id="@+id/reader_2_audio_seek_bar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -68,9 +68,13 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:backgroundTintMode="src_atop"
-                android:minHeight="20dp"
-                android:progress="50"
+                android:max="100"
+                android:maxHeight="6dp"
+                android:minHeight="6dp"
+                android:progress="10"
+                android:progressDrawable="@drawable/seekbar_drawable"
                 android:progressTint="@color/black"
+                android:thumb="@drawable/seekbar_thumb"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/reader_2_book_image" />
@@ -85,7 +89,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reader_2_audio_progress_bar">
+                app:layout_constraintTop_toBottomOf="@+id/reader_2_audio_seek_bar">
 
                 <ImageView
                     android:id="@+id/reader_2_audio_rewind"

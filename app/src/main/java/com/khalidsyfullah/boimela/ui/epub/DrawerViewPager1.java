@@ -1,13 +1,11 @@
 package com.khalidsyfullah.boimela.ui.epub;
 
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.contentDataModels;
-
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,25 +14,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
-import com.khalidsyfullah.boimela.datamodel.BookDataModel;
-import com.khalidsyfullah.boimela.datamodel.ContentDataModel;
-import com.khalidsyfullah.boimela.ui.home.BookScrollAdapter;
-import com.khalidsyfullah.boimela.ui.library.BookAdapter2;
 
-import java.util.ArrayList;
-
-public class FragmentViewPager1 extends Fragment {
+public class DrawerViewPager1 extends Fragment {
 
     public static RecyclerView contentRecycler;
     public static ContentsAdapter contentsAdapter;
+    private ImageView emptyImage;
+    private TextView emptyText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(
-                R.layout.viewpager_book_reader_1, container, false);
+                R.layout.viewpager_drawer_book_reader_1, container, false);
 
-        contentRecycler = root.findViewById(R.id.reader_1_recyclerview);
+        contentRecycler = root.findViewById(R.id.drawer_reader_1_recyclerview);
+        emptyImage = root.findViewById(R.id.drawer_reader_1_empty_image);
+        emptyText = root.findViewById(R.id.drawer_reader_1_empty_title);
 
         return root;
     }
@@ -61,6 +57,17 @@ public class FragmentViewPager1 extends Fragment {
 //        contentDataModels.add(new ContentDataModel("Part 2","66",1));
 //        contentDataModels.add(new ContentDataModel("3. Chapter 3","66",2));
 //        contentDataModels.add(new ContentDataModel("4. Chapter 4","78",2));
+
+        if(ReaderActivity.contentDataModels.size() == 0){
+            emptyText.setVisibility(View.VISIBLE);
+            emptyImage.setVisibility(View.VISIBLE);
+            contentRecycler.setVisibility(View.GONE);
+        }
+        else{
+            emptyText.setVisibility(View.GONE);
+            emptyImage.setVisibility(View.GONE);
+            contentRecycler.setVisibility(View.VISIBLE);
+        }
 
         contentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
         contentsAdapter = new ContentsAdapter(getActivity(),ReaderActivity.contentDataModels);

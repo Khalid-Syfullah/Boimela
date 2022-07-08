@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/navyish"
-    tools:context=".ui.epub.AudioPlayerFragment">
+    tools:context=".ui.epub.AudioPlayerActivity">
 
 
     <ScrollView
@@ -250,14 +250,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/audio_player_audio_linear_layout"
                 app:srcCompat="@drawable/audio_repeat" />
 
-            <ImageView
-                android:id="@+id/audio_player_shuffle"
-                android:layout_width="32dp"
+            <TextView
+                android:id="@+id/audio_player_speed"
+                style="@style/TextViewLabelD2"
+                android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@+id/audio_player_audio_linear_layout"
-                app:layout_constraintTop_toBottomOf="@+id/audio_player_audio_linear_layout"
-                app:srcCompat="@drawable/audio_shuffle" />
+                android:text="1x"
+                android:textColor="@color/dark_white"
+                app:layout_constraintStart_toStartOf="@+id/audio_player_seek_bar"
+                app:layout_constraintTop_toBottomOf="@+id/audio_player_audio_linear_layout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

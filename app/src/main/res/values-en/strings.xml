@@ -131,4 +131,9 @@
     <string name="collapse">Collapse</string>
     <string name="paused">Paused</string>
     <string name="ready_to_play">Ready to Play</string>
+    <string name="random_speed">1x</string>
+    <string name="chapters">Chapters</string>
+    <string name="no_bookmarks">No Bookmarks</string>
+    <string name="no_chapters">No Chapters</string>
+
 </resources>

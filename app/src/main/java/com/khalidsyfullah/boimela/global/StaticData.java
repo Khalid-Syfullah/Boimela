@@ -42,6 +42,10 @@ public class StaticData {
     public static String mediaTitle="";
     public static String mediaStatus="";
     public static String mediaUrl="";
+    public static String fileName="";
+    public static String bookUrl="";
+    public static String audioUrl="";
+
     public static boolean isMediaActive=false;
     public static boolean isMediaReset=true;
 

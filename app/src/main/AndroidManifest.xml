@@ -48,6 +48,12 @@
             android:theme="@style/Theme.Boimela.NoActionBar" >
         </activity>
 
+        <activity
+            android:name=".ui.epub.AudioPlayerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Boimela.NoActionBar">
+        </activity>
+
 
         <meta-data
             android:name="preloaded_fonts"

@@ -16,44 +16,38 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/reader_1_constraint_layout"
+            android:id="@+id/drawer_reader_1_constraint_layout"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:padding="4dp">
 
-            <View
-                android:id="@+id/reader_1_contents_divider"
-                android:layout_width="2dp"
+            <ImageView
+                android:id="@+id/drawer_reader_1_empty_image"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/listDivider"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.33"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/empty" />
 
-            <View
-                android:id="@+id/reader_1_bookmarks_divider"
-                android:layout_width="2dp"
+            <TextView
+                android:id="@+id/drawer_reader_1_empty_title"
+                style="@style/TextViewLabelB3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/listDivider"
+                android:text="@string/no_chapters"
+                android:textColor="@color/dark_grey"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.66"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/drawer_reader_1_empty_image" />
 
-            <View
-                android:id="@+id/reader_1_bottom_divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reader_1_recyclerview"
+                android:id="@+id/drawer_reader_1_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

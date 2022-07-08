@@ -30,10 +30,18 @@
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/play_disabled.xml" value="0.2965" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/play_teal.xml" value="0.2495" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/play_white.xml" value="0.2495" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/seekbar_drawable.xml" value="0.2965" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/seekbar_progress.xml" value="0.2965" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/seekbar_thumb.xml" value="0.2965" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/seekbar_thumb_black.xml" value="0.2965" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/seekbar_thumb_borderless.xml" value="0.2965" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/stop.xml" value="0.2495" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/activity_audio_player.xml" value="0.14351851851851852" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/activity_auth.xml" value="0.3038949275362319" />
-        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/activity_reader.xml" value="0.2388888888888889" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/activity_navigation.xml" value="0.14351851851851852" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/activity_reader.xml" value="0.33" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/activity_splash.xml" value="0.2388888888888889" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/drawer_nav_header.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_audio_player.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_book_details.xml" value="0.3375" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_home.xml" value="0.3038949275362319" />
@@ -43,6 +51,13 @@
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_signup.xml" value="0.22" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_sliders.xml" value="0.1" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_store.xml" value="0.3375" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/nav_header_reader.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/reader_drawer_nav_header.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_contents.xml" value="0.33" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_book_reader_1.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_book_reader_2.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_drawer_book_reader_1.xml" value="0.31741573033707865" />
+        <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/layout/viewpager_drawer_book_reader_2.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable-v21/button_bg_filled.xml" value="0.294" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable-v21/button_bg_outlined.xml" value="0.294" />
         <entry key="..\:/Users/Medspire/Documents/GitHub/Boimela/app/src/main/res/drawable-v21/button_bordered.xml" value="0.184" />

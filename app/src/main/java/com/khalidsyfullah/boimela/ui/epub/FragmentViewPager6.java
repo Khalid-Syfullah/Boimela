@@ -1,24 +1,23 @@
 package com.khalidsyfullah.boimela.ui.epub;
-
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.backgroundColorBody;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.border;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.changeWebView;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.colorBody;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.colorH1;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.colorH2;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.colorH3;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.colorP;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.fontFamily;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.fontSize;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.fontWeight;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.letterSpacing;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.lineHeight;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.paddingLeft;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.paddingRight;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.textAlignment;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.textIndent;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.webView;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderFragment.wordSpacing;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.backgroundColorBody;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.border;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.changeWebView;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorBody;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH1;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH2;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH3;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorP;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontFamily;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontSize;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontWeight;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.letterSpacing;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.lineHeight;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.paddingLeft;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.paddingRight;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.textAlignment;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.textIndent;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.webView;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.wordSpacing;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -94,7 +93,7 @@ public class FragmentViewPager6 extends Fragment {
                 }
 
                 fontSize = p+"%";
-                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
             }
 
@@ -114,7 +113,7 @@ public class FragmentViewPager6 extends Fragment {
             public void onClick(View v) {
 
                 fontFamily = "times-new-roman";
-                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -131,7 +130,7 @@ public class FragmentViewPager6 extends Fragment {
             public void onClick(View v) {
 
                 fontFamily = "Bookerly-Bold";
-                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
@@ -147,7 +146,7 @@ public class FragmentViewPager6 extends Fragment {
             public void onClick(View v) {
 
                 fontFamily = "Bookerly-BoldItalic";
-                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -163,7 +162,7 @@ public class FragmentViewPager6 extends Fragment {
             public void onClick(View v) {
 
                 fontFamily = "Bookerly-Display";
-                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -179,7 +178,7 @@ public class FragmentViewPager6 extends Fragment {
             public void onClick(View v) {
 
                 fontFamily = "Bookerly-RegularItalic";
-                String data = changeWebView(ReaderFragment.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
                 webView.loadData(data, "text/html", "utf-8");
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));

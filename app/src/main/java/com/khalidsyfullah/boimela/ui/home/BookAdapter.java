@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khalidsyfullah.boimela.R;
 
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -96,13 +97,28 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
 
 
                 if(fragmentName.equals("HomeFragment")){
+
+                    StaticData.fileName = bookDataModel.getFileName();
+                    StaticData.bookUrl = bookDataModel.getBookUrl();
+                    StaticData.audioUrl = bookDataModel.getAudioUrl();
+
                     Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details);
                 }
                 else if(fragmentName.equals("Store")){
+
+                    StaticData.fileName = bookDataModel.getFileName();
+                    StaticData.bookUrl = bookDataModel.getBookUrl();
+                    StaticData.audioUrl = bookDataModel.getAudioUrl();
+
                     Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_book_details);
                 }
 
                 else if(fragmentName.equals("SearchFragment")){
+
+                    StaticData.fileName = bookDataModel.getFileName();
+                    StaticData.bookUrl = bookDataModel.getBookUrl();
+                    StaticData.audioUrl = bookDataModel.getAudioUrl();
+
                     Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_search_to_navigation_book_details);
                 }
 

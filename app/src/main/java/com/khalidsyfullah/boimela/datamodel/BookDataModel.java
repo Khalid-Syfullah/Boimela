@@ -8,10 +8,10 @@ public class BookDataModel implements Serializable {
     private int amount, discount, quantity, available, price, pages, year, review, type, progress;
     private float rating;
     private String _id, isBn, image, title, author, category, subcategory, genre,
-            publisher, edition, description, quality, name, phone,
+            publisher, edition, description, quality, name, fileName, bookUrl, audioUrl, phone,
             id, imageA, imageB, imageC;
 
-    public BookDataModel(String image, String title, String category, String author, float rating, int review, int progress) {
+    public BookDataModel(String image, String title, String category, String author, float rating, int review, int progress, String fileName, String bookUrl, String audioUrl) {
         this.image = image;
         this.title = title;
         this.category = category;
@@ -19,15 +19,21 @@ public class BookDataModel implements Serializable {
         this.rating = rating;
         this.review = review;
         this.progress = progress;
+        this.fileName = fileName;
+        this.bookUrl = bookUrl;
+        this.audioUrl = audioUrl;
     }
 
-    public BookDataModel(String image, String title, String category, String author, float rating, int review) {
+    public BookDataModel(String image, String title, String category, String author, float rating, int review, String fileName, String bookUrl, String audioUrl) {
         this.image = image;
         this.title = title;
         this.category = category;
         this.author = author;
         this.rating = rating;
         this.review = review;
+        this.fileName = fileName;
+        this.bookUrl = bookUrl;
+        this.audioUrl = audioUrl;
     }
 
     public BookDataModel(String title, String imageA, String imageB, String imageC, int type) {
@@ -251,6 +257,30 @@ public class BookDataModel implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getBookUrl() {
+        return bookUrl;
+    }
+
+    public void setBookUrl(String bookUrl) {
+        this.bookUrl = bookUrl;
+    }
+
+    public String getAudioUrl() {
+        return audioUrl;
+    }
+
+    public void setAudioUrl(String audioUrl) {
+        this.audioUrl = audioUrl;
     }
 
     public String getPhone() {
