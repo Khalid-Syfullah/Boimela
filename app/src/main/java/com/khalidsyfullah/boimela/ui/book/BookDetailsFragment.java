@@ -137,7 +137,7 @@ public class BookDetailsFragment extends Fragment {
 
     private void checkStatus(){
 
-        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".epub");
+        file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
 
         if(!file.exists()){
             loadData();
@@ -208,7 +208,8 @@ public class BookDetailsFragment extends Fragment {
     }
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".epub");
+            //file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".epub");
+            file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
 
             InputStream inputStream = null;
             OutputStream outputStream = null;

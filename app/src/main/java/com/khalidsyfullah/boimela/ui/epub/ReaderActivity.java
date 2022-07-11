@@ -2,6 +2,7 @@ package com.khalidsyfullah.boimela.ui.epub;
 
 import static com.khalidsyfullah.boimela.global.StaticData.bookUrl;
 import static com.khalidsyfullah.boimela.global.StaticData.fileName;
+import static com.khalidsyfullah.boimela.ui.epub.DrawerViewPager1.contentsAdapter;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -12,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
 import android.transition.Fade;
 import android.transition.Slide;
@@ -33,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -47,6 +50,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -56,6 +61,15 @@ import com.khalidsyfullah.boimela.api.RetrofitClient;
 import com.khalidsyfullah.boimela.datamodel.BookmarkDataModel;
 import com.khalidsyfullah.boimela.datamodel.ContentDataModel;
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -69,6 +83,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.TOCReference;
@@ -102,8 +124,9 @@ public class ReaderActivity extends AppCompatActivity {
 
     private ViewGroup parent;
     private File file;
-    public static ArrayList<ContentDataModel> contentDataModels = new ArrayList<>();
-    public static ArrayList<BookmarkDataModel> bookmarkDataModels = new ArrayList<>();
+    public static ArrayList<ContentDataModel> contentDataModels;
+    public static ArrayList<BookmarkDataModel> bookmarkDataModels;
+    public static boolean isFormattingSupported = true;
 
     private boolean isGranted = false;
 
@@ -127,6 +150,9 @@ public class ReaderActivity extends AppCompatActivity {
     public static String colorH2="black";
     public static String colorH3="black";
     public static String colorP="black";
+    public static String baseUrl="";
+    public static String rootDir="";
+    public static String subrootDir="";
 
     public static String input;
 
@@ -201,6 +227,9 @@ public class ReaderActivity extends AppCompatActivity {
     public static String end = "</body></html>";
     public static String destination="";
 
+    public static Book book;
+    public static EpubReader epubReader;
+
     private String TAG_EPUB="EPUB_ACTIVITY";
     private boolean seekbarVisibility = true, pageVisibility = true, menuVisibility = false, isInitialized = false;
 
@@ -234,15 +263,9 @@ public class ReaderActivity extends AppCompatActivity {
         drawerNavigationView = findViewById(R.id.reader_nav_view);
         progressBar = findViewById(R.id.reader_progressbar);
 
+
         View header = drawerNavigationView.getHeaderView(0);
         drawerViewPager = header.findViewById(R.id.reader_drawer_viewpager);
-
-
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-//
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_reader);
-//        NavigationUI.setupWithNavController(navigationView, navController);
 
 
 
@@ -267,9 +290,6 @@ public class ReaderActivity extends AppCompatActivity {
         menuConstraintLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
 
-
-        checkForPermissions();
-
         sliderDataModels = new ArrayList<>();
         contentDataModels = new ArrayList<>();
         bookmarkDataModels = new ArrayList<>();
@@ -284,25 +304,35 @@ public class ReaderActivity extends AppCompatActivity {
         sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
         sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
 
+//
+//
+//        contentDataModels.add(new ContentDataModel("Contents","01",1));
+//        contentDataModels.add(new ContentDataModel("Part 1","20",1));
+//        contentDataModels.add(new ContentDataModel("1. Chapter 1","37",2));
+//        contentDataModels.add(new ContentDataModel("2. Chapter 2","65",2));
+//        contentDataModels.add(new ContentDataModel("Part 2","66",1));
+//        contentDataModels.add(new ContentDataModel("3. Chapter 3","66",2));
+//        contentDataModels.add(new ContentDataModel("4. Chapter 4","78",2));
 
+//        contentDataModels.add(new ContentDataModel("Contents","01","1984.xhtml#_idParaDest-26",1));
+//        contentDataModels.add(new ContentDataModel("Contents","01","1984.xhtml#_idParaDest-26",1));
+//        contentDataModels.add(new ContentDataModel("Contents","01","1984.xhtml#_idParaDest-26",1));
+//        contentDataModels.add(new ContentDataModel("Contents","01","1984.xhtml#_idParaDest-26",1));
+//        contentDataModels.add(new ContentDataModel("Contents","01","1984.xhtml#_idParaDest-26",1));
+//        contentDataModels.add(new ContentDataModel("Contents","01","1984.xhtml#_idParaDest-26",1));
+//        contentDataModels.add(new ContentDataModel("Contents","01","1984.xhtml#_idParaDest-26",1));
 
-        contentDataModels.add(new ContentDataModel("Contents","01",1));
-        contentDataModels.add(new ContentDataModel("Part 1","20",1));
-        contentDataModels.add(new ContentDataModel("1. Chapter 1","37",2));
-        contentDataModels.add(new ContentDataModel("2. Chapter 2","65",2));
-        contentDataModels.add(new ContentDataModel("Part 2","66",1));
-        contentDataModels.add(new ContentDataModel("3. Chapter 3","66",2));
-        contentDataModels.add(new ContentDataModel("4. Chapter 4","78",2));
-
+        contentsAdapter = new ContentsAdapter(ReaderActivity.this, contentDataModels);
 
         drawerPagerAdapter = new DrawerPagerAdapter(getSupportFragmentManager(), ReaderActivity.this);
         drawerViewPager.setAdapter(drawerPagerAdapter);
 
+        menuPagerAdapter = new MenuPagerAdapter(getSupportFragmentManager(), ReaderActivity.this);
+        viewPager2.setAdapter(menuPagerAdapter);
+
         sliderViewPagerAdapter = new SliderViewPagerAdapter2(getSupportFragmentManager(), sliderDataModels);
         viewPager.setAdapter(sliderViewPagerAdapter);
 
-        menuPagerAdapter = new MenuPagerAdapter(getSupportFragmentManager(), ReaderActivity.this);
-        viewPager2.setAdapter(menuPagerAdapter);
 
         final int paddingPx = 300;
         final float MIN_SCALE = 0.8f;
@@ -336,6 +366,7 @@ public class ReaderActivity extends AppCompatActivity {
 
         viewPager.setPageTransformer(true, transformer);
 
+        checkForPermissions();
 
 
 
@@ -686,7 +717,7 @@ public class ReaderActivity extends AppCompatActivity {
 
     private void checkStatus(){
 
-        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".epub");
+        file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
 
         if(!file.exists()){
             loadData();
@@ -763,7 +794,7 @@ public class ReaderActivity extends AppCompatActivity {
     }
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".epub");
+            file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -818,59 +849,150 @@ public class ReaderActivity extends AppCompatActivity {
 
 //                                progressBar.setVisibility(View.GONE);
 //                                AssetManager assetManager = getActivity().getAssets();
-//                                InputStream inputStream = null;
+//                                InputStream fileInputStream = null;
 //                                try {
-//                                    inputStream = assetManager.open("the-alchemist.epub");
-//                                    // Load Book from inputStream
-//                                    Book book = (new EpubReader()).readEpub(inputStream);
+//                                    fileInputStream = assetManager.open("the-alchemist.epub");
+//                                    // Load Book from fileInputStream
+//                                    Book book = (new EpubReader()).readEpub(fileInputStream);
 //                                    data = new String(book.getContents().get(3).getData());
 
-        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".epub");
-        FileInputStream inputStream = null;
+
+//        OPEN EPUB
+        destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela";
+        file = new File(destination + File.separator + fileName + ".epub");
+        //file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".epub");
+        FileInputStream fileInputStream = null;
         try {
-            inputStream = new FileInputStream(file);
-            // Load Book from inputStream
-            Book book = (new EpubReader()).readEpub(inputStream);
-            data = new String(book.getContents().get(1).getData());
+            fileInputStream = new FileInputStream(file);
 
-//            unzip(inputStream, destination);
+
+//            LOAD EPUB USING EPUBLIB FROM FILEINPUTSTREAM
+            epubReader = new EpubReader();
+            book = epubReader.readEpub(fileInputStream);
+//            data = new String(book.getContents().get(0).getData());
+
+//            LOAD EPUB MANUALLY FROM FILE EXTRACTION
+//            OPEN DIRECTORY TO EXTRACT EPUB
+            destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/EPUB/"+fileName;
+            File file2 = new File(destination);
+            unzip(file, file2);
 //            unpackZip(destination,"3.epub");
-//
-//            File f1 = new File(destination+"OEBPS/","ch01.xhtml");
-//            FileInputStream fileInputStream = new FileInputStream(f1);
-//            bytes = new byte[(int) f1.length()];
-//            fileInputStream.read(bytes);
-//            input = new String(bytes);
-//            Log.d(TAG_EPUB,input);
 
-//            destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/boimela/";
+
+//            PARSE ROOT DIRECTORY NAME
+            file2 = new File(destination+"/META-INF/container.xml");
+            fileInputStream = new FileInputStream(file2);
+            String parsedDir = xmlParser(fileInputStream, "rootfile", "full-path");
+            Log.d("XMLParser","Parsed: "+parsedDir);
+
+            String[] rootFileSeparated = parsedDir. split("/");
+            rootDir = rootFileSeparated[0];
+            String opfUrl = rootFileSeparated[1];
+            Log.d("XMLParser","fullDir: "+destination+ File.separator + rootDir);
+
+//            PARSE INDEX FILE NAME
+            String indexHref = book.getTableOfContents().getTocReferences().get(0).getCompleteHref();
+            Log.d("XMLParser","Parsed BeginningHref: "+indexHref);
+
+//            LOOK FOR # VALUE
+            String[] indexHrefHashSeparated = indexHref.split("#");
+            Log.d("XMLParser","Parsed indexHrefHashSeparated[0]: "+indexHrefHashSeparated[0]);
+            Log.d("XMLParser","Parsed indexHrefHashSeparated[1]: "+(indexHrefHashSeparated.length > 1 ? indexHrefHashSeparated[1] : "Does not exist"));
+            Log.d("XMLParser","Parsed indexHrefHashSeparated Length: "+indexHrefHashSeparated.length);
+
+//            LOOK FOR / VALUE
+            String[] indexHrefSlashSeparated = indexHref.split("/");
+            Log.d("XMLParser","Parsed indexHrefSlashSeparated[0]: "+indexHrefSlashSeparated[0]);
+            Log.d("XMLParser","Parsed indexHrefSlashSeparated[1]: "+ (indexHrefSlashSeparated.length > 1 ? indexHrefSlashSeparated[1] : "Does not exist"));
+            Log.d("XMLParser","Parsed indexHrefSlashSeparated Length: "+indexHrefSlashSeparated.length);
+            Log.d("XMLParser","BaseUrl: "+baseUrl);
+
+//            GET SUBROOT FROM INDEX FILE HREF
+            if(indexHrefSlashSeparated.length > 1){
+                subrootDir = indexHrefSlashSeparated[0];
+                baseUrl = "file://"+destination + File.separator + rootDir + File.separator + subrootDir + File.separator;
+
+            }
+            else{
+                subrootDir = "";
+                baseUrl = "file://"+destination + File.separator + rootDir + File.separator;
+
+            }
+
+
+
+//            REPLACE <HEAD> TAG
+            File f1 = new File(destination+ File.separator + rootDir, indexHrefHashSeparated[0]);
+            FileInputStream fileInputStream2 = new FileInputStream(f1);
+            byte [] bytes = new byte[(int) f1.length()];
+            fileInputStream2.read(bytes);
+            data = new String(bytes);
+            data = data.replaceFirst("(?s)(<head>)(.*?)(</head>)","$1$3");
+            Log.d("XMLParser", "DATA: "+data);
+
+
+
+//            UPDATE WEBVIEW
             String customizedData = changeWebView(data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-            webView.loadDataWithBaseURL(destination+"", customizedData, "text/html", "utf-8", null);
 
+            if(indexHrefHashSeparated.length > 1){
 
-            // Log the book's authors
-            Log.d("EPUB author", " : " + book.getMetadata().getAuthors());
+                isFormattingSupported = false;
+                Toast.makeText(ReaderActivity.this, "This EPUB doesn't support text formatting", Toast.LENGTH_SHORT).show();
 
-            // Log the book's title
-            Log.d("EPUB title", " : " + book.getTitle());
+                if(indexHrefSlashSeparated.length > 1) {
+                    webView.loadUrl(baseUrl + indexHrefSlashSeparated[1]);
+                }
+                else{
+                    webView.loadUrl(baseUrl + indexHrefSlashSeparated[0]);
+                }
+            }
+            else{
 
-            // Log the tale of contents
-            logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
+                isFormattingSupported = true;
+                webView.loadDataWithBaseURL(baseUrl, customizedData, "text/html", "utf-8", null);
+            }
+
 
             webView.setWebViewClient(new WebViewClient());
-            webView.getSettings().setSupportZoom(true);
-            webView.getSettings().setBuiltInZoomControls(true);
+            webView.getSettings().setSupportZoom(false);
+            webView.getSettings().setBuiltInZoomControls(false);
             webView.getSettings().setDisplayZoomControls(false);
             webView.getSettings().setJavaScriptEnabled(true);
             webView.getSettings().setAllowFileAccess(true);
             webView.setVerticalScrollBarEnabled(true);
             webView.setHorizontalScrollBarEnabled(true);
             webView.getSettings().setDefaultFontSize(26);
-//            webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman.ttf");
-
+            //webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman.ttf");
             webView.getSettings().setTextZoom(144);
 
+//            webView.loadDataWithBaseURL(baseUrl, customizedData, "text/html", "utf-8", null);
+
+
+//            // Log the book's authors
+//            Log.d("EPUB author", " : " + book.getMetadata().getAuthors());
+//
+//            // Log the book's title
+//            Log.d("EPUB title", " : " + book.getTitle());
+//
+//            // Log the tale of contents
             logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
+//
+            Log.d("EPUB","Model Size: "+ contentDataModels.size());
+
+//            Handler handler = new Handler();
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
+//                    contentDataModels.add(new ContentDataModel("Contents","01","1984.xhtml#_idParaDest-26",1));
+//                    contentsAdapter = new ContentsAdapter(ReaderActivity.this, contentDataModels);
+//                    contentsAdapter.setContentDataModels(contentDataModels);
+//                    Log.d("EPUB","Handler Model Size: "+ReaderActivity.contentDataModels.size());
+//                }
+//            };
+
+//            handler.postDelayed(runnable, 2000);
+
 
 
 
@@ -878,19 +1000,57 @@ public class ReaderActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
         }
 
+    }
 
+    private String xmlParser(InputStream inputStream, String tag, String attribute) throws XmlPullParserException, IOException {
+
+        String value = "";
+        XmlPullParserFactory xmlFactoryObject = XmlPullParserFactory.newInstance();
+        XmlPullParser myParser = xmlFactoryObject.newPullParser();
+
+        myParser.setInput(inputStream, null);
+
+        int event = myParser.getEventType();
+        while (event != XmlPullParser.END_DOCUMENT)  {
+            String name=myParser.getName();
+            switch (event){
+                case XmlPullParser.START_TAG:
+                    break;
+
+                case XmlPullParser.END_TAG:
+                    if(name.equals(tag)){
+                        value = myParser.getAttributeValue(null,attribute);
+                    }
+                    break;
+            }
+            event = myParser.next();
+        }
+
+        return value;
     }
 
     public static String changeWebView(String input, String backgroundColorBody, String colorBody, String colorH1, String colorH2, String colorH3, String colorP, String letterSpacing, String wordSpacing, String lineHeight, String textIndent, String fontFamily, String fontSize, String fontWeight, String textAlignment, String paddingLeft, String paddingRight, String border){
 
         start = "<html>" +
                 "<head>" +
+
+//                "<meta charset=\"UTF-8\" />" +
+//
+//                "<meta content=\"note1\" name=\"CAS-UB-Publication-Class\" />" +
+//                "<meta content=\"CAS-UB Backend System Installed on 2012-12-25\" name=\"Generator-Signature\" />"+
+//                "<title>EPUBリーダの数式サポート―iBooks3.0のMathML表示がかなり進化</title>"+
+//                "<link href=\"themes/cas-common_epub.css\" rel=\"stylesheet\" type=\"text/css\" />"+
+//                "<link href=\"themes/normal-serif/common.css\" rel=\"stylesheet\" type=\"text/css\" />"+
+//                "<link href=\"themes/normal-serif/generic.css\" rel=\"stylesheet\" type=\"text/css\" />"+
+                "<link href=\"styles/style.css\" rel=\"stylesheet\" type=\"text/css\" />"+
                 "<style type=\"text/css\">" +
                 "@font-face {" +
-                "font-family: "+fontFamily+";" +
-                "src: url(\"file:///android_asset/"+fontFamily+".ttf\")" +
+                "font-family: MyFont;" +
+                "src: url(\"file:///android_asset/bookerly.ttf\")" +
                 "}"
 
                 +
@@ -959,7 +1119,6 @@ public class ReaderActivity extends AppCompatActivity {
         return start + input + end;
     }
 
-    @SuppressWarnings("unused")
     private void logTableOfContents(List<TOCReference> tocReferences, int depth) {
         if (tocReferences == null) {
             return;
@@ -972,9 +1131,12 @@ public class ReaderActivity extends AppCompatActivity {
             }
             tocString.append(tocReference.getTitle());
             Log.i("TOC", tocString.toString());
+            Log.i("TOC","TOC Children: " + tocReference.getChildren());
+            Log.i("TOC","TOC Href: " + tocReference.getCompleteHref());
             Log.d("TOC", "Length: "+tocString.length());
-            contentDataModels.add(new ContentDataModel(tocString.toString(),1));
             Log.d("TOC","Size: "+contentDataModels.size());
+
+            contentDataModels.add(new ContentDataModel(tocString.toString(), String.valueOf(tocString.length()), tocReference.getCompleteHref() ,depth+1));
 
 //            try {
 //                InputStream is = tocReference.getResource().getInputStream();
@@ -996,6 +1158,14 @@ public class ReaderActivity extends AppCompatActivity {
 
             logTableOfContents(tocReference.getChildren(), depth + 1);
         }
+
+
+        Log.d("TOC","Total Size: "+contentDataModels.size());
+        //Log.d("TOC","Href: "+contentDataModels.get(0).getHref());
+        contentsAdapter.setContentDataModels(contentDataModels);
+
+
+
 //        webView.loadDataWithBaseURL("", finalstr, "text/html", "UTF-8", "");
     }
 
@@ -1173,7 +1343,40 @@ public class ReaderActivity extends AppCompatActivity {
         }
     }
 
-    void unzip(InputStream stream, String destination) {
+    public static void unzip(File zipFile, File targetDirectory) throws IOException {
+        ZipInputStream zis = new ZipInputStream(
+                new BufferedInputStream(new FileInputStream(zipFile)));
+        try {
+            ZipEntry ze;
+            int count;
+            byte[] buffer = new byte[8192];
+            while ((ze = zis.getNextEntry()) != null) {
+                File file = new File(targetDirectory, ze.getName());
+                File dir = ze.isDirectory() ? file : file.getParentFile();
+                if (!dir.isDirectory() && !dir.mkdirs())
+                    throw new FileNotFoundException("Failed to ensure directory: " +
+                            dir.getAbsolutePath());
+                if (ze.isDirectory())
+                    continue;
+                FileOutputStream fout = new FileOutputStream(file);
+                try {
+                    while ((count = zis.read(buffer)) != -1)
+                        fout.write(buffer, 0, count);
+                } finally {
+                    fout.close();
+                }
+            /* if time should be restored as well
+            long time = ze.getTime();
+            if (time > 0)
+                file.setLastModified(time);
+            */
+            }
+        } finally {
+            zis.close();
+        }
+    }
+
+    void unzip_old(InputStream stream, String destination) {
         dirChecker(destination, "");
         byte[] buffer = new byte[1024*10];
         try {

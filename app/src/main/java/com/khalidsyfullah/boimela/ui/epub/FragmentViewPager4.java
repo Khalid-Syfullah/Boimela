@@ -1,5 +1,6 @@
 package com.khalidsyfullah.boimela.ui.epub;
 
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.isFormattingSupported;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.volumeButtonAction;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.backgroundColorBody;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.border;

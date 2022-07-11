@@ -1,5 +1,6 @@
 package com.khalidsyfullah.boimela.ui.epub;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.backgroundColorBody;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.baseUrl;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.border;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.changeWebView;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorBody;
@@ -10,6 +11,7 @@ import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorP;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontFamily;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontSize;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontWeight;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.isFormattingSupported;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.letterSpacing;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.lineHeight;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.paddingLeft;
@@ -94,7 +96,7 @@ public class FragmentViewPager6 extends Fragment {
 
                 fontSize = p+"%";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
             }
 
             @Override
@@ -114,7 +116,7 @@ public class FragmentViewPager6 extends Fragment {
 
                 fontFamily = "times-new-roman";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn3.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -131,7 +133,7 @@ public class FragmentViewPager6 extends Fragment {
 
                 fontFamily = "Bookerly-Bold";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
                 fontStyleBtn3.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -147,7 +149,7 @@ public class FragmentViewPager6 extends Fragment {
 
                 fontFamily = "Bookerly-BoldItalic";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn3.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
@@ -163,7 +165,7 @@ public class FragmentViewPager6 extends Fragment {
 
                 fontFamily = "Bookerly-Display";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn3.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -179,7 +181,7 @@ public class FragmentViewPager6 extends Fragment {
 
                 fontFamily = "Bookerly-RegularItalic";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
                 fontStyleBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 fontStyleBtn3.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -212,5 +214,22 @@ public class FragmentViewPager6 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        if(!isFormattingSupported){
+            fontSizeSeekBar.setEnabled(false);
+            fontStyleBtn.setEnabled(false);
+            fontStyleBtn2.setEnabled(false);
+            fontStyleBtn3.setEnabled(false);
+            fontStyleBtn4.setEnabled(false);
+            fontStyleBtn5.setEnabled(false);
+        }
+        else{
+            fontSizeSeekBar.setEnabled(true);
+            fontStyleBtn.setEnabled(true);
+            fontStyleBtn2.setEnabled(true);
+            fontStyleBtn3.setEnabled(true);
+            fontStyleBtn4.setEnabled(true);
+            fontStyleBtn5.setEnabled(true);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.khalidsyfullah.boimela.ui.epub;
 
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.backgroundColorBody;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.baseUrl;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.border;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.changeWebView;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorBody;
@@ -11,6 +12,7 @@ import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorP;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontFamily;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontSize;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontWeight;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.isFormattingSupported;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.letterSpacing;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.lineHeight;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.paddingLeft;
@@ -56,7 +58,7 @@ public class FragmentViewPager3 extends Fragment {
 
     private SeekBar brightnessSeekSeekBar, contrastSeekBar, blueLightSeekBar;
     private ImageView themeImage, themeImage2, themeImage3, themeImage4, themeImage5, themeImage6;
-    private TextView screenTime, screenTime2, screenTime3, screenTime4;
+    private TextView blueLightFilterOnBtn, blueLightFilterOffBtn, screenTime, screenTime2, screenTime3, screenTime4;
     private boolean isScreenOn = false;
 
     @Override
@@ -68,6 +70,8 @@ public class FragmentViewPager3 extends Fragment {
         brightnessSeekSeekBar = root.findViewById(R.id.reader_3_brightness_seek_bar);
         contrastSeekBar = root.findViewById(R.id.reader_3_contrast_seek_bar);
         blueLightSeekBar = root.findViewById(R.id.reader_3_blue_light_fliter_seek_bar);
+        blueLightFilterOnBtn = root.findViewById(R.id.reader_3_blue_light_fliter_text);
+        blueLightFilterOffBtn = root.findViewById(R.id.reader_3_blue_light_fliter_text_2);
         themeImage = root.findViewById(R.id.reader_3_theme_image);
         themeImage2 = root.findViewById(R.id.reader_3_theme_image_2);
         themeImage3 = root.findViewById(R.id.reader_3_theme_image_3);
@@ -95,11 +99,52 @@ public class FragmentViewPager3 extends Fragment {
         contrastSeekBar.setMin(20);
         contrastSeekBar.setMax(220);
         contrastSeekBar.setKeyProgressIncrement(15);
+
+        blueLightFilterOnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                blueLightSeekBar.setEnabled(true);
+            }
+        });
+
+        blueLightFilterOffBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                blueLightSeekBar.setEnabled(false);
+            }
+        });
+
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        if(!isFormattingSupported){
+            themeImage.setEnabled(false);
+            themeImage2.setEnabled(false);
+            themeImage3.setEnabled(false);
+            themeImage4.setEnabled(false);
+            themeImage5.setEnabled(false);
+            themeImage6.setEnabled(false);
+            contrastSeekBar.setEnabled(false);
+            blueLightSeekBar.setEnabled(false);
+            blueLightFilterOffBtn.setEnabled(false);
+            blueLightFilterOnBtn.setEnabled(false);
+        }
+        else{
+            themeImage.setEnabled(true);
+            themeImage2.setEnabled(true);
+            themeImage3.setEnabled(true);
+            themeImage4.setEnabled(true);
+            themeImage5.setEnabled(true);
+            themeImage6.setEnabled(true);
+            contrastSeekBar.setEnabled(true);
+            blueLightSeekBar.setEnabled(true);
+            blueLightFilterOffBtn.setEnabled(true);
+            blueLightFilterOnBtn.setEnabled(true);
+        }
 
 
         brightnessSeekSeekBar.setOnSeekBarChangeListener(
@@ -140,6 +185,7 @@ public class FragmentViewPager3 extends Fragment {
         themeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 backgroundColorBody = "FFFFFF";
                 colorBody = "000000";
                 colorH1 = "000000";
@@ -148,7 +194,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorP = "000000";
 
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
             }
         });
@@ -164,7 +210,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorP = "000000";
 
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
 
             }
@@ -181,7 +227,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorP = "000000";
 
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
 
             }
@@ -198,7 +244,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorP = "FFFFFF";
 
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
             }
         });
@@ -214,7 +260,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorP = "FFFFFF";
 
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
             }
         });
 
@@ -229,7 +275,7 @@ public class FragmentViewPager3 extends Fragment {
                 colorP = "FFFFFF";
 
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
             }
         });
 
@@ -318,7 +364,7 @@ public class FragmentViewPager3 extends Fragment {
 //
 
                         String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                        webView.loadData(data, "text/html", "utf-8");
+                        webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
                     }
                 }
@@ -351,7 +397,7 @@ public class FragmentViewPager3 extends Fragment {
                         colorP = "000000";
 
                         String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                        webView.loadData(data, "text/html", "utf-8");
+                        webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
 
                     }

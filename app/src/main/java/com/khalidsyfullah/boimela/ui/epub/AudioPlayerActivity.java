@@ -340,7 +340,7 @@ public class AudioPlayerActivity extends Activity {
 
     private void checkStatus(){
 
-        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".mp3");
+        file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
 
         if(!file.exists()){
             loadMedia();
@@ -398,7 +398,7 @@ public class AudioPlayerActivity extends Activity {
 
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".mp3");
+            file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
             mediaUrl = file.getPath();
 
             InputStream inputStream = null;

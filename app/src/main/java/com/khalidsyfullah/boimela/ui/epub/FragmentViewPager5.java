@@ -1,6 +1,7 @@
 package com.khalidsyfullah.boimela.ui.epub;
 
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.backgroundColorBody;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.baseUrl;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.border;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.changeWebView;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorBody;
@@ -11,6 +12,7 @@ import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorP;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontFamily;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontSize;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontWeight;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.isFormattingSupported;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.letterSpacing;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.lineHeight;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.paddingLeft;
@@ -89,7 +91,7 @@ public class FragmentViewPager5 extends Fragment {
                 paddingLeft = String.valueOf(p);
                 paddingRight = String.valueOf(p);
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
             }
 
@@ -128,7 +130,7 @@ public class FragmentViewPager5 extends Fragment {
 
                 lineHeight = String.valueOf(p2);
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
             }
 
             @Override
@@ -166,7 +168,7 @@ public class FragmentViewPager5 extends Fragment {
 
                 wordSpacing = String.valueOf(p+"px");
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
             }
 
             @Override
@@ -186,7 +188,7 @@ public class FragmentViewPager5 extends Fragment {
 
                 textAlignment = "left";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
                 textAlignmentBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
                 textAlignmentBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 textAlignmentBtn3.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -201,7 +203,7 @@ public class FragmentViewPager5 extends Fragment {
 
                 textAlignment = "center";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
                 textAlignmentBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 textAlignmentBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
@@ -216,7 +218,7 @@ public class FragmentViewPager5 extends Fragment {
 
                 textAlignment = "right";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
                 textAlignmentBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 textAlignmentBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -231,7 +233,7 @@ public class FragmentViewPager5 extends Fragment {
 
                 textAlignment = "justify";
                 String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadData(data, "text/html", "utf-8");
+                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
 
                 textAlignmentBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
                 textAlignmentBtn2.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
@@ -244,5 +246,24 @@ public class FragmentViewPager5 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        if(!isFormattingSupported){
+            pageMarginSeekBar.setEnabled(false);
+            lineSpacingSeekBar.setEnabled(false);
+            wordSpacingSeekBar.setEnabled(false);
+            textAlignmentBtn.setEnabled(false);
+            textAlignmentBtn2.setEnabled(false);
+            textAlignmentBtn3.setEnabled(false);
+            textAlignmentBtn4.setEnabled(false);
+        }
+        else{
+            pageMarginSeekBar.setEnabled(true);
+            lineSpacingSeekBar.setEnabled(true);
+            wordSpacingSeekBar.setEnabled(true);
+            textAlignmentBtn.setEnabled(true);
+            textAlignmentBtn2.setEnabled(true);
+            textAlignmentBtn3.setEnabled(true);
+            textAlignmentBtn4.setEnabled(true);
+        }
     }
 }

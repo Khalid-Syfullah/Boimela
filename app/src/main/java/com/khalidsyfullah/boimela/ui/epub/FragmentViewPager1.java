@@ -1,5 +1,6 @@
 package com.khalidsyfullah.boimela.ui.epub;
 
+import static com.khalidsyfullah.boimela.ui.epub.DrawerViewPager1.contentsAdapter;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.contentDataModels;
 
 import android.os.Bundle;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
 public class FragmentViewPager1 extends Fragment {
 
     public static RecyclerView contentRecycler;
-    public static ContentsAdapter contentsAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +43,10 @@ public class FragmentViewPager1 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        contentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
+//        contentsAdapter = new ContentsAdapter(getActivity(),ReaderActivity.contentDataModels);
+        contentRecycler.setAdapter(contentsAdapter);
+
 
     }
 
@@ -52,19 +56,6 @@ public class FragmentViewPager1 extends Fragment {
 
 
 
-//        contentDataModels = new ArrayList<>();
-//
-//        contentDataModels.add(new ContentDataModel("Contents","01",1));
-//        contentDataModels.add(new ContentDataModel("Part 1","20",1));
-//        contentDataModels.add(new ContentDataModel("1. Chapter 1","37",2));
-//        contentDataModels.add(new ContentDataModel("2. Chapter 2","65",2));
-//        contentDataModels.add(new ContentDataModel("Part 2","66",1));
-//        contentDataModels.add(new ContentDataModel("3. Chapter 3","66",2));
-//        contentDataModels.add(new ContentDataModel("4. Chapter 4","78",2));
-
-        contentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
-        contentsAdapter = new ContentsAdapter(getActivity(),ReaderActivity.contentDataModels);
-        contentRecycler.setAdapter(contentsAdapter);
 //
 //        Handler handler = new Handler();
 //        Runnable runnable = new Runnable() {

@@ -1,6 +1,10 @@
 package com.khalidsyfullah.boimela.ui.epub;
 
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.contentDataModels;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 
+import java.util.ArrayList;
+
 public class DrawerViewPager1 extends Fragment {
 
-    public static RecyclerView contentRecycler;
+    public static RecyclerView drawerContentRecycler;
     public static ContentsAdapter contentsAdapter;
+
     private ImageView emptyImage;
     private TextView emptyText;
 
@@ -28,7 +35,7 @@ public class DrawerViewPager1 extends Fragment {
         View root = (ViewGroup) inflater.inflate(
                 R.layout.viewpager_drawer_book_reader_1, container, false);
 
-        contentRecycler = root.findViewById(R.id.drawer_reader_1_recyclerview);
+        drawerContentRecycler = root.findViewById(R.id.drawer_reader_1_recyclerview);
         emptyImage = root.findViewById(R.id.drawer_reader_1_empty_image);
         emptyText = root.findViewById(R.id.drawer_reader_1_empty_title);
 
@@ -38,6 +45,11 @@ public class DrawerViewPager1 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        drawerContentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
+        drawerContentRecycler.setAdapter(contentsAdapter);
+        Log.d("EPUB","Size: "+ReaderActivity.contentDataModels.size());
+
 
 
     }
@@ -58,20 +70,18 @@ public class DrawerViewPager1 extends Fragment {
 //        contentDataModels.add(new ContentDataModel("3. Chapter 3","66",2));
 //        contentDataModels.add(new ContentDataModel("4. Chapter 4","78",2));
 
-        if(ReaderActivity.contentDataModels.size() == 0){
-            emptyText.setVisibility(View.VISIBLE);
-            emptyImage.setVisibility(View.VISIBLE);
-            contentRecycler.setVisibility(View.GONE);
-        }
-        else{
-            emptyText.setVisibility(View.GONE);
-            emptyImage.setVisibility(View.GONE);
-            contentRecycler.setVisibility(View.VISIBLE);
-        }
+//        if(ReaderActivity.contentDataModels.size() == 0){
+//            emptyText.setVisibility(View.VISIBLE);
+//            emptyImage.setVisibility(View.VISIBLE);
+//            contentRecycler.setVisibility(View.GONE);
+//        }
+//        else{
+//            emptyText.setVisibility(View.GONE);
+//            emptyImage.setVisibility(View.GONE);
+//            contentRecycler.setVisibility(View.VISIBLE);
+//        }
 
-        contentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
-        contentsAdapter = new ContentsAdapter(getActivity(),ReaderActivity.contentDataModels);
-        contentRecycler.setAdapter(contentsAdapter);
+
 //
 //        Handler handler = new Handler();
 //        Runnable runnable = new Runnable() {

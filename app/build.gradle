@@ -61,6 +61,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //implementation files('libs/your jar file.jar')
     api 'tk.zielony:carbon:0.16.0.1'
+    implementation 'org.jsoup:jsoup:1.15.2'
 
 
 }
