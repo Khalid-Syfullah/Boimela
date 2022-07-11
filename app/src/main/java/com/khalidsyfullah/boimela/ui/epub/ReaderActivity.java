@@ -8,6 +8,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -39,10 +41,13 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.khalidsyfullah.boimela.R;
@@ -92,12 +97,12 @@ public class ReaderActivity extends AppCompatActivity {
     public static boolean volumeButtonAction = false;
     private int currentBrightness = 0, screenBrightnessValue = 0;
 
-    private TextView pageText, expandButton, progressSliderLeftText, progressSliderCenterText, progressSliderRightText;
-    private ImageView expandIcon, menuIcon, audioIcon, themeIcon, screenIcon, textIcon, fontIcon;
+    private TextView headerText, pageText, expandButton, progressSliderLeftText, progressSliderCenterText, progressSliderRightText;
+    private ImageView headerBack, headerMenu, expandIcon, menuIcon, audioIcon, themeIcon, screenIcon, textIcon, fontIcon;
     private SeekBar pageSeekBar;
     private ProgressBar progressBar;
     private ProgressDialog mProgressDialog;
-
+    private CardView headerCardView;
     public static WebView webView;
     private ConstraintLayout mainConstraintLayout, menuConstraintLayout, pageConstraintLayout, menuTopConstraintLayout, progressSliderConstraintLayout;
     private ViewPager viewPager, drawerViewPager;
@@ -107,7 +112,7 @@ public class ReaderActivity extends AppCompatActivity {
     private SliderViewPagerAdapter2 sliderViewPagerAdapter;
     private ArrayList<SliderDataModel> sliderDataModels;
     private NavigationView drawerNavigationView;
-
+    private DrawerLayout drawerLayout;
     private ViewGroup parent;
     private File file;
     public static ArrayList<ContentDataModel> contentDataModels;
@@ -234,6 +239,11 @@ public class ReaderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reader);
         parent = (ViewGroup) findViewById(android.R.id.content);
 
+        drawerLayout = findViewById(R.id.reader_drawer_layout);
+        headerCardView = findViewById(R.id.reader_header_cardview);
+        headerBack = findViewById(R.id.reader_header_back);
+        headerText = findViewById(R.id.reader_header_title);
+        headerMenu = findViewById(R.id.reader_header_menu);
         webView = findViewById(R.id.reader_webview);
         pageText = findViewById(R.id.reader_menu_page_text);
         expandButton = findViewById(R.id.reader_menu_expand_button);
@@ -258,6 +268,7 @@ public class ReaderActivity extends AppCompatActivity {
         progressSliderCenterText = findViewById(R.id.progress_slider_center_text);
         progressSliderRightText = findViewById(R.id.progress_slider_right_text);
 
+        headerText.setSelected(true);
         progressSliderLeftText.setSelected(true);
         progressSliderCenterText.setSelected(true);
         progressSliderRightText.setSelected(true);
@@ -286,6 +297,7 @@ public class ReaderActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        headerCardView.setVisibility(View.GONE);
         menuConstraintLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
 
@@ -393,11 +405,11 @@ public class ReaderActivity extends AppCompatActivity {
             public boolean onSingleTapConfirmed(MotionEvent e) {
 
                 if(menuVisibility) {
-                    toggle(menuVisibility, menuConstraintLayout, parent);
+                    toggle(menuVisibility, headerCardView, menuConstraintLayout, parent);
                     menuVisibility = false;
                 }
                 else{
-                    toggle(menuVisibility, menuConstraintLayout, parent);
+                    toggle(menuVisibility, headerCardView, menuConstraintLayout, parent);
                     menuVisibility = true;
                 }
 //                if(menuVisibility){
@@ -434,6 +446,69 @@ public class ReaderActivity extends AppCompatActivity {
             }
         });
 
+//        webView.setWebChromeClient(new WebChromeClient() {
+//            @Override
+//            public void onProgressChanged(WebView view, int newProgress) {
+//                super.onProgressChanged(view, newProgress);
+//
+//                Log.d("WebView", "Progress: "+newProgress);
+//            }
+//        });
+//        webView.setWebViewClient(new WebViewClient() {
+//
+//
+//            @Override
+//            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//                super.onPageStarted(view, url, favicon);
+//                Log.d("WebView", "Page Started");
+//
+//            }
+//
+//            @Override
+//            public void onPageFinished(WebView view, String url) {
+//                super.onPageFinished(view, url);
+//                Log.d("WebView", "Page Finished");
+//                //view.scrollBy(0, view.getContentHeight());
+//
+//
+//            }
+//
+//        });
+
+        webView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.Q)
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                float maxScrollY = webView.getContentHeight() * webView.getScale() - webView.getMeasuredHeight();
+
+                Log.d("WebView", "Max Scroll Y: "+maxScrollY);
+                Log.d("WebView", "X: "+scrollX + " Y: "+scrollY+ " old_X: "+oldScrollX + " old_Y: "+oldScrollY);
+                Log.d("WebView", "Progress: "+ (scrollY * 100 / maxScrollY) + "%");
+
+                progressSliderCenterText.setText(String.format("%.1f",(scrollY * 100 / maxScrollY))+"%");
+            }
+        });
+
+        headerBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        headerMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                    drawerLayout.closeDrawer(GravityCompat.END);
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.END);
+                }
+            }
+        });
+
+
         menuConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -454,7 +529,7 @@ public class ReaderActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(pageVisibility) {
-                    toggle(pageVisibility, pageConstraintLayout, parent);
+                    toggle2(pageVisibility, pageConstraintLayout, parent);
                     expandButton.setText(getResources().getString(R.string.expand));
                     expandIcon.setImageDrawable(getResources().getDrawable(R.drawable.arrow_up));
                     ViewGroup.LayoutParams params = menuConstraintLayout.getLayoutParams();
@@ -467,7 +542,7 @@ public class ReaderActivity extends AppCompatActivity {
 
                 }
                 else{
-                    toggle(pageVisibility, pageConstraintLayout, parent);
+                    toggle2(pageVisibility, pageConstraintLayout, parent);
                     expandButton.setText(getResources().getString(R.string.collapse));
                     expandIcon.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down));
                     ViewGroup.LayoutParams params = menuConstraintLayout.getLayoutParams();
@@ -487,7 +562,7 @@ public class ReaderActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(pageVisibility) {
-                    toggle(pageVisibility, pageConstraintLayout, parent);
+                    toggle2(pageVisibility, pageConstraintLayout, parent);
                     expandButton.setText(getResources().getString(R.string.expand));
                     expandIcon.setImageDrawable(getResources().getDrawable(R.drawable.arrow_up));
                     ViewGroup.LayoutParams params = menuConstraintLayout.getLayoutParams();
@@ -500,7 +575,7 @@ public class ReaderActivity extends AppCompatActivity {
 
                 }
                 else{
-                    toggle(pageVisibility, pageConstraintLayout, parent);
+                    toggle2(pageVisibility, pageConstraintLayout, parent);
                     expandButton.setText(getResources().getString(R.string.collapse));
                     expandIcon.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down));
                     ViewGroup.LayoutParams params = menuConstraintLayout.getLayoutParams();
@@ -886,6 +961,8 @@ public class ReaderActivity extends AppCompatActivity {
             epubReader = new EpubReader();
             book = epubReader.readEpub(fileInputStream);
             progressSliderCenterText.setText(book.getTitle());
+            headerText.setText(book.getTitle());
+
 //            data = new String(book.getContents().get(0).getData());
 
 //            LOAD EPUB MANUALLY FROM FILE EXTRACTION
@@ -1059,6 +1136,7 @@ public class ReaderActivity extends AppCompatActivity {
 //            webView.getSettings().setDefaultFontSize(26);
             webView.getSettings().setTextZoom(144);
             //webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman-regularttf");
+
 
 //            webView.loadDataWithBaseURL(baseUrl, customizedData, "text/html", "utf-8", null);
 
@@ -1331,9 +1409,30 @@ public class ReaderActivity extends AppCompatActivity {
 
 
 
-    private void toggle(boolean visible, View redLayout, ViewGroup parent) {
+    private void toggle(boolean visible, View headerLayout, View menuLayout, ViewGroup parent) {
 
         Transition transition = new Slide(Gravity.BOTTOM);
+        transition.setDuration(600);
+        transition.addTarget(headerLayout);
+        transition.addTarget(menuLayout);
+        TransitionManager.beginDelayedTransition(parent, transition);
+        headerLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
+        menuLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
+    }
+
+    private void toggle2(boolean visible, View menuLayout, ViewGroup parent) {
+
+        Transition transition = new Slide(Gravity.BOTTOM);
+        transition.setDuration(600);
+        transition.addTarget(menuLayout);
+
+        TransitionManager.beginDelayedTransition(parent, transition);
+        menuLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
+    }
+
+    private void toggleUp(boolean visible, View redLayout, ViewGroup parent) {
+
+        Transition transition = new Slide(Gravity.TOP);
         transition.setDuration(600);
         transition.addTarget(redLayout);
 
