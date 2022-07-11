@@ -249,7 +249,7 @@
             <com.khalidsyfullah.boimela.ui.epub.MenuViewPager
                 android:id="@+id/reader_menu_viewpager2"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                android:layout_height="300dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@id/reader_menu_bottom_layout"
                 app:layout_constraintEnd_toEndOf="parent"

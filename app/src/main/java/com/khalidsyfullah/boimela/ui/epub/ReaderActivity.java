@@ -299,6 +299,7 @@ public class ReaderActivity extends AppCompatActivity {
 
         headerCardView.setVisibility(View.GONE);
         menuConstraintLayout.setVisibility(View.GONE);
+        menuTopConstraintLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
 
         sliderDataModels = new ArrayList<>();
