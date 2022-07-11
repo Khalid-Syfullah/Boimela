@@ -2,6 +2,7 @@ package com.khalidsyfullah.boimela.ui.book;
 
 import static com.khalidsyfullah.boimela.global.StaticData.bookUrl;
 import static com.khalidsyfullah.boimela.global.StaticData.fileName;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.bookLanguage;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -96,6 +97,8 @@ public class BookDetailsFragment extends Fragment {
             public void onClick(View view) {
 
                 checkForPermissions();
+                bookLanguage = "en";
+
             }
         });
     }

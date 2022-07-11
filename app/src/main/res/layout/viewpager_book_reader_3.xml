@@ -103,8 +103,8 @@
                 <ImageView
                     android:id="@+id/reader_3_theme_image"
                     style="@style/ButtonTransparent"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"

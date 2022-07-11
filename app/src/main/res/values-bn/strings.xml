@@ -136,5 +136,34 @@
     <string name="chapters">Chapters</string>
     <string name="no_bookmarks">No Bookmarks</string>
     <string name="no_chapters">No Chapters</string>
-
+    <string name="font_en_1">Arial</string>
+    <string name="font_en_2">Baskerville</string>
+    <string name="font_en_3">Bookerly</string>
+    <string name="font_en_4">Calibri</string>
+    <string name="font_en_5">Courier New</string>
+    <string name="font_en_6">Garamond</string>
+    <string name="font_en_7">Georgia</string>
+    <string name="font_en_8">Helvetica</string>
+    <string name="font_en_9">Monotype Corsiva</string>
+    <string name="font_en_10">Palatino</string>
+    <string name="font_en_11">Segoe UI</string>
+    <string name="font_en_12">Segoe UI Light</string>
+    <string name="font_en_13">Tahoma</string>
+    <string name="font_en_14">Times New Roman</string>
+    <string name="font_en_15">Verdana</string>
+    <string name="font_bn_1">AdorshoLipi</string>
+    <string name="font_bn_2">Akaash</string>
+    <string name="font_bn_3">AponaLohit</string>
+    <string name="font_bn_4">Bangla</string>
+    <string name="font_bn_5">BenSen</string>
+    <string name="font_bn_6">BenSen-Handwriting</string>
+    <string name="font_bn_7">Kalpurush</string>
+    <string name="font_bn_8">Lohit</string>
+    <string name="font_bn_9">Mitra</string>
+    <string name="font_bn_10">Mukti</string>
+    <string name="font_bn_11">Nikosh</string>
+    <string name="font_bn_12">Nikosh-Light</string>
+    <string name="font_bn_13">Sagar</string>
+    <string name="font_bn_14">SiyamRupali</string>
+    <string name="font_bn_15">SolaimanLipi</string>
 </resources>

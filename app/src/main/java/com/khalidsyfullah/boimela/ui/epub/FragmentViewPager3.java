@@ -3,7 +3,8 @@ package com.khalidsyfullah.boimela.ui.epub;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.backgroundColorBody;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.baseUrl;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.border;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.changeWebView;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.isLegacyFormattingSupported;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.updateData;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorBody;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH1;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH2;
@@ -19,11 +20,10 @@ import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.paddingLeft;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.paddingRight;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.textAlignment;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.textIndent;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.updateLegacyWebView;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.webView;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.wordSpacing;
 
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -37,9 +37,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -50,9 +48,6 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.khalidsyfullah.boimela.R;
-import com.khalidsyfullah.boimela.global.StaticData;
-
-import java.util.Set;
 
 public class FragmentViewPager3 extends Fragment {
 
@@ -91,6 +86,10 @@ public class FragmentViewPager3 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        themeImage.getLayoutParams().width = 150;
+        themeImage.getLayoutParams().height = 150;
+        themeImage.requestLayout();
+        
         brightnessSeekSeekBar.setMax(255);
         brightnessSeekSeekBar.setKeyProgressIncrement(1);
         blueLightSeekBar.setMin(10);
@@ -100,17 +99,60 @@ public class FragmentViewPager3 extends Fragment {
         contrastSeekBar.setMax(220);
         contrastSeekBar.setKeyProgressIncrement(15);
 
+        blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
+        blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+
+
+
         blueLightFilterOnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                backgroundColorBody = "#FFFFFF";
+                colorBody = "#000000";
+                colorH1 = "#000000";
+                colorH2 = "#000000";
+                colorH3 = "#000000";
+                colorP = "#000000";
+                String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                if(isFormattingSupported) {
+                    webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                }
+                else if(isLegacyFormattingSupported){
+                    updateLegacyWebView(data);
+                }
+                blueLightSeekBar.setProgress(10);
                 blueLightSeekBar.setEnabled(true);
+                blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
+                blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+
             }
         });
 
         blueLightFilterOffBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                backgroundColorBody = "#FFFFFF";
+                colorBody = "#000000";
+                colorH1 = "#000000";
+                colorH2 = "#000000";
+                colorH3 = "#000000";
+                colorP = "#000000";
+                String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                if(isFormattingSupported) {
+                    webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                }
+                else if(isLegacyFormattingSupported){
+                    updateLegacyWebView(data);
+                }
+                blueLightSeekBar.setProgress(10);
                 blueLightSeekBar.setEnabled(false);
+                blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+                blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
+
             }
         });
 
@@ -121,7 +163,7 @@ public class FragmentViewPager3 extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if(!isFormattingSupported){
+        if(!isFormattingSupported && !isLegacyFormattingSupported){
             themeImage.setEnabled(false);
             themeImage2.setEnabled(false);
             themeImage3.setEnabled(false);
@@ -186,15 +228,46 @@ public class FragmentViewPager3 extends Fragment {
             @Override
             public void onClick(View v) {
 
-                backgroundColorBody = "FFFFFF";
-                colorBody = "000000";
-                colorH1 = "000000";
-                colorH2 = "000000";
-                colorH3 = "000000";
-                colorP = "000000";
+                backgroundColorBody = "#FFFFFF";
+                colorBody = "#000000";
+                colorH1 = "#000000";
+                colorH2 = "#000000";
+                colorH3 = "#000000";
+                colorP = "#000000";
 
-                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                if(isFormattingSupported) {
+                    webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                }
+                else if(isLegacyFormattingSupported){
+                    updateLegacyWebView(data);
+                }
+
+                contrastSeekBar.setProgress(20);
+                blueLightSeekBar.setProgress(10);
+                blueLightSeekBar.setEnabled(true);
+                blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
+                blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+
+                themeImage.getLayoutParams().width = 150;
+                themeImage.getLayoutParams().height = 150;
+                themeImage2.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                themeImage.requestLayout();
+                themeImage2.requestLayout();
+                themeImage3.requestLayout();
+                themeImage4.requestLayout();
+                themeImage5.requestLayout();
+                themeImage6.requestLayout();
 
             }
         });
@@ -202,49 +275,139 @@ public class FragmentViewPager3 extends Fragment {
         themeImage2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backgroundColorBody = "A4BBE7";
-                colorBody = "000000";
-                colorH1 = "000000";
-                colorH2 = "000000";
-                colorH3 = "000000";
-                colorP = "000000";
+                backgroundColorBody = "#A4BBE7";
+                colorBody = "#000000";
+                colorH1 = "#000000";
+                colorH2 = "#000000";
+                colorH3 = "#000000";
+                colorP = "#000000";
 
-                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                if(isFormattingSupported) {
+                    webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                }
+                else if(isLegacyFormattingSupported){
+                    updateLegacyWebView(data);
+                }
 
+                contrastSeekBar.setProgress(20);
+                blueLightSeekBar.setProgress(10);
+                blueLightSeekBar.setEnabled(false);
+                blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+                blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
 
+                themeImage.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().width = 150;
+                themeImage2.getLayoutParams().height = 150;
+                themeImage3.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                themeImage.requestLayout();
+                themeImage2.requestLayout();
+                themeImage3.requestLayout();
+                themeImage4.requestLayout();
+                themeImage5.requestLayout();
+                themeImage6.requestLayout();
             }
         });
 
         themeImage3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backgroundColorBody = "E6D3AC";
-                colorBody = "000000";
-                colorH1 = "000000";
-                colorH2 = "000000";
-                colorH3 = "000000";
-                colorP = "000000";
+                backgroundColorBody = "#E6D3AC";
+                colorBody = "#000000";
+                colorH1 = "#000000";
+                colorH2 = "#000000";
+                colorH3 = "#000000";
+                colorP = "#000000";
 
-                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                if(isFormattingSupported) {
+                    webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                }
+                else if(isLegacyFormattingSupported){
+                    updateLegacyWebView(data);
+                }
 
+                contrastSeekBar.setProgress(20);
+                blueLightSeekBar.setProgress(10);
+                blueLightSeekBar.setEnabled(false);
+                blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+                blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
 
+                themeImage.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().width = 150;
+                themeImage3.getLayoutParams().height = 150;
+                themeImage4.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                themeImage.requestLayout();
+                themeImage2.requestLayout();
+                themeImage3.requestLayout();
+                themeImage4.requestLayout();
+                themeImage5.requestLayout();
+                themeImage6.requestLayout();
             }
         });
 
         themeImage4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backgroundColorBody = "989581";
-                colorBody = "FFFFFF";
-                colorH1 = "FFFFFF";
-                colorH2 = "FFFFFF";
-                colorH3 = "FFFFFF";
-                colorP = "FFFFFF";
+                backgroundColorBody = "#989581";
+                colorBody = "#FFFFFF";
+                colorH1 = "#FFFFFF";
+                colorH2 = "#FFFFFF";
+                colorH3 = "#FFFFFF";
+                colorP = "#FFFFFF";
 
-                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                if(isFormattingSupported) {
+                    webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                }
+                else if(isLegacyFormattingSupported){
+                    updateLegacyWebView(data);
+                }
+
+                contrastSeekBar.setProgress(20);
+                blueLightSeekBar.setProgress(10);
+                blueLightSeekBar.setEnabled(false);
+                blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+                blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
+
+
+                themeImage.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().width = 150;
+                themeImage4.getLayoutParams().height = 150;
+                themeImage5.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                themeImage.requestLayout();
+                themeImage2.requestLayout();
+                themeImage3.requestLayout();
+                themeImage4.requestLayout();
+                themeImage5.requestLayout();
+                themeImage6.requestLayout();
 
             }
         });
@@ -252,30 +415,93 @@ public class FragmentViewPager3 extends Fragment {
         themeImage5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backgroundColorBody = "3A363C";
-                colorBody = "FFFFFF";
-                colorH1 = "FFFFFF";
-                colorH2 = "FFFFFF";
-                colorH3 = "FFFFFF";
-                colorP = "FFFFFF";
+                backgroundColorBody = "#3A363C";
+                colorBody = "#FFFFFF";
+                colorH1 = "#FFFFFF";
+                colorH2 = "#FFFFFF";
+                colorH3 = "#FFFFFF";
+                colorP = "#FFFFFF";
 
-                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                if(isFormattingSupported) {
+                    webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                }
+                else if(isLegacyFormattingSupported){
+                    updateLegacyWebView(data);
+                }
+
+                contrastSeekBar.setProgress(20);
+                blueLightSeekBar.setProgress(10);
+                blueLightSeekBar.setEnabled(false);
+                blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+                blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
+
+                themeImage.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().width = 150;
+                themeImage5.getLayoutParams().height = 150;
+                themeImage6.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                themeImage.requestLayout();
+                themeImage2.requestLayout();
+                themeImage3.requestLayout();
+                themeImage4.requestLayout();
+                themeImage5.requestLayout();
+                themeImage6.requestLayout();
             }
         });
 
         themeImage6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backgroundColorBody = "000000";
-                colorBody = "FFFFFF";
-                colorH1 = "FFFFFF";
-                colorH2 = "FFFFFF";
-                colorH3 = "FFFFFF";
-                colorP = "FFFFFF";
+                backgroundColorBody = "#000000";
+                colorBody = "#FFFFFF";
+                colorH1 = "#FFFFFF";
+                colorH2 = "#FFFFFF";
+                colorH3 = "#FFFFFF";
+                colorP = "#FFFFFF";
 
-                String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                if(isFormattingSupported) {
+                    webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                }
+                else if(isLegacyFormattingSupported){
+                    updateLegacyWebView(data);
+                }
+
+                contrastSeekBar.setProgress(20);
+                blueLightSeekBar.setProgress(10);
+                blueLightSeekBar.setEnabled(false);
+                blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+                blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
+
+
+                themeImage.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage2.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage3.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage4.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage5.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                themeImage6.getLayoutParams().width = 150;
+                themeImage6.getLayoutParams().height = 150;
+
+                themeImage.requestLayout();
+                themeImage2.requestLayout();
+                themeImage3.requestLayout();
+                themeImage4.requestLayout();
+                themeImage5.requestLayout();
+                themeImage6.requestLayout();
             }
         });
 
@@ -298,11 +524,11 @@ public class FragmentViewPager3 extends Fragment {
                     public void onProgressChanged(SeekBar seekBar, int progress,
                                                   boolean fromUser) {
 
-                        colorBody = Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
-                        colorH1 = Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
-                        colorH2 = Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
-                        colorH3 = Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
-                        colorP = Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
+                        colorBody = "#"+ Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
+                        colorH1 = "#"+ Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
+                        colorH2 = "#"+ Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
+                        colorH3 = "#"+ Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
+                        colorP = "#"+ Integer.toHexString(progress) + Integer.toHexString(progress) + Integer.toHexString(progress);
 
 //                        if(progress < 110) {
 //                            colorBody = "8080" + Integer.toHexString(255 - progress);
@@ -363,8 +589,19 @@ public class FragmentViewPager3 extends Fragment {
 //                        }
 //
 
-                        String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                        webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                        String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                        if(isFormattingSupported) {
+                            webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                        }
+                        else if(isLegacyFormattingSupported){
+                            updateLegacyWebView(data);
+                        }
+
+                        blueLightSeekBar.setProgress(10);
+                        blueLightSeekBar.setEnabled(false);
+                        blueLightFilterOnBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered));
+                        blueLightFilterOffBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_bordered_selected));
+
 
                     }
                 }
@@ -388,17 +625,20 @@ public class FragmentViewPager3 extends Fragment {
                                                   boolean fromUser) {
 
 
-                        backgroundColorBody = "FFF9"+Integer.toHexString(255-progress);
+                        backgroundColorBody = "#FFF9"+Integer.toHexString(256-progress);
+                        colorBody = "#000000";
+                        colorH1 = "#000000";
+                        colorH2 = "#000000";
+                        colorH3 = "#000000";
+                        colorP = "#000000";
 
-                        colorBody = "000000";
-                        colorH1 = "000000";
-                        colorH2 = "000000";
-                        colorH3 = "000000";
-                        colorP = "000000";
-
-                        String data = changeWebView(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
-                        webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
-
+                        String data = updateData(ReaderActivity.data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                        if(isFormattingSupported) {
+                            webView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null);
+                        }
+                        else if(isLegacyFormattingSupported){
+                            updateLegacyWebView(data);
+                        }
 
                     }
                 }

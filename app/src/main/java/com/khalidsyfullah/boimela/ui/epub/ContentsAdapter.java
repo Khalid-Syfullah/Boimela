@@ -5,7 +5,10 @@ import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.backgroundColorB
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.baseUrl;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.book;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.border;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.changeWebView;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.getHtmlFromWeb;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.href;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.isLegacyFormattingSupported;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.updateData;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorBody;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH1;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH2;
@@ -29,11 +32,13 @@ import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.webView;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.wordSpacing;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,25 +48,20 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
-import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.ContentDataModel;
-import com.squareup.picasso.Picasso;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +69,6 @@ import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.Spine;
 import nl.siegmann.epublib.domain.SpineReference;
 import nl.siegmann.epublib.domain.TOCReference;
-import nl.siegmann.epublib.epub.EpubReader;
 
 class ContentsViewHolder extends RecyclerView.ViewHolder{
 
@@ -169,6 +168,7 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsViewHolder>{
                     baseUrl = "file://"+destination + File.separator + rootDir + File.separator;
 
                 }
+                href = contentDataModel.getHref();
 
 
                 Log.d("EPUB","Data: "+data);
@@ -181,28 +181,107 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsViewHolder>{
                 Log.d("EPUB","hrefSlashSeparated Length: "+hrefSlashSeparated.length);
                 Log.d("EPUB","baseUrl: "+baseUrl);
 
+                File f1 = new File(destination+ File.separator + rootDir, hrefHashSeparated[0]);
+                data = getHtmlFromWeb(f1);
+
 
 //                UPDATE WEBVIEW
 
-                String customizedData = changeWebView(data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+                String customizedData = updateData(data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
 
                 if(hrefHashSeparated.length > 1){
 
-                    isFormattingSupported = false;
+                    new AsyncTask<Void, Void, Void>(){
 
-                    Toast.makeText(activity, "This EPUB doesn't support text formatting", Toast.LENGTH_SHORT).show();
-                    if(hrefSlashSeparated.length > 1) {
-                        webView.loadUrl(baseUrl + hrefSlashSeparated[1]);
+                        @Override
+                        protected Void doInBackground(Void... voids) {
 
-                    }
-                    else{
-                        webView.loadUrl(baseUrl + hrefSlashSeparated[0]);
-                    }
+                            FileOutputStream fileOutputStream = null;
+                            try {
+                                fileOutputStream = new FileOutputStream(f1);
+                                fileOutputStream.write(customizedData.getBytes(StandardCharsets.UTF_8));
+                                isFormattingSupported = false;
+                                isLegacyFormattingSupported = true;
+
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void unused) {
+                            super.onPostExecute(unused);
+
+                            //Toast.makeText(activity, "This EPUB doesn't support text formatting", Toast.LENGTH_SHORT).show();
+                            if(hrefSlashSeparated.length > 1) {
+                                webView.loadUrl(baseUrl + hrefSlashSeparated[1]);
+
+                            }
+                            else{
+                                webView.loadUrl(baseUrl + hrefSlashSeparated[0]);
+                            }
+                        }
+                    }.execute();
+
+
+
+
                 }
+
+
                 else{
 
-                    isFormattingSupported = true;
-                    webView.loadDataWithBaseURL(baseUrl, customizedData, "text/html", "utf-8", null);
+//                    isFormattingSupported = true;
+//                    webView.loadDataWithBaseURL(baseUrl, customizedData, "text/html", "utf-8", null);
+
+                    new AsyncTask<Void, Void, Void>(){
+
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+
+                            FileOutputStream fileOutputStream = null;
+                            try {
+                                fileOutputStream = new FileOutputStream(f1);
+                                fileOutputStream.write(customizedData.getBytes(StandardCharsets.UTF_8));
+
+                                isFormattingSupported = false;
+                                isLegacyFormattingSupported = true;
+
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void unused) {
+                            super.onPostExecute(unused);
+
+                            if(hrefSlashSeparated.length > 1) {
+                                webView.loadUrl(baseUrl + hrefSlashSeparated[1]);
+
+                            }
+                            else{
+                                webView.loadUrl(baseUrl + hrefSlashSeparated[0]);
+                            }
+
+
+                        }
+                    }.execute();
+
+
+
+
                 }
                 
 
@@ -236,6 +315,10 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsViewHolder>{
             Log.d("TOC","HREF: "+tocReference.getCompleteHref());
 
             if(tocReference.getCompleteHref().equals(href)) {
+
+                if(activity instanceof ReaderActivity) {
+                    ((ReaderActivity) activity).SetProgressSliderLeftText(tocReference.getTitle());
+                }
 
                 Log.d("TOC","SELECTED HREF: "+tocReference.getCompleteHref());
                 StringBuilder string = new StringBuilder();

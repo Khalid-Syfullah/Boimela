@@ -1,30 +1,10 @@
 package com.khalidsyfullah.boimela.ui.epub;
 
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.isFormattingSupported;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.volumeButtonAction;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.backgroundColorBody;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.border;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.changeWebView;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorBody;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH1;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH2;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorH3;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.colorP;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontFamily;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontSize;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.fontWeight;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.letterSpacing;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.lineHeight;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.paddingLeft;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.paddingRight;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.textAlignment;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.textIndent;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.webView;
-import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.wordSpacing;
-import android.animation.ObjectAnimator;
+
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;

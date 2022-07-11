@@ -6,7 +6,6 @@ import static com.khalidsyfullah.boimela.ui.epub.DrawerViewPager1.contentsAdapte
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -14,12 +13,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionManager;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -39,21 +38,12 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.api.RestAPI;
@@ -62,11 +52,8 @@ import com.khalidsyfullah.boimela.datamodel.BookmarkDataModel;
 import com.khalidsyfullah.boimela.datamodel.ContentDataModel;
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -79,18 +66,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.TOCReference;
@@ -106,14 +92,14 @@ public class ReaderActivity extends AppCompatActivity {
     public static boolean volumeButtonAction = false;
     private int currentBrightness = 0, screenBrightnessValue = 0;
 
-    private TextView pageText, expandButton;
+    private TextView pageText, expandButton, progressSliderLeftText, progressSliderCenterText, progressSliderRightText;
     private ImageView expandIcon, menuIcon, audioIcon, themeIcon, screenIcon, textIcon, fontIcon;
     private SeekBar pageSeekBar;
     private ProgressBar progressBar;
     private ProgressDialog mProgressDialog;
 
     public static WebView webView;
-    private ConstraintLayout mainConstraintLayout, menuConstraintLayout, pageConstraintLayout, menuTopConstraintLayout;
+    private ConstraintLayout mainConstraintLayout, menuConstraintLayout, pageConstraintLayout, menuTopConstraintLayout, progressSliderConstraintLayout;
     private ViewPager viewPager, drawerViewPager;
     private MenuViewPager viewPager2;
     private MenuPagerAdapter menuPagerAdapter;
@@ -126,7 +112,7 @@ public class ReaderActivity extends AppCompatActivity {
     private File file;
     public static ArrayList<ContentDataModel> contentDataModels;
     public static ArrayList<BookmarkDataModel> bookmarkDataModels;
-    public static boolean isFormattingSupported = true;
+    public static boolean isFormattingSupported = true, isLegacyFormattingSupported = false;
 
     private boolean isGranted = false;
 
@@ -136,9 +122,9 @@ public class ReaderActivity extends AppCompatActivity {
     public static String letterSpacing="0px";
     public static String wordSpacing="1px";
     public static String textIndent="10px";
-    public static String lineHeight="3";
+    public static String lineHeight="2";
     public static String fontFamily="bookerly";
-    public static String fontSize="40%";
+    public static String fontSize="65%";
     public static String fontWeight="300";
     public static String textAlignment="justify";
     public static String paddingLeft="30px";
@@ -153,17 +139,21 @@ public class ReaderActivity extends AppCompatActivity {
     public static String baseUrl="";
     public static String rootDir="";
     public static String subrootDir="";
+    public static String href="";
 
     public static String input;
 
     public static String data;
 
-    public static String start = "<html>" +
+    public static String start =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
+            "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" +
+            "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" epub:prefix=\"z3998: http://www.daisy.org/z3998/2012/vocab/structure/\">" +
             "<head>" +
             "<style type=\"text/css\">" +
             "@font-face {" +
-            "font-family: MyFont;" +
-            "src: url(\"file:///android_asset/bookerly.ttf\")" +
+            "font-family: WebViewFont;" +
+            "src: url(\"file:///android_asset/georgia.ttf\")" +
             "}"
 
             +
@@ -210,7 +200,7 @@ public class ReaderActivity extends AppCompatActivity {
 
             "body {" +
 
-            "font-family: "+ fontFamily +";" +
+            "font-family: WebViewFont;" +
             "font-size: "+ fontSize +";" +
             "font-weight: "+ fontWeight +";"+
             "text-align: "+textAlignment+";" +
@@ -226,6 +216,7 @@ public class ReaderActivity extends AppCompatActivity {
             "<body>";
     public static String end = "</body></html>";
     public static String destination="";
+    public static String bookLanguage = "";
 
     public static Book book;
     public static EpubReader epubReader;
@@ -262,6 +253,14 @@ public class ReaderActivity extends AppCompatActivity {
         viewPager2 = findViewById(R.id.reader_menu_viewpager2);
         drawerNavigationView = findViewById(R.id.reader_nav_view);
         progressBar = findViewById(R.id.reader_progressbar);
+        progressSliderConstraintLayout = findViewById(R.id.progress_slider_constraint_layout);
+        progressSliderLeftText = findViewById(R.id.progress_slider_left_text);
+        progressSliderCenterText = findViewById(R.id.progress_slider_center_text);
+        progressSliderRightText = findViewById(R.id.progress_slider_right_text);
+
+        progressSliderLeftText.setSelected(true);
+        progressSliderCenterText.setSelected(true);
+        progressSliderRightText.setSelected(true);
 
 
         View header = drawerNavigationView.getHeaderView(0);
@@ -332,6 +331,23 @@ public class ReaderActivity extends AppCompatActivity {
 
         sliderViewPagerAdapter = new SliderViewPagerAdapter2(getSupportFragmentManager(), sliderDataModels);
         viewPager.setAdapter(sliderViewPagerAdapter);
+
+
+
+
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        final int delay = 1000;
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+                String currentTime = sdf.format(Calendar.getInstance().getTime().getTime());
+                progressSliderRightText.setText(currentTime);
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
+
 
 
         final int paddingPx = 300;
@@ -869,6 +885,7 @@ public class ReaderActivity extends AppCompatActivity {
 //            LOAD EPUB USING EPUBLIB FROM FILEINPUTSTREAM
             epubReader = new EpubReader();
             book = epubReader.readEpub(fileInputStream);
+            progressSliderCenterText.setText(book.getTitle());
 //            data = new String(book.getContents().get(0).getData());
 
 //            LOAD EPUB MANUALLY FROM FILE EXTRACTION
@@ -876,7 +893,7 @@ public class ReaderActivity extends AppCompatActivity {
             destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/EPUB/"+fileName;
             File file2 = new File(destination);
             unzip(file, file2);
-//            unpackZip(destination,"3.epub");
+//            unpackZip(destination,"abc.epub");
 
 
 //            PARSE ROOT DIRECTORY NAME
@@ -895,76 +912,153 @@ public class ReaderActivity extends AppCompatActivity {
             Log.d("XMLParser","Parsed BeginningHref: "+indexHref);
 
 //            LOOK FOR # VALUE
-            String[] indexHrefHashSeparated = indexHref.split("#");
-            Log.d("XMLParser","Parsed indexHrefHashSeparated[0]: "+indexHrefHashSeparated[0]);
-            Log.d("XMLParser","Parsed indexHrefHashSeparated[1]: "+(indexHrefHashSeparated.length > 1 ? indexHrefHashSeparated[1] : "Does not exist"));
-            Log.d("XMLParser","Parsed indexHrefHashSeparated Length: "+indexHrefHashSeparated.length);
+            String[] hrefHashSeparated = indexHref.split("#");
+            Log.d("XMLParser","Parsed hrefHashSeparated[0]: "+hrefHashSeparated[0]);
+            Log.d("XMLParser","Parsed hrefHashSeparated[1]: "+(hrefHashSeparated.length > 1 ? hrefHashSeparated[1] : "Does not exist"));
+            Log.d("XMLParser","Parsed hrefHashSeparated Length: "+hrefHashSeparated.length);
 
 //            LOOK FOR / VALUE
-            String[] indexHrefSlashSeparated = indexHref.split("/");
-            Log.d("XMLParser","Parsed indexHrefSlashSeparated[0]: "+indexHrefSlashSeparated[0]);
-            Log.d("XMLParser","Parsed indexHrefSlashSeparated[1]: "+ (indexHrefSlashSeparated.length > 1 ? indexHrefSlashSeparated[1] : "Does not exist"));
-            Log.d("XMLParser","Parsed indexHrefSlashSeparated Length: "+indexHrefSlashSeparated.length);
+            String[] hrefSlashSeparated = indexHref.split("/");
+            Log.d("XMLParser","Parsed hrefSlashSeparated[0]: "+hrefSlashSeparated[0]);
+            Log.d("XMLParser","Parsed hrefSlashSeparated[1]: "+ (hrefSlashSeparated.length > 1 ? hrefSlashSeparated[1] : "Does not exist"));
+            Log.d("XMLParser","Parsed hrefSlashSeparated Length: "+hrefSlashSeparated.length);
             Log.d("XMLParser","BaseUrl: "+baseUrl);
 
 //            GET SUBROOT FROM INDEX FILE HREF
-            if(indexHrefSlashSeparated.length > 1){
-                subrootDir = indexHrefSlashSeparated[0];
+            if(hrefSlashSeparated.length > 1){
+                href = hrefSlashSeparated[1];
+                subrootDir = hrefSlashSeparated[0];
                 baseUrl = "file://"+destination + File.separator + rootDir + File.separator + subrootDir + File.separator;
 
             }
             else{
+                href = hrefSlashSeparated[0];
                 subrootDir = "";
                 baseUrl = "file://"+destination + File.separator + rootDir + File.separator;
 
             }
 
 
-
-//            REPLACE <HEAD> TAG
-            File f1 = new File(destination+ File.separator + rootDir, indexHrefHashSeparated[0]);
-            FileInputStream fileInputStream2 = new FileInputStream(f1);
-            byte [] bytes = new byte[(int) f1.length()];
-            fileInputStream2.read(bytes);
-            data = new String(bytes);
-            data = data.replaceFirst("(?s)(<head>)(.*?)(</head>)","$1$3");
-            Log.d("XMLParser", "DATA: "+data);
+//             DATA PARSING
 
 
+////            REPLACE <HEAD> TAG
+//            File f1 = new File(destination+ File.separator + rootDir, hrefHashSeparated[0]);
+//            FileInputStream fileInputStream2 = new FileInputStream(f1);
+//            byte [] bytes = new byte[(int) f1.length()];
+//            fileInputStream2.read(bytes);
+//            data = new String(bytes);
+//            data = data.replaceFirst("(?s)(<head>)(.*?)(</head>)","$1$3");
+//            Log.d("XMLParser", "DATA: "+data);
+
+//            PARSE BODY OF HTML
+            File f1 = new File(destination+ File.separator + rootDir, hrefHashSeparated[0]);
+            data = getHtmlFromWeb(f1);
 
 //            UPDATE WEBVIEW
-            String customizedData = changeWebView(data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
+            String customizedData = updateData(data, backgroundColorBody, colorBody, colorH1, colorH2, colorH3, colorP, letterSpacing, wordSpacing, lineHeight, textIndent, fontFamily, fontSize, fontWeight, textAlignment, paddingLeft, paddingRight, border);
 
-            if(indexHrefHashSeparated.length > 1){
+            if(hrefHashSeparated.length > 1){
 
-                isFormattingSupported = false;
-                Toast.makeText(ReaderActivity.this, "This EPUB doesn't support text formatting", Toast.LENGTH_SHORT).show();
+                new AsyncTask<Void, Void, Void>(){
+                    @Override
+                    protected Void doInBackground(Void... voids) {
 
-                if(indexHrefSlashSeparated.length > 1) {
-                    webView.loadUrl(baseUrl + indexHrefSlashSeparated[1]);
-                }
-                else{
-                    webView.loadUrl(baseUrl + indexHrefSlashSeparated[0]);
-                }
+                        FileOutputStream fileOutputStream = null;
+                        try {
+                            fileOutputStream = new FileOutputStream(f1);
+                            fileOutputStream.write(customizedData.getBytes(StandardCharsets.UTF_8));
+                            isFormattingSupported = false;
+                            isLegacyFormattingSupported = true;
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void unused) {
+                        super.onPostExecute(unused);
+                        Toast.makeText(ReaderActivity.this, "This EPUB doesn't support text formatting", Toast.LENGTH_SHORT).show();
+
+                        if(hrefSlashSeparated.length > 1) {
+
+                            webView.loadUrl(baseUrl + hrefSlashSeparated[1]);
+                        }
+                        else{
+                            webView.loadUrl(baseUrl + hrefSlashSeparated[0]);
+                        }
+                        progressSliderLeftText.setText(book.getTableOfContents().getTocReferences().get(0).getTitle());
+                    }
+                }.execute();
+
+
             }
             else{
 
-                isFormattingSupported = true;
-                webView.loadDataWithBaseURL(baseUrl, customizedData, "text/html", "utf-8", null);
+//                isFormattingSupported = true;
+//                webView.loadDataWithBaseURL(baseUrl, customizedData, "text/html", "utf-8", null);
+
+                new AsyncTask<Void, Void, Void>(){
+
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+
+                        FileOutputStream fileOutputStream = null;
+                        try {
+                            fileOutputStream = new FileOutputStream(f1);
+                            fileOutputStream.write(customizedData.getBytes(StandardCharsets.UTF_8));
+                            isFormattingSupported = false;
+                            isLegacyFormattingSupported = true;
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void unused) {
+                        super.onPostExecute(unused);
+
+                        if(hrefSlashSeparated.length > 1) {
+                            webView.loadUrl(baseUrl + hrefSlashSeparated[1]);
+                        }
+                        else{
+                            webView.loadUrl(baseUrl + hrefSlashSeparated[0]);
+                        }
+                        progressSliderLeftText.setText(book.getTableOfContents().getTocReferences().get(0).getTitle());
+
+                    }
+
+                }.execute();
+
+
+
             }
 
 
             webView.setWebViewClient(new WebViewClient());
             webView.getSettings().setSupportZoom(false);
             webView.getSettings().setBuiltInZoomControls(false);
-            webView.getSettings().setDisplayZoomControls(false);
             webView.getSettings().setJavaScriptEnabled(true);
             webView.getSettings().setAllowFileAccess(true);
             webView.setVerticalScrollBarEnabled(true);
             webView.setHorizontalScrollBarEnabled(true);
-            webView.getSettings().setDefaultFontSize(26);
-            //webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman.ttf");
+//            webView.getSettings().setDefaultFontSize(26);
             webView.getSettings().setTextZoom(144);
+            //webView.getSettings().setFixedFontFamily("file:///android_asset//times-new-roman-regularttf");
 
 //            webView.loadDataWithBaseURL(baseUrl, customizedData, "text/html", "utf-8", null);
 
@@ -1033,10 +1127,28 @@ public class ReaderActivity extends AppCompatActivity {
         return value;
     }
 
-    public static String changeWebView(String input, String backgroundColorBody, String colorBody, String colorH1, String colorH2, String colorH3, String colorP, String letterSpacing, String wordSpacing, String lineHeight, String textIndent, String fontFamily, String fontSize, String fontWeight, String textAlignment, String paddingLeft, String paddingRight, String border){
+    public static String getHtmlFromWeb(File file) {
 
-        start = "<html>" +
+        String body = "";
+        try {
+
+            Document doc = Jsoup.parse(file);
+            doc.outputSettings().syntax( Document.OutputSettings.Syntax.xml);
+            body = doc.body().html();
+        } catch (IOException e) {
+        }
+        Log.d("JSOUP","Body: " +body);
+        return body;
+    }
+
+
+    public static String updateData(String input, String backgroundColorBody, String colorBody, String colorH1, String colorH2, String colorH3, String colorP, String letterSpacing, String wordSpacing, String lineHeight, String textIndent, String fontFamily, String fontSize, String fontWeight, String textAlignment, String paddingLeft, String paddingRight, String border){
+
+        start = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
+                "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" +
+                "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\" epub:prefix=\"z3998: http://www.daisy.org/z3998/2012/vocab/structure/\">" +
                 "<head>" +
+
 
 //                "<meta charset=\"UTF-8\" />" +
 //
@@ -1046,11 +1158,11 @@ public class ReaderActivity extends AppCompatActivity {
 //                "<link href=\"themes/cas-common_epub.css\" rel=\"stylesheet\" type=\"text/css\" />"+
 //                "<link href=\"themes/normal-serif/common.css\" rel=\"stylesheet\" type=\"text/css\" />"+
 //                "<link href=\"themes/normal-serif/generic.css\" rel=\"stylesheet\" type=\"text/css\" />"+
-                "<link href=\"styles/style.css\" rel=\"stylesheet\" type=\"text/css\" />"+
+//                "<link href=\"styles/style.css\" rel=\"stylesheet\" type=\"text/css\" />"+
                 "<style type=\"text/css\">" +
                 "@font-face {" +
-                "font-family: MyFont;" +
-                "src: url(\"file:///android_asset/bookerly.ttf\")" +
+                "font-family: WebViewFont;" +
+                "src: url(\"file:///android_asset/"+fontFamily+".ttf\")" +
                 "}"
 
                 +
@@ -1092,12 +1204,18 @@ public class ReaderActivity extends AppCompatActivity {
                 "line-height: "+lineHeight+";"+
 
                 "}"
+                +
+
+                "img {" +
+                "max-width: 100%;" +
+                "height: auto;" +
+                "}"
 
                 +
 
                 "body {" +
 
-                "font-family: "+ fontFamily +";" +
+                "font-family: WebViewFont;" +
                 "font-size: "+ fontSize +";" +
                 "font-weight: "+ fontWeight +";"+
                 "text-align: "+textAlignment+";" +
@@ -1117,6 +1235,38 @@ public class ReaderActivity extends AppCompatActivity {
 
 
         return start + input + end;
+    }
+
+    public static void updateLegacyWebView(String updateData){
+
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                File f1 = new File(destination+ File.separator + rootDir, href.split("#")[0]);
+                FileOutputStream fileOutputStream = null;
+                try {
+                    fileOutputStream = new FileOutputStream(f1);
+                    fileOutputStream.write(updateData.getBytes(StandardCharsets.UTF_8));
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void unused) {
+                super.onPostExecute(unused);
+                webView.reload();
+
+
+            }
+        }.execute();
+
     }
 
     private void logTableOfContents(List<TOCReference> tocReferences, int depth) {
@@ -1414,6 +1564,33 @@ public class ReaderActivity extends AppCompatActivity {
             Log.e(TAG_EPUB, "unzip", e);
         }
 
+    }
+
+    public void SetProgressSliderVisibility(boolean isVisible) {
+        if(isVisible) {
+            progressSliderConstraintLayout.setVisibility(View.VISIBLE);
+        }
+        else{
+            progressSliderConstraintLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public void SetProgressSliderLeftText(String text) {
+        if(text != null) {
+            progressSliderLeftText.setText(text);
+        }
+    }
+
+    public void SetProgressSliderCenterText(String text) {
+        if(text != null) {
+            progressSliderCenterText.setText(text);
+        }
+    }
+
+    public void SetProgressSliderRightText(String text) {
+        if(text != null) {
+            progressSliderRightText.setText(text);
+        }
     }
 
 
