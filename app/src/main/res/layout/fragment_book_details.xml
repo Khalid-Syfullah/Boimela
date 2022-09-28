@@ -91,31 +91,38 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/book_details_ratingbar" />
 
-            <TextView
-                android:id="@+id/book_details_award_title"
-                style="@style/TextViewLabelE3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:drawableLeft="@drawable/award"
-                android:drawableRight="@drawable/award_inverted"
-                android:drawablePadding="2dp"
-                android:text="@string/awards"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/book_details_review_amount" />
-
-            <TextView
-                android:id="@+id/book_details_award_description"
-                style="@style/TextViewLabelD5"
+            <LinearLayout
+                android:id="@+id/book_details_linear_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/random_award"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/book_details_award_title" />
+                app:layout_constraintTop_toBottomOf="@+id/book_details_review_amount">
+
+                <TextView
+                    android:id="@+id/book_details_award_title"
+                    style="@style/TextViewLabelE3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/award"
+                    android:drawableRight="@drawable/award_inverted"
+                    android:drawablePadding="2dp"
+                    android:text="@string/awards" />
+
+                <TextView
+                    android:id="@+id/book_details_award_description"
+                    style="@style/TextViewLabelD5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/random_award" />
+            </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/book_details_linear_layout_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -126,7 +133,7 @@
                 android:weightSum="3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/book_details_award_description">
+                app:layout_constraintTop_toBottomOf="@+id/book_details_linear_layout">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -191,6 +198,143 @@
                     <TextView
                         android:id="@+id/book_details_pages_title"
                         style="@style/TextViewLabelE3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pages" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/book_details_full_details"
+                style="@style/TextViewLabelB6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/book_details"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/book_details_linear_layout_2" />
+
+            <TextView
+                android:id="@+id/book_details_reviews_title"
+                style="@style/TextViewLabelB6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/book_reviews"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/book_details_linear_layout_3" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/book_details_reviews_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/book_details_reviews_title" />
+
+            <TextView
+                android:id="@+id/book_details_full_details_text"
+                style="@style/TextViewLabelD6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/random_book_details"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/book_details_full_details" />
+
+            <LinearLayout
+                android:id="@+id/book_details_linear_layout_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/book_details_full_details_text">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    tools:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/book_details_publisher_title"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/publisher" />
+
+                    <TextView
+                        android:id="@+id/book_details_publisher_text"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/random_publisher" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    tools:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/book_details_language_title"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/language" />
+
+                    <TextView
+                        android:id="@+id/book_details_language_text"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/random_language" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    tools:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/book_details_category_title"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category" />
+
+                    <TextView
+                        android:id="@+id/book_details_category_text"
+                        style="@style/TextViewLabelD7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/pages" />
@@ -278,6 +422,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
     <!--<androidx.cardview.widget.CardView
         android:id="@+id/book_details_cart_cardview"
         android:layout_width="0dp"

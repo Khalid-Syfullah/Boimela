@@ -166,4 +166,24 @@
     <string name="font_bn_13">Sagar</string>
     <string name="font_bn_14">SiyamRupali</string>
     <string name="font_bn_15">SolaimanLipi</string>
+    <string name="book_details">Book Details</string>
+    <string name="random_book_details">Feluda\'s paternal cousin Tapesh Ranjan Mitter, who is fondly referred to as Topshe,[4] is based on Arthur Conan Doyle\'s conception of Dr. John Watson. In the first couple of stories, his surname was Bose, but later it changed to Mitra. Just like the former army surgeon, Topshe is the quintessential accomplice and faithfully records each of Pradosh Mitter\'s exploits accurately. Topshe is a smart teenager. In the first story of Feluda series (i.e. Feludar Goyendagiri), Topshe was thirteen and a half where Feluda\'s age was twenty-seven, just the double of Topshe. Though Feluda often teases his young cousin, he is extremely fond and very protective of him. Feluda lives with Topshe\'s family. Topshe\'s father, Binay Mitter is the younger brother of Feluda\'s father, and therefore his uncle, and they all reside at 21, Rajani Sen Road, Kolkata-700029.[1] Although there really is a \'Rajani Sen Road\'[1] in Kolkata, the house number is missing. Formerly, they all used to live in Tara road, Kolkata. Though not mentioned explicitly, Topshe is good-looking, fair, tall and handsome, as per different illustrations made by Satyajit Ray himself.</string>
+    <string name="publisher">Publisher</string>
+    <string name="random_publisher">Avery</string>
+    <string name="language">Language</string>
+    <string name="random_language">English</string>
+    <string name="random_category">Fiction</string>
+    <string name="book_reviews">Book Reviews</string>
+    <string name="your_rating">Your Rating</string>
+    <string name="write_review">Write Review</string>
+    <string name="submit">Submit</string>
+    <string name="random_name">Khalid</string>
+    <string name="random_text_small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida vitae.</string>
+    <string name="totally_amazing">Totally Amazing</string>
+    <string name="random_time_range">two hours ago</string>
+    <string name="random_birthday">May 11, 1901 - June 7, 2022</string>
+    <string name="author_details">Author Details</string>
+    <string name="random_location">Kolkata</string>
+    <string name="not_found">Not Found!</string>
+    <string name="enter_another_keyword">Enter another keyword</string>
 </resources>

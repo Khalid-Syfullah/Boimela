@@ -3,6 +3,37 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/drawable/dislike.xml" value="0.3145" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/drawable/ic_disliked.xml" value="0.3145" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/drawable/sqr_card_bg.xml" value="0.3145" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/activity_audio_player.xml" value="0.2" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/alert_change_password.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/alert_custom_title.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/alert_enter_otp.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/alert_update_single_box.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/alert_write_review.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_author_details.xml" value="0.32314814814814813" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_book_details.xml" value="0.33" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_home.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_publisher_details.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_search.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_sliders.xml" value="0.2708333333333333" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/fragment_view_all.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_book_genre.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_book_horizontal.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_book_search.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_book_series.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_book_view_all.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_bookshelf.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_category.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_circular.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_review.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_top_authors.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_top_publishers.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_view_all_authors.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_view_all_books.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/recyclerview_view_all_publishers.xml" value="0.3625" />
+        <entry key="..\:/Users/ILLUMINATI/Documents/GitHub/Boimela/app/src/main/res/layout/slider_layout.xml" value="0.16944444444444445" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable-v21/button_bg_filled.xml" value="0.2965" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable-v21/button_bg_outlined.xml" value="0.2965" />
         <entry key="..\:/Users/Illuminati/Documents/GitHub/Boimela/app/src/main/res/drawable/audio_backward.xml" value="0.2965" />

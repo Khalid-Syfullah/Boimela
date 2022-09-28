@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
@@ -77,6 +78,12 @@ public class TopBooksAdapter extends RecyclerView.Adapter<TopBooksViewHolder>{
         holder.bookReview.setText(String.valueOf(bookDataModel.getReview())+" "+activity.getResources().getString(R.string.review));
         Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
 
+        holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_book_details);
+            }
+        });
     }
 
     @Override

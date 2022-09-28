@@ -1,19 +1,36 @@
 package com.khalidsyfullah.boimela.ui.home;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+import com.khalidsyfullah.boimela.Repo.RemoteRepo;
+import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 
-    private MutableLiveData<String> mText;
+import org.jetbrains.annotations.NotNull;
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+import java.util.ArrayList;
+
+public class HomeViewModel extends AndroidViewModel {
+
+    private RemoteRepo remoteRepo;
+
+    public HomeViewModel(@NonNull Application application) {
+        super(application);
+
+        remoteRepo = new RemoteRepo(application);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<ArrayList<BookDataModel>> getBestSellerBooks() {
+        return remoteRepo.getBestSellerBooks();
     }
+
+    public LiveData<ArrayList<BookDataModel>> getPopularBooks() {
+        return remoteRepo.getPopularBooks();
+    }
+
 }

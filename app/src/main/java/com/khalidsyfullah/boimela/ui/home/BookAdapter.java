@@ -2,9 +2,6 @@ package com.khalidsyfullah.boimela.ui.home;
 
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +37,7 @@ class BookViewHolder extends RecyclerView.ViewHolder{
         bookAuthor = itemView.findViewById(R.id.recyclerview_book_author);
         bookRating = itemView.findViewById(R.id.recyclerview_book_rating);
         bookReview = itemView.findViewById(R.id.recyclerview_book_review);
-        bookConstraintLayout = itemView.findViewById(R.id.recyclerview_book_card_view);
+        bookConstraintLayout = itemView.findViewById(R.id.recyclerview_book_constraint_layout);
 
     }
 
@@ -83,11 +80,19 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
 
         BookDataModel bookDataModel = bookDataModels.get(position);
 
-        holder.bookTitle.setText(bookDataModel.getTitle());
-        holder.bookAuthor.setText(bookDataModel.getAuthor());
+        holder.bookTitle.setText(bookDataModel.getName());
+        if(bookDataModel.getWriter() != null) {
+            holder.bookAuthor.setText(bookDataModel.getWriter().getName());
+        }
+        else{
+            holder.bookAuthor.setText(bookDataModel.getAuthor());
+
+        }
         holder.bookRating.setRating(bookDataModel.getRating());
-        holder.bookReview.setText(String.valueOf(bookDataModel.getReview()) +" "+activity.getResources().getString(R.string.reviews));
+        holder.bookReview.setText(bookDataModel.getNumberOfRating() +" "+activity.getResources().getString(R.string.reviews));
         Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
+
+//        Picasso.get().load(imageDirSmall + bookDataModel.getImage()).into(holder.bookImage);
         holder.bookTitle.setSelected(true);
         holder.bookAuthor.setSelected(true);
 
@@ -104,7 +109,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
 
                     Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details);
                 }
-                else if(fragmentName.equals("Store")){
+                else if(fragmentName.equals("StoreFragment")){
 
                     StaticData.fileName = bookDataModel.getFileName();
                     StaticData.bookUrl = bookDataModel.getBookUrl();
@@ -120,6 +125,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
                     StaticData.audioUrl = bookDataModel.getAudioUrl();
 
                     Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_search_to_navigation_book_details);
+                }
+
+                else if(fragmentName.equals("AuthorDetailsFragment")){
+
+                    StaticData.fileName = bookDataModel.getFileName();
+                    StaticData.bookUrl = bookDataModel.getBookUrl();
+                    StaticData.audioUrl = bookDataModel.getAudioUrl();
+
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_author_details_to_navigation_book_details);
                 }
 
             }

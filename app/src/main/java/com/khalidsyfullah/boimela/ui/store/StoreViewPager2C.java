@@ -46,15 +46,22 @@ public class StoreViewPager2C extends Fragment {
 
         publishersDataModels = new ArrayList<>();
 
-        publishersDataModels.add(new AuthorDataModel("Chirkut","https://scontent.fdac27-2.fna.fbcdn.net/v/t1.6435-9/80420814_592450154887156_1258394017222098944_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=hKijhGKu-QIAX-BfsUF&_nc_ht=scontent.fdac27-2.fna&oh=00_AT8oYMCYB3v2jVSyrmncbbYOFWF1OCLwT67hlali_ax8Rg&oe=628F34C7"));
-        publishersDataModels.add(new AuthorDataModel("Bibhash","https://ds.rokomari.store/rokomari110/company/06df811a0a54_67.jpg"));
-        publishersDataModels.add(new AuthorDataModel("Chayabithi","https://scontent.fdac27-2.fna.fbcdn.net/v/t1.18169-9/10698532_476810742457147_8509215480382108082_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lKlnLasqenwAX_lz_b6&_nc_ht=scontent.fdac27-2.fna&oh=00_AT8t2fVLy2nJxbOHDZHg__VbTN3Vs9X1yRaxaLOBb-xtmQ&oe=6290F570"));
-        publishersDataModels.add(new AuthorDataModel("Babui Prokashoni","https://scontent.fdac27-2.fna.fbcdn.net/v/t1.18169-9/26239922_2056603064355910_3579298233949067054_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=ec1jJ3ZY9wEAX_VvPAz&_nc_ht=scontent.fdac27-2.fna&oh=00_AT_9-twly0L4fn6iffVtYDRsZQFM7EcfRe-Tb011eCFcqg&oe=629009FE"));
-        publishersDataModels.add(new AuthorDataModel("Chirkut","https://scontent.fdac27-2.fna.fbcdn.net/v/t1.6435-9/80420814_592450154887156_1258394017222098944_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=hKijhGKu-QIAX-BfsUF&_nc_ht=scontent.fdac27-2.fna&oh=00_AT8oYMCYB3v2jVSyrmncbbYOFWF1OCLwT67hlali_ax8Rg&oe=628F34C7"));
-        publishersDataModels.add(new AuthorDataModel("Bibhash","https://ds.rokomari.store/rokomari110/company/06df811a0a54_67.jpg"));
-        publishersDataModels.add(new AuthorDataModel("Chayabithi","https://scontent.fdac27-2.fna.fbcdn.net/v/t1.18169-9/10698532_476810742457147_8509215480382108082_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lKlnLasqenwAX_lz_b6&_nc_ht=scontent.fdac27-2.fna&oh=00_AT8t2fVLy2nJxbOHDZHg__VbTN3Vs9X1yRaxaLOBb-xtmQ&oe=6290F570"));
-        publishersDataModels.add(new AuthorDataModel("Babui Prokashoni","https://scontent.fdac27-2.fna.fbcdn.net/v/t1.18169-9/26239922_2056603064355910_3579298233949067054_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=ec1jJ3ZY9wEAX_VvPAz&_nc_ht=scontent.fdac27-2.fna&oh=00_AT_9-twly0L4fn6iffVtYDRsZQFM7EcfRe-Tb011eCFcqg&oe=629009FE"));
-
+        publishersDataModels.add(new AuthorDataModel("চিরকুট","https://cdn.shopify.com/s/files/1/1296/0049/files/chirkutt_logo_450.png?height=628&pad_color=ffffff&v=1546845363&width=1200"));
+        publishersDataModels.add(new AuthorDataModel("বিভাস","https://ds.rokomari.store/rokomari110/company/06df811a0a54_67.jpg"));
+        publishersDataModels.add(new AuthorDataModel("ছায়াবীথি","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwKEakbr_9Ps9Z6vRnBcUpkMkvla318TaiX_RJ8Y4UNJRfLJYG6R_fBjbqQVJCSvKCcf0&usqp=CAU"));
+        publishersDataModels.add(new AuthorDataModel("আনন্দ","https://play-lh.googleusercontent.com/oIpsql26FPp1xqGj5L8N8OoLF7Nx7RsCWyEMv1275NocR-FsupjsCKf0L97xZIvdlA"));
+        publishersDataModels.add(new AuthorDataModel("চিরকুট","https://cdn.shopify.com/s/files/1/1296/0049/files/chirkutt_logo_450.png?height=628&pad_color=ffffff&v=1546845363&width=1200"));
+        publishersDataModels.add(new AuthorDataModel("বিভাস","https://ds.rokomari.store/rokomari110/company/06df811a0a54_67.jpg"));
+        publishersDataModels.add(new AuthorDataModel("ছায়াবীথি","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwKEakbr_9Ps9Z6vRnBcUpkMkvla318TaiX_RJ8Y4UNJRfLJYG6R_fBjbqQVJCSvKCcf0&usqp=CAU"));
+        publishersDataModels.add(new AuthorDataModel("আনন্দ","https://play-lh.googleusercontent.com/oIpsql26FPp1xqGj5L8N8OoLF7Nx7RsCWyEMv1275NocR-FsupjsCKf0L97xZIvdlA"));
+        publishersDataModels.add(new AuthorDataModel("চিরকুট","https://cdn.shopify.com/s/files/1/1296/0049/files/chirkutt_logo_450.png?height=628&pad_color=ffffff&v=1546845363&width=1200"));
+        publishersDataModels.add(new AuthorDataModel("বিভাস","https://ds.rokomari.store/rokomari110/company/06df811a0a54_67.jpg"));
+        publishersDataModels.add(new AuthorDataModel("ছায়াবীথি","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwKEakbr_9Ps9Z6vRnBcUpkMkvla318TaiX_RJ8Y4UNJRfLJYG6R_fBjbqQVJCSvKCcf0&usqp=CAU"));
+        publishersDataModels.add(new AuthorDataModel("আনন্দ","https://play-lh.googleusercontent.com/oIpsql26FPp1xqGj5L8N8OoLF7Nx7RsCWyEMv1275NocR-FsupjsCKf0L97xZIvdlA"));
+        publishersDataModels.add(new AuthorDataModel("চিরকুট","https://cdn.shopify.com/s/files/1/1296/0049/files/chirkutt_logo_450.png?height=628&pad_color=ffffff&v=1546845363&width=1200"));
+        publishersDataModels.add(new AuthorDataModel("বিভাস","https://ds.rokomari.store/rokomari110/company/06df811a0a54_67.jpg"));
+        publishersDataModels.add(new AuthorDataModel("ছায়াবীথি","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwKEakbr_9Ps9Z6vRnBcUpkMkvla318TaiX_RJ8Y4UNJRfLJYG6R_fBjbqQVJCSvKCcf0&usqp=CAU"));
+        publishersDataModels.add(new AuthorDataModel("আনন্দ","https://play-lh.googleusercontent.com/oIpsql26FPp1xqGj5L8N8OoLF7Nx7RsCWyEMv1275NocR-FsupjsCKf0L97xZIvdlA"));
 
         topPublishersRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
         topPublishersAdapter = new TopPublishersAdapter(getActivity(), publishersDataModels);

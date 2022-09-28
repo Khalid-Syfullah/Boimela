@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
@@ -20,6 +22,7 @@ class TopAuthorsViewHolder extends RecyclerView.ViewHolder {
 
     TextView authorName, authorNumber;
     ImageView authorImage, authorNumberBackground;
+    ConstraintLayout authorConstraintLayout;
 
     public TopAuthorsViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -28,7 +31,7 @@ class TopAuthorsViewHolder extends RecyclerView.ViewHolder {
         authorName = itemView.findViewById(R.id.recyclerview_top_authors_title);
         authorImage = itemView.findViewById(R.id.recyclerview_top_authors_image);
         authorNumberBackground = itemView.findViewById(R.id.recyclerview_top_authors_number_background2);
-
+        authorConstraintLayout = itemView.findViewById(R.id.recyclerview_top_authors_constraint_layout);
     }
 }
 
@@ -70,6 +73,13 @@ public class TopAuthorsAdapter extends RecyclerView.Adapter<TopAuthorsViewHolder
             holder.authorNumberBackground.setImageDrawable(activity.getResources().getDrawable(R.drawable.circle_dark_white));
 
         }
+
+        holder.authorConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_author_details);
+            }
+        });
     }
 
     @Override

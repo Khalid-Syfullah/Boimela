@@ -1,17 +1,50 @@
 package com.khalidsyfullah.boimela.datamodel;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class BookDataModel implements Serializable {
+public class BookDataModel{
+
+
+    @SerializedName("id")
+    @Expose
+    String id;
+
+    @SerializedName("name")
+    @Expose
+    String name;
+
+    @SerializedName("image")
+    @Expose
+    String image;
+
+    @SerializedName("rating")
+    @Expose
+    int rating;
+
+    @SerializedName("numberOfRating")
+    @Expose
+    int numberOfRating;
+
+    @SerializedName("writer")
+    @Expose
+    WriterDataModel writer;
+
 
     private int amount, discount, quantity, available, price, pages, year, review, type, progress;
-    private float rating;
-    private String _id, isBn, image, title, author, category, subcategory, genre,
-            publisher, edition, description, quality, name, fileName, bookUrl, audioUrl, phone,
-            id, imageA, imageB, imageC;
 
-    public BookDataModel(String image, String title, String category, String author, float rating, int review, int progress, String fileName, String bookUrl, String audioUrl) {
+    private String _id, isBn, title, author, category, subcategory, genre,
+            publisher, edition, description, quality, fileName, bookUrl, audioUrl, phone,
+            imageA, imageB, imageC;
+
+    private ArrayList<BookDataModel> books;
+
+
+    public BookDataModel(String image, String title, String category, String author, int rating, int review, int progress, String fileName, String bookUrl, String audioUrl) {
         this.image = image;
         this.title = title;
         this.category = category;
@@ -24,7 +57,7 @@ public class BookDataModel implements Serializable {
         this.audioUrl = audioUrl;
     }
 
-    public BookDataModel(String image, String title, String category, String author, float rating, int review, String fileName, String bookUrl, String audioUrl) {
+    public BookDataModel(String image, String title, String category, String author, int rating, int review, String fileName, String bookUrl, String audioUrl) {
         this.image = image;
         this.title = title;
         this.category = category;
@@ -81,11 +114,11 @@ public class BookDataModel implements Serializable {
         this.review = review;
     }
 
-    public float getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -329,5 +362,29 @@ public class BookDataModel implements Serializable {
 
     public void setProgress(int progress) {
         this.progress = progress;
+    }
+
+    public ArrayList<BookDataModel> getBooks() {
+        return books;
+    }
+
+    public void setBooks(ArrayList<BookDataModel> books) {
+        this.books = books;
+    }
+
+    public int getNumberOfRating() {
+        return numberOfRating;
+    }
+
+    public void setNumberOfRating(int numberOfRating) {
+        this.numberOfRating = numberOfRating;
+    }
+
+    public WriterDataModel getWriter() {
+        return writer;
+    }
+
+    public void setWriter(WriterDataModel writer) {
+        this.writer = writer;
     }
 }

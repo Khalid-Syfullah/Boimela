@@ -2,6 +2,7 @@ package com.khalidsyfullah.boimela.ui.splash;
 
 import static com.khalidsyfullah.boimela.global.StaticData.LOGIN_USER_PASS;
 import static com.khalidsyfullah.boimela.global.StaticData.LOGIN_USER_PHONE;
+import static com.khalidsyfullah.boimela.global.StaticData.homeRouteIDs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,7 @@ import com.khalidsyfullah.boimela.Repo.AuthRepo;
 import com.khalidsyfullah.boimela.Repo.RemoteRequestInterface;
 import com.khalidsyfullah.boimela.api.RestAPI;
 import com.khalidsyfullah.boimela.api.RetrofitClient;
+import com.khalidsyfullah.boimela.datamodel.HomeDataModel;
 import com.khalidsyfullah.boimela.datamodel.UserDataModel;
 import com.khalidsyfullah.boimela.global.StaticData;
 import com.khalidsyfullah.boimela.ui.auth.AuthActivity;
@@ -32,6 +34,8 @@ import com.khalidsyfullah.boimela.ui.navigation.NavigationActivity;
 import com.khalidsyfullah.boimela.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +62,7 @@ public class SplashActivity extends AppCompatActivity {
         Animation rotateAnimation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.accelerate_rotate);
         imageView.startAnimation(rotateAnimation);
 
+        getHomeRoutes();
 
 
 
@@ -161,6 +166,32 @@ public class SplashActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void getHomeRoutes(){
+
+        RestAPI restAPI = RetrofitClient.createRetrofitClient();
+        Call<HomeDataModel> call = restAPI.getHomeRoutes();
+        call.enqueue(new Callback<HomeDataModel>() {
+            @Override
+            public void onResponse(Call<HomeDataModel> call, Response<HomeDataModel> response) {
+
+                HomeDataModel homeDataModel = response.body();
+                if(response.isSuccessful()){
+                    Log.d("HomeRoutes","message: "+homeDataModel.getMessage());
+
+                    homeRouteIDs = homeDataModel.getHome();
+                    for(int i=0;i<homeRouteIDs.length;i++){
+                        Log.d("HomeRoutes", "home: "+"#"+i+": "+homeRouteIDs[i]);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HomeDataModel> call, Throwable t) {
+
+            }
+        });
     }
 
 

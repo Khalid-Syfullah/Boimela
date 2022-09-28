@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
@@ -19,6 +20,7 @@ import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.NavigableMap;
 
 class TopRatedBookViewHolder extends RecyclerView.ViewHolder{
 
@@ -104,6 +106,12 @@ public class TopRatedBookAdapter extends RecyclerView.Adapter<TopRatedBookViewHo
         holder.bookReview.setText(String.valueOf(bookDataModel.getReview()) +" "+activity.getResources().getString(R.string.reviews));
         Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
 
+        holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details);
+            }
+        });
 
 
     }

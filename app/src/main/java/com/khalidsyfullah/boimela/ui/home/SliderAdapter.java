@@ -18,6 +18,9 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
+
 import com.squareup.picasso.Picasso;
 
 class SliderViewHolder extends SliderViewAdapter.ViewHolder {
@@ -26,12 +29,14 @@ class SliderViewHolder extends SliderViewAdapter.ViewHolder {
     View itemView;
     ImageView imageViewBackground;
     TextView bookTitle;
+    ConstraintLayout sliderConstraintLayout;
 
     public SliderViewHolder(View itemView) {
         super(itemView);
         imageViewBackground = itemView.findViewById(R.id.slider_image);
         bookTitle = itemView.findViewById(R.id.slider_title);
         imageViewBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        sliderConstraintLayout = itemView.findViewById(R.id.slider_constraint_layout);
         this.itemView = itemView;
     }
 }
@@ -73,6 +78,13 @@ public class SliderAdapter extends SliderViewAdapter<SliderViewHolder> {
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sliderViewDataModel.getLink()));
                 activity.startActivity(browserIntent);
+            }
+        });
+
+        viewHolder.sliderConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details);
             }
         });
     }

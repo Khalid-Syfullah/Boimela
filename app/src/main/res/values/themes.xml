@@ -157,6 +157,18 @@
 
     </style>
 
+    <style name="TextViewLabelB6" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
     <style name="TextViewLabelC" parent="Widget.MaterialComponents.TextView">
 
 
@@ -227,6 +239,30 @@
 
         <item name="android:textSize">14dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="TextViewLabelD6" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/light_ash</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="TextViewLabelD7" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/poppins_medium</item>

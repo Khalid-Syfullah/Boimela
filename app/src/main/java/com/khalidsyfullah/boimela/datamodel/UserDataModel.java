@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserDataModel {
 
+    @SerializedName("_id")
+    @Expose
+    private String id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -49,8 +52,13 @@ public class UserDataModel {
     }
 
 
+    public String getId() {
+        return id;
+    }
 
-
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

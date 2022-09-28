@@ -38,6 +38,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.common.util.ArrayUtils;
 import com.khalidsyfullah.boimela.R;
@@ -71,18 +72,21 @@ import retrofit2.Response;
 public class BookDetailsFragment extends Fragment {
 
 
-
-
     private TextView button;
     private ProgressDialog mProgressDialog;
     private File file;
+    private RecyclerView reviewRecycler;
+    private ArrayList<ReviewDataModel> reviewDataModels;
+    private ImageView backBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_book_details,container,false);
 
+        reviewRecycler = root.findViewById(R.id.book_details_reviews_recycler_view);
         button = root.findViewById(R.id.book_details_open);
+        backBtn = root.findViewById(R.id.book_details_back);
         return root;
     }
 
@@ -91,6 +95,10 @@ public class BookDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        reviewDataModels = new ArrayList<>();
+
+        ReviewAdapter reviewAdapter = new ReviewAdapter(reviewDataModels);
+        reviewRecycler.setAdapter(reviewAdapter);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +107,13 @@ public class BookDetailsFragment extends Fragment {
                 checkForPermissions();
                 bookLanguage = "en";
 
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment_main).navigateUp();
             }
         });
     }

@@ -23,6 +23,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.khalidsyfullah.boimela.R;
+import com.khalidsyfullah.boimela.datamodel.AuthDataModel;
+import com.khalidsyfullah.boimela.datamodel.LoginDataModel;
 import com.khalidsyfullah.boimela.datamodel.UserDataModel;
 import com.khalidsyfullah.boimela.ui.navigation.NavigationActivity;
 
@@ -33,10 +35,12 @@ public class StaticData {
     public static MutableLiveData<String> cookie = new MutableLiveData<>();
     public static MutableLiveData<String> refreshToken = new MutableLiveData<>();
     public static MutableLiveData<String> accessToken = new MutableLiveData<>();
+    public static MutableLiveData<LoginDataModel> currentUserData=new MutableLiveData<>();
 
     public static final String LOGIN_SHARED_PREFS = "login_pref";
     public static final String LOGIN_USER_PHONE = "login_phone";
     public static final String LOGIN_USER_PASS = "login_pass";
+    public static String CURRENT_BOOK_ID="";
 
     public static MediaPlayer mediaPlayer;
     public static String mediaTitle="";
@@ -45,7 +49,8 @@ public class StaticData {
     public static String fileName="";
     public static String bookUrl="";
     public static String audioUrl="";
-
+    public static String [] homeRouteIDs;
+    public static String imageDirSmall = "http://api.boimelafoundation.com/data/image/small/";
     public static boolean isMediaActive=false;
     public static boolean isMediaReset=true;
 

@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.khalidsyfullah.boimela.R;
@@ -25,6 +27,7 @@ public class SliderFragment extends Fragment {
 
         TextView bookTitleText = root.findViewById(R.id.slider_title);
         ImageView sliderImage = root.findViewById(R.id.slider_image);
+        ConstraintLayout sliderConstraintLayout = root.findViewById(R.id.slider_constraint_layout);
 
 
         if (getArguments().getString("imgUrl") != null) {
@@ -34,6 +37,13 @@ public class SliderFragment extends Fragment {
             Picasso.get().load(arg).into(sliderImage);
 
         }
+
+        sliderConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details);
+            }
+        });
 
         return root;
     }

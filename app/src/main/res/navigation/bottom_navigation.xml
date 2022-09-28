@@ -18,7 +18,33 @@
             app:popEnterAnim="@anim/slide_in_from_left"
             app:popExitAnim="@anim/slide_out_to_right"
             app:popUpTo="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_author_details"
+            app:destination="@id/navigation_author_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_home"/>
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_publisher_details"
+            app:destination="@id/navigation_publisher_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_home"/>
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_view_all"
+            app:destination="@id/navigation_view_all"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_home"/>
+
     </fragment>
+
     <fragment
         android:id="@+id/navigation_store"
         android:name="com.khalidsyfullah.boimela.ui.store.StoreFragment"
@@ -32,7 +58,32 @@
             app:popEnterAnim="@anim/slide_in_from_left"
             app:popExitAnim="@anim/slide_out_to_right"
             app:popUpTo="@id/navigation_store" />
+        <action
+            android:id="@+id/action_navigation_store_to_navigation_author_details"
+            app:destination="@id/navigation_author_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_store"/>
+        <action
+            android:id="@+id/action_navigation_store_to_navigation_publisher_details"
+            app:destination="@id/navigation_publisher_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_store"/>
+        <action
+            android:id="@+id/action_navigation_store_to_navigation_view_all"
+            app:destination="@id/navigation_view_all"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_store"/>
     </fragment>
+
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.khalidsyfullah.boimela.ui.search.SearchFragment"
@@ -46,7 +97,24 @@
             app:popEnterAnim="@anim/slide_in_from_left"
             app:popExitAnim="@anim/slide_out_to_right"
             app:popUpTo="@id/navigation_search" />
+        <action
+            android:id="@+id/action_navigation_search_to_navigation_author_details"
+            app:destination="@id/navigation_author_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_search"/>
+        <action
+            android:id="@+id/action_navigation_search_to_navigation_publisher_details"
+            app:destination="@id/navigation_publisher_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_search"/>
     </fragment>
+
     <fragment
         android:id="@+id/navigation_library"
         android:name="com.khalidsyfullah.boimela.ui.library.LibraryFragment"
@@ -57,5 +125,55 @@
         android:name="com.khalidsyfullah.boimela.ui.book.BookDetailsFragment"
         android:label="fragment_book_details"
         tools:layout="@layout/fragment_book_details" />
+    <fragment
+        android:id="@+id/navigation_author_details"
+        android:name="com.khalidsyfullah.boimela.ui.book.AuthorDetailsFragment"
+        android:label="fragment_author_details"
+        tools:layout="@layout/fragment_author_details" >
+        <action
+            android:id="@+id/action_navigation_author_details_to_navigation_book_details"
+            app:destination="@id/navigation_book_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_author_details"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_publisher_details"
+        android:name="com.khalidsyfullah.boimela.ui.book.PublisherDetailsFragment"
+        android:label="fragment_publisher_details"
+        tools:layout="@layout/fragment_publisher_details" />
+    <fragment
+        android:id="@+id/navigation_view_all"
+        android:name="com.khalidsyfullah.boimela.ui.viewall.ViewAllFragment"
+        android:label="fragment_view_all"
+        tools:layout="@layout/fragment_view_all"
+        >
+        <action
+            android:id="@+id/action_navigation_view_all_to_navigation_book_details"
+            app:destination="@id/navigation_book_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_view_all"/>
+        <action
+            android:id="@+id/action_navigation_view_all_to_navigation_author_details"
+            app:destination="@id/navigation_author_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_view_all"/>
+        <action
+            android:id="@+id/action_navigation_view_all_to_navigation_publisher_details"
+            app:destination="@id/navigation_publisher_details"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@id/navigation_view_all"/>
+    </fragment>
 
 </navigation>

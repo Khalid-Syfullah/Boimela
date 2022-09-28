@@ -53,6 +53,22 @@ public class StoreViewPager3 extends Fragment {
         categoryDataModels.add(new CategoryDataModel("Non-Fiction","https://i.pinimg.com/originals/67/84/f2/6784f23ad1d7a20fd1fa07621e5232c6.jpg",2));
         categoryDataModels.add(new CategoryDataModel("Poetry","https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0ac96e79227357.5cbd5178ceaa7.jpg",3));
         categoryDataModels.add(new CategoryDataModel("Biography","https://www.adazing.com/wp-content/uploads/2012/09/einstein.jpg",4));
+        categoryDataModels.add(new CategoryDataModel("Fiction","https://d1csarkz8obe9u.cloudfront.net/posterpreviews/science-fiction-book-cover-design-template-b3ebf6385a80a0f8a08d5e813d2bdf44_screen.jpg?ts=1637019532",1));
+        categoryDataModels.add(new CategoryDataModel("Non-Fiction","https://i.pinimg.com/originals/67/84/f2/6784f23ad1d7a20fd1fa07621e5232c6.jpg",2));
+        categoryDataModels.add(new CategoryDataModel("Poetry","https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0ac96e79227357.5cbd5178ceaa7.jpg",3));
+        categoryDataModels.add(new CategoryDataModel("Biography","https://www.adazing.com/wp-content/uploads/2012/09/einstein.jpg",4));
+        categoryDataModels.add(new CategoryDataModel("Fiction","https://d1csarkz8obe9u.cloudfront.net/posterpreviews/science-fiction-book-cover-design-template-b3ebf6385a80a0f8a08d5e813d2bdf44_screen.jpg?ts=1637019532",1));
+        categoryDataModels.add(new CategoryDataModel("Non-Fiction","https://i.pinimg.com/originals/67/84/f2/6784f23ad1d7a20fd1fa07621e5232c6.jpg",2));
+        categoryDataModels.add(new CategoryDataModel("Poetry","https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0ac96e79227357.5cbd5178ceaa7.jpg",3));
+        categoryDataModels.add(new CategoryDataModel("Biography","https://www.adazing.com/wp-content/uploads/2012/09/einstein.jpg",4));
+        categoryDataModels.add(new CategoryDataModel("Fiction","https://d1csarkz8obe9u.cloudfront.net/posterpreviews/science-fiction-book-cover-design-template-b3ebf6385a80a0f8a08d5e813d2bdf44_screen.jpg?ts=1637019532",1));
+        categoryDataModels.add(new CategoryDataModel("Non-Fiction","https://i.pinimg.com/originals/67/84/f2/6784f23ad1d7a20fd1fa07621e5232c6.jpg",2));
+        categoryDataModels.add(new CategoryDataModel("Poetry","https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0ac96e79227357.5cbd5178ceaa7.jpg",3));
+        categoryDataModels.add(new CategoryDataModel("Biography","https://www.adazing.com/wp-content/uploads/2012/09/einstein.jpg",4));
+        categoryDataModels.add(new CategoryDataModel("Fiction","https://d1csarkz8obe9u.cloudfront.net/posterpreviews/science-fiction-book-cover-design-template-b3ebf6385a80a0f8a08d5e813d2bdf44_screen.jpg?ts=1637019532",1));
+        categoryDataModels.add(new CategoryDataModel("Non-Fiction","https://i.pinimg.com/originals/67/84/f2/6784f23ad1d7a20fd1fa07621e5232c6.jpg",2));
+        categoryDataModels.add(new CategoryDataModel("Poetry","https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0ac96e79227357.5cbd5178ceaa7.jpg",3));
+        categoryDataModels.add(new CategoryDataModel("Biography","https://www.adazing.com/wp-content/uploads/2012/09/einstein.jpg",4));
 
         categoryRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         categoryAdapter = new CategoryAdapter(getActivity(),categoryDataModels);
