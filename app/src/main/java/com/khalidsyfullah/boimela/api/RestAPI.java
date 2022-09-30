@@ -2,9 +2,13 @@ package com.khalidsyfullah.boimela.api;
 
 
 
+import com.khalidsyfullah.boimela.datamodel.AudioBooksDataModel;
 import com.khalidsyfullah.boimela.datamodel.AuthDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.datamodel.BookGenreDataModel;
+import com.khalidsyfullah.boimela.datamodel.BookSeriesDataModel;
 import com.khalidsyfullah.boimela.datamodel.HomeDataModel;
+import com.khalidsyfullah.boimela.datamodel.PopularAuthorsDataModel;
 import com.khalidsyfullah.boimela.datamodel.ResponseDataModel;
 import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
 import com.khalidsyfullah.boimela.datamodel.UserDataModel;
@@ -45,6 +49,18 @@ public interface RestAPI {
 
     @GET("/api/v1/collection/id/{collection_id}")
     Call<HomeDataModel> getCollectionByID(@Path("collection_id") String collectionID);
+
+    @GET("/api/v1/series?page=1&limit=5")
+    Call<BookSeriesDataModel> getBookSeries();
+
+    @GET("/api/v1/home/audio")
+    Call<AudioBooksDataModel> getAudioBooks();
+
+    @GET("/api/v1/home/class")
+    Call<BookGenreDataModel> getGenreBooks();
+
+    @GET("/api/v1/home/popularAuthor")
+    Call<PopularAuthorsDataModel> getPopularAuthors();
 
     @GET("/api/user/review")
     Call<ArrayList<ReviewDataModel>> getReviews(@Header("auth-token") String authToken);

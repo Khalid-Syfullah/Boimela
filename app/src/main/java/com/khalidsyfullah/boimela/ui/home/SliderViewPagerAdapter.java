@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 
 import java.util.ArrayList;
@@ -44,6 +45,10 @@ public class SliderViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
 
+    public void setSliderDataModels(ArrayList<SliderDataModel> sliderDataModels) {
+        this.sliderDataModels = sliderDataModels;
+        notifyDataSetChanged();
+    }
 
 }
 

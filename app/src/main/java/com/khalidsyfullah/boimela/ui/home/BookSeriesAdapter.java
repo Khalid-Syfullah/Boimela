@@ -87,9 +87,9 @@ public class BookSeriesAdapter extends RecyclerView.Adapter<BookSeriesViewHolder
         }
 
         holder.bookTitle.setText(bookDataModel.getTitle());
-        Picasso.get().load(bookDataModel.getImageA()).into(holder.bookImageA);
-        Picasso.get().load(bookDataModel.getImageB()).into(holder.bookImageB);
-        Picasso.get().load(bookDataModel.getImageC()).into(holder.bookImageC);
+        Picasso.get().load(bookDataModel.getImageA()).placeholder(R.drawable.books).into(holder.bookImageA);
+        Picasso.get().load(bookDataModel.getImageB()).placeholder(R.drawable.books).into(holder.bookImageB);
+        Picasso.get().load(bookDataModel.getImageC()).placeholder(R.drawable.books).into(holder.bookImageC);
 
 
 

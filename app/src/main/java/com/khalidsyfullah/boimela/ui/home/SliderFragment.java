@@ -1,5 +1,7 @@
 package com.khalidsyfullah.boimela.ui.home;
 
+import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +36,8 @@ public class SliderFragment extends Fragment {
 
             arg = getArguments().getString("imgUrl");
             bookTitleText.setText(getArguments().getString("title"));
-            Picasso.get().load(arg).into(sliderImage);
+//            Picasso.get().load(arg).into(sliderImage);
+            Picasso.get().load(imageDirSmall + arg).placeholder(R.drawable.book_not_found_red).into(sliderImage);
 
         }
 

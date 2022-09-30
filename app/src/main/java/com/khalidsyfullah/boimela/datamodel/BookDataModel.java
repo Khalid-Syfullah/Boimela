@@ -69,6 +69,15 @@ public class BookDataModel{
         this.audioUrl = audioUrl;
     }
 
+    public BookDataModel(String image, String title, String category, String author, int rating, int review) {
+        this.image = image;
+        this.title = title;
+        this.category = category;
+        this.author = author;
+        this.rating = rating;
+        this.review = review;
+    }
+
     public BookDataModel(String title, String imageA, String imageB, String imageC, int type) {
         this.title = title;
         this.imageA = imageA;

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -54,12 +55,17 @@ public class BookScrollAdapter extends RecyclerView.Adapter<BookScrollViewHolder
 
         BookDataModel bookDataModel = bookDataModels.get(position);
 
-        Picasso.get().load(bookDataModel.getImage()).into(holder.image);
+        Picasso.get().load(StaticData.imageDirSmall+bookDataModel.getImage()).placeholder(R.drawable.book_slider).into(holder.image);
     }
 
     @Override
     public int getItemCount() {
         return bookDataModels.size();
+    }
+
+    public void setBookDataModels(ArrayList<BookDataModel> bookDataModels) {
+        this.bookDataModels = bookDataModels;
+        notifyDataSetChanged();
     }
 }
 

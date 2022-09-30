@@ -1,6 +1,8 @@
 package com.khalidsyfullah.boimela.ui.home;
 
 
+import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,9 +92,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
         }
         holder.bookRating.setRating(bookDataModel.getRating());
         holder.bookReview.setText(bookDataModel.getNumberOfRating() +" "+activity.getResources().getString(R.string.reviews));
-        Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
+//        Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
 
-//        Picasso.get().load(imageDirSmall + bookDataModel.getImage()).into(holder.bookImage);
+        Picasso.get().load(imageDirSmall + bookDataModel.getImage()).placeholder(R.drawable.book_not_found).into(holder.bookImage);
+
         holder.bookTitle.setSelected(true);
         holder.bookAuthor.setSelected(true);
 

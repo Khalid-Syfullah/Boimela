@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -70,19 +71,19 @@ public class TopRatedBookAdapter extends RecyclerView.Adapter<TopRatedBookViewHo
         BookDataModel bookDataModel = bookDataModels.get(position);
 
 
-        if(bookDataModel.getType() == 1){
+        if(bookDataModel.getType() == 1 || bookDataModel.getType() == 9){
             holder.bookTitle.setTextColor(activity.getResources().getColor(R.color.white));
             holder.bookConstraintLayout.setBackgroundColor(activity.getResources().getColor(R.color.green));
         }
-        else if(bookDataModel.getType() == 2){
+        if(bookDataModel.getType() == 2 || bookDataModel.getType() == 8){
             holder.bookTitle.setTextColor(activity.getResources().getColor(R.color.white));
             holder.bookConstraintLayout.setBackgroundColor(activity.getResources().getColor(R.color.blue));
         }
-        else if(bookDataModel.getType() == 3){
+        if(bookDataModel.getType() == 3 || bookDataModel.getType() == 7){
             holder.bookTitle.setTextColor(activity.getResources().getColor(R.color.white));
             holder.bookConstraintLayout.setBackgroundColor(activity.getResources().getColor(R.color.orange));
         }
-        else if(bookDataModel.getType() == 4){
+        if(bookDataModel.getType() == 4 || bookDataModel.getType() == 6){
             holder.bookTitle.setTextColor(activity.getResources().getColor(R.color.grey));
             holder.bookConstraintLayout.setBackgroundColor(activity.getResources().getColor(R.color.yellow));
         }
@@ -100,11 +101,23 @@ public class TopRatedBookAdapter extends RecyclerView.Adapter<TopRatedBookViewHo
 
         }
 
-        holder.bookTitle.setText(bookDataModel.getTitle());
-        holder.bookAuthor.setText(bookDataModel.getAuthor());
+        if(bookDataModel.getTitle() != null) {
+            holder.bookTitle.setText(bookDataModel.getTitle());
+        }
+        else{
+            holder.bookTitle.setText(bookDataModel.getName());
+
+        }
+        if(bookDataModel.getWriter() != null) {
+            holder.bookAuthor.setText(bookDataModel.getWriter().getName());
+        }
+        else{
+            holder.bookAuthor.setText(bookDataModel.getAuthor());
+
+        }
         holder.bookRating.setRating(bookDataModel.getRating());
-        holder.bookReview.setText(String.valueOf(bookDataModel.getReview()) +" "+activity.getResources().getString(R.string.reviews));
-        Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
+        holder.bookReview.setText(bookDataModel.getNumberOfRating() +" "+activity.getResources().getString(R.string.reviews));
+        Picasso.get().load(StaticData.imageDirSmall+ bookDataModel.getImage()).placeholder(R.drawable.book_slider).into(holder.bookImage);
 
         holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
