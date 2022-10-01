@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.CategoryDataModel;
+import com.khalidsyfullah.boimela.datamodel.PublisherDataModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -59,33 +60,48 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder>{
         CategoryDataModel categoryDataModel = categoryDataModels.get(position);
 
         holder.categoryName.setText(categoryDataModel.getCategoryName());
-        Picasso.get().load(categoryDataModel.getCategoryImage()).into(holder.categoryImage);
 
-        if(categoryDataModel.getType() == 1){
+        if(categoryDataModel.getType() == 1 || categoryDataModel.getType() == 9){
             holder.categoryName.setTextColor(activity.getResources().getColor(R.color.white));
             holder.categoryConstraintLayout.setBackgroundColor(activity.getResources().getColor(R.color.green));
+            Picasso.get().load(R.drawable.book_3).placeholder(R.drawable.book_3).into(holder.categoryImage);
+
         }
-        else if(categoryDataModel.getType() == 2){
+        else if(categoryDataModel.getType() == 2 || categoryDataModel.getType() == 8){
             holder.categoryName.setTextColor(activity.getResources().getColor(R.color.white));
             holder.categoryConstraintLayout.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+            Picasso.get().load(R.drawable.book_1).placeholder(R.drawable.book_1).into(holder.categoryImage);
+
         }
-        else if(categoryDataModel.getType() == 3){
+        else if(categoryDataModel.getType() == 3 || categoryDataModel.getType() == 7){
             holder.categoryName.setTextColor(activity.getResources().getColor(R.color.white));
             holder.categoryConstraintLayout.setBackgroundColor(activity.getResources().getColor(R.color.orange));
+            Picasso.get().load(R.drawable.book_4).placeholder(R.drawable.book_4).into(holder.categoryImage);
+
         }
-        else if(categoryDataModel.getType() == 4){
+        else if(categoryDataModel.getType() == 4 || categoryDataModel.getType() == 6){
             holder.categoryName.setTextColor(activity.getResources().getColor(R.color.grey));
             holder.categoryConstraintLayout.setBackgroundColor(activity.getResources().getColor(R.color.yellow));
+            Picasso.get().load(R.drawable.book_2).placeholder(R.drawable.book_2).into(holder.categoryImage);
+
         }
         else if(categoryDataModel.getType() == 5){
             holder.categoryName.setTextColor(activity.getResources().getColor(R.color.white));
             holder.categoryConstraintLayout.setBackgroundColor(activity.getResources().getColor(R.color.teal));
+            Picasso.get().load(R.drawable.book_3).placeholder(R.drawable.book_3).into(holder.categoryImage);
+
         }
     }
 
     @Override
     public int getItemCount() {
         return categoryDataModels.size();
+    }
+
+
+    public void setCategoryDataModels(ArrayList<CategoryDataModel> categoryDataModels) {
+        this.categoryDataModels = categoryDataModels;
+        notifyDataSetChanged();
     }
 }
 

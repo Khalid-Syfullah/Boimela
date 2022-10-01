@@ -1,10 +1,33 @@
 package com.khalidsyfullah.boimela.datamodel;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class CategoryDataModel {
 
-    String categoryName, categoryImage;
+    @SerializedName("_id")
+    @Expose
+    String id;
+
+    @SerializedName("name")
+    @Expose
+    String categoryName;
+
+    @SerializedName("image")
+    @Expose
+    String categoryImage;
+
+    @SerializedName("type")
+    @Expose
     int type;
 
+
+    public CategoryDataModel(String id, String categoryName, String categoryImage, int type) {
+        this.id = id;
+        this.categoryName = categoryName;
+        this.categoryImage = categoryImage;
+        this.type = type;
+    }
     public CategoryDataModel(String categoryName, String categoryImage, int type) {
         this.categoryName = categoryName;
         this.categoryImage = categoryImage;
@@ -33,5 +56,13 @@ public class CategoryDataModel {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

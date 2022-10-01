@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
+import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class TopAuthorsAdapter extends RecyclerView.Adapter<TopAuthorsViewHolder
 
         holder.authorNumber.setText(String.valueOf(position+1));
         holder.authorName.setText(authorDataModel.getName());
-        Picasso.get().load(authorDataModel.getImage()).into(holder.authorImage);
+        Picasso.get().load(StaticData.imageDirSmall+authorDataModel.getImage()).placeholder(R.drawable.book_not_found).into(holder.authorImage);
 
         if(position == 0){
             holder.authorNumber.setTextColor(activity.getResources().getColor(R.color.white));
@@ -85,6 +87,11 @@ public class TopAuthorsAdapter extends RecyclerView.Adapter<TopAuthorsViewHolder
     @Override
     public int getItemCount() {
         return topAuthorsDataModels.size();
+    }
+
+    public void setTopAuthorsDataModels(ArrayList<AuthorDataModel> authorDataModels) {
+        this.topAuthorsDataModels = authorDataModels;
+        notifyDataSetChanged();
     }
 }
 

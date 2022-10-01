@@ -24,10 +24,17 @@ import androidx.navigation.Navigation;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.AuthDataModel;
+import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
+import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.datamodel.CategoryDataModel;
 import com.khalidsyfullah.boimela.datamodel.LoginDataModel;
+import com.khalidsyfullah.boimela.datamodel.PublisherDataModel;
+import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
+import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 import com.khalidsyfullah.boimela.datamodel.UserDataModel;
 import com.khalidsyfullah.boimela.ui.navigation.NavigationActivity;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class StaticData {
@@ -36,6 +43,37 @@ public class StaticData {
     public static MutableLiveData<String> refreshToken = new MutableLiveData<>();
     public static MutableLiveData<String> accessToken = new MutableLiveData<>();
     public static MutableLiveData<LoginDataModel> currentUserData=new MutableLiveData<>();
+
+    public static MutableLiveData<ArrayList<SliderDataModel>> weeklyBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> bestSellerBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> popularBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> bookSeries = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> audioBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> topRatedBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> genreBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> editorsChoiceBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> newReleasedBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> upcomingBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<AuthorDataModel>> popularAuthors = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<PublisherDataModel>> publishers = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<PublisherDataModel>> allPublishers = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> topBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<AuthorDataModel>> topAuthors = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<PublisherDataModel>> topPublishers = new MutableLiveData<>();
+
+    public static MutableLiveData<ArrayList<BookDataModel>> translatedBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> scienceFictionBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> nonFictionBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> religiousBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> poetryBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> novelBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> shortStoryBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> biographyBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> fictionBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> historyBooks = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<CategoryDataModel>> categories = new MutableLiveData<>();
+
+    public static MutableLiveData<ArrayList<ReviewDataModel>> reviews = new MutableLiveData<>();
 
     public static final String LOGIN_SHARED_PREFS = "login_pref";
     public static final String LOGIN_USER_PHONE = "login_phone";

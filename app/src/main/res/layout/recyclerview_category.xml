@@ -74,7 +74,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/dummy_book_1"
+                            android:src="@drawable/book_1"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

@@ -4,13 +4,16 @@ package com.khalidsyfullah.boimela.api;
 
 import com.khalidsyfullah.boimela.datamodel.AudioBooksDataModel;
 import com.khalidsyfullah.boimela.datamodel.AuthDataModel;
+import com.khalidsyfullah.boimela.datamodel.BookCategoryDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookGenreDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookSeriesDataModel;
 import com.khalidsyfullah.boimela.datamodel.HomeDataModel;
 import com.khalidsyfullah.boimela.datamodel.PopularAuthorsDataModel;
+import com.khalidsyfullah.boimela.datamodel.PublishersDataModel;
 import com.khalidsyfullah.boimela.datamodel.ResponseDataModel;
 import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
+import com.khalidsyfullah.boimela.datamodel.TopListDataModel;
 import com.khalidsyfullah.boimela.datamodel.UserDataModel;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
@@ -61,6 +65,15 @@ public interface RestAPI {
 
     @GET("/api/v1/home/popularAuthor")
     Call<PopularAuthorsDataModel> getPopularAuthors();
+
+    @GET("/api/v1/publisher")
+    Call<PublishersDataModel> getAllPublishers(@Query("page") String page, @Query("limit") String limit);
+
+    @GET("/api/v1/home/topList")
+    Call<TopListDataModel> getTopList(@Query("books") String books, @Query("authors") String authors, @Query("publishers") String publishers);
+
+    @GET("/api/v1/category")
+    Call<BookCategoryDataModel> getAllCategories();
 
     @GET("/api/user/review")
     Call<ArrayList<ReviewDataModel>> getReviews(@Header("auth-token") String authToken);

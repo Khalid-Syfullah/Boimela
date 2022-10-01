@@ -534,8 +534,6 @@ public class HomeFragment extends Fragment {
 
 
 
-
-
         homeViewModel.getAudioBooks().observe(getViewLifecycleOwner(), new Observer<ArrayList<BookDataModel>>() {
             @Override
             public void onChanged(ArrayList<BookDataModel> bookDataModels) {

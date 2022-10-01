@@ -1,6 +1,8 @@
 package com.khalidsyfullah.boimela.ui.store;
 
 
+import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -72,11 +75,17 @@ public class TopBooksAdapter extends RecyclerView.Adapter<TopBooksViewHolder>{
         BookDataModel bookDataModel = bookDataModels.get(position);
 
         holder.bookNumber.setText(String.valueOf(position+1));
-        holder.bookTitle.setText(bookDataModel.getTitle());
-        holder.bookAuthor.setText(bookDataModel.getAuthor());
+        holder.bookTitle.setText(bookDataModel.getName());
+        if(bookDataModel.getWriter() != null) {
+            holder.bookAuthor.setText(bookDataModel.getWriter().getName());
+        }
+        else{
+            holder.bookAuthor.setText(bookDataModel.getAuthor());
+
+        }
         holder.bookRating.setRating(bookDataModel.getRating());
-        holder.bookReview.setText(String.valueOf(bookDataModel.getReview())+" "+activity.getResources().getString(R.string.review));
-        Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
+        holder.bookReview.setText(bookDataModel.getNumberOfRating() +" "+activity.getResources().getString(R.string.reviews));
+        Picasso.get().load(imageDirSmall + bookDataModel.getImage()).placeholder(R.drawable.book_not_found).into(holder.bookImage);
 
         holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override

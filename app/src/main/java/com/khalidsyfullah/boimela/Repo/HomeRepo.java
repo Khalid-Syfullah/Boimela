@@ -2,6 +2,19 @@ package com.khalidsyfullah.boimela.Repo;
 
 import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
 import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
+import static com.khalidsyfullah.boimela.global.StaticData.weeklyBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.bestSellerBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.popularBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.bookSeries;
+import static com.khalidsyfullah.boimela.global.StaticData.audioBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.topRatedBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.genreBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.editorsChoiceBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.newReleasedBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.upcomingBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.popularAuthors;
+import static com.khalidsyfullah.boimela.global.StaticData.publishers;
+import static com.khalidsyfullah.boimela.global.StaticData.reviews;
 
 import android.app.Application;
 import android.util.Log;
@@ -22,6 +35,9 @@ import com.khalidsyfullah.boimela.datamodel.BookSeriesItemDataModel;
 import com.khalidsyfullah.boimela.datamodel.CollectionDataModel;
 import com.khalidsyfullah.boimela.datamodel.HomeDataModel;
 import com.khalidsyfullah.boimela.datamodel.PopularAuthorsDataModel;
+import com.khalidsyfullah.boimela.datamodel.PublisherCountDataModel;
+import com.khalidsyfullah.boimela.datamodel.PublisherDataModel;
+import com.khalidsyfullah.boimela.datamodel.PublishersDataModel;
 import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 import com.khalidsyfullah.boimela.global.StaticData;
@@ -33,23 +49,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RemoteRepo {
+public class HomeRepo {
     private final Application application;
     private RestAPI restAPI;
-    private MutableLiveData<ArrayList<SliderDataModel>> weeklyBooks = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<BookDataModel>> bestSellerBooks = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<BookDataModel>> popularBooks = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<BookDataModel>> bookSeries = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<BookDataModel>> audioBooks = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<BookDataModel>> topRatedBooks = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<BookDataModel>> genreBooks = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<BookDataModel>> editorsChoiceBooks = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<BookDataModel>> newReleasedBooks = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<BookDataModel>> upcomingBooks = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<AuthorDataModel>> popularAuthors = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<ReviewDataModel>> reviews = new MutableLiveData<>();
 
-    public RemoteRepo(Application application) {
+
+    public HomeRepo(Application application) {
 
         this.application = application;
         restAPI = RetrofitClient.createRetrofitClient();
@@ -64,6 +69,7 @@ public class RemoteRepo {
         fetchNewReleasesBooks();
         fetchPopularAuthors();
         fetchUpcomingBooks();
+        fetchPublishers();
 
     }
 
@@ -72,7 +78,7 @@ public class RemoteRepo {
         Log.d("HomeRoutes","Fetching Weekly Books....");
 
         restAPI = RetrofitClient.createRetrofitClient();
-        Call<HomeDataModel> booksCall = restAPI.getCollectionByID(StaticData.homeRouteIDs[0]);
+        Call<HomeDataModel> booksCall = restAPI.getCollectionByID(StaticData.homeRouteIDs[2]);
 
         booksCall.enqueue(new Callback<HomeDataModel>() {
             @Override
@@ -169,7 +175,7 @@ public class RemoteRepo {
 
 
         restAPI = RetrofitClient.createRetrofitClient();
-        Call<HomeDataModel> booksCall = restAPI.getCollectionByID(StaticData.homeRouteIDs[2]);
+        Call<HomeDataModel> booksCall = restAPI.getCollectionByID(StaticData.homeRouteIDs[0]);
 
         booksCall.enqueue(new Callback<HomeDataModel>() {
             @Override
@@ -627,6 +633,54 @@ public class RemoteRepo {
 
     }
 
+    private void fetchPublishers() {
+
+        Log.d("HomeRoutes","Fetching Publishers....");
+
+
+        restAPI = RetrofitClient.createRetrofitClient();
+        Call<PublishersDataModel> booksCall = restAPI.getAllPublishers("1","5");
+
+        booksCall.enqueue(new Callback<PublishersDataModel>() {
+            @Override
+            public void onResponse(Call<PublishersDataModel> call, Response<PublishersDataModel> response) {
+
+                if(response.code() == 200){
+
+
+                    PublishersDataModel publishersDataModel = response.body();
+
+                    PublisherCountDataModel publisherCountDataModel = publishersDataModel.getPublishers();
+
+                    ArrayList<PublisherDataModel> publisherDataModels = publisherCountDataModel.getItems();
+
+                    if(publisherDataModels.size() != 0) {
+
+
+                        Log.d("HomeRoutes","Message (Publishers): "+response.body().getMessage());
+                        Log.d("HomeRoutes", "Publisher Name: " + publisherDataModels.get(0).getName());
+                        Log.d("HomeRoutes", "Publisher DataModel Size: " + publisherDataModels.size());
+
+                        publishers.setValue(publisherDataModels);
+                    }
+                    else{
+                        Log.d("HomeRoutes","No Book Series found...");
+                    }
+                }
+                else{
+                    Log.d("HomeRoutes","Book Series Response Error: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PublishersDataModel> call, Throwable t) {
+                Log.d("HomeRoutes","Book Series: No response from server...");
+
+            }
+        });
+
+    }
+
     public MutableLiveData<ArrayList<SliderDataModel>> getWeeklyBooks() {
         return weeklyBooks;
     }
@@ -671,6 +725,9 @@ public class RemoteRepo {
         return upcomingBooks;
     }
 
+    public MutableLiveData<ArrayList<PublisherDataModel>> getPublishers() {
+        return publishers;
+    }
 
 
     public LiveData<ArrayList<ReviewDataModel>> fetchReviews(){
@@ -718,7 +775,7 @@ public class RemoteRepo {
     }
 
     public void setReviews(ArrayList<ReviewDataModel> reviews) {
-        this.reviews.setValue(reviews);
+        StaticData.reviews.setValue(reviews);
     }
 
 

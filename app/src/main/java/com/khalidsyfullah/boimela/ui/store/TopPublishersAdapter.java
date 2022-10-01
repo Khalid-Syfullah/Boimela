@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
+import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.datamodel.PublisherDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,10 +40,10 @@ class TopPublishersViewHolder extends RecyclerView.ViewHolder {
 
 public class TopPublishersAdapter extends RecyclerView.Adapter<TopPublishersViewHolder>{
 
-    private ArrayList<AuthorDataModel> topPublishersDataModels;
+    private ArrayList<PublisherDataModel> topPublishersDataModels;
     private Activity activity;
 
-    public TopPublishersAdapter(Activity activity, ArrayList<AuthorDataModel> topPublishersDataModels) {
+    public TopPublishersAdapter(Activity activity, ArrayList<PublisherDataModel> topPublishersDataModels) {
 
         this.activity = activity;
         this.topPublishersDataModels = topPublishersDataModels;
@@ -58,11 +61,11 @@ public class TopPublishersAdapter extends RecyclerView.Adapter<TopPublishersView
     @Override
     public void onBindViewHolder(@NonNull TopPublishersViewHolder holder, int position) {
 
-        AuthorDataModel authorDataModel = topPublishersDataModels.get(position);
+        PublisherDataModel publisherDataModel = topPublishersDataModels.get(position);
 
         holder.publisherNumber.setText(String.valueOf(position+1));
-        holder.publisherName.setText(authorDataModel.getName());
-        Picasso.get().load(authorDataModel.getImage()).into(holder.publisherImage);
+        holder.publisherName.setText(publisherDataModel.getName());
+        Picasso.get().load(StaticData.imageDirSmall+publisherDataModel.getImage()).placeholder(R.drawable.book_not_found).into(holder.publisherImage);
 
         if(position == 0){
             holder.publisherNumber.setTextColor(activity.getResources().getColor(R.color.white));
@@ -85,6 +88,11 @@ public class TopPublishersAdapter extends RecyclerView.Adapter<TopPublishersView
     @Override
     public int getItemCount() {
         return topPublishersDataModels.size();
+    }
+
+    public void setTopPublishersDataModels(ArrayList<PublisherDataModel> publisherDataModels) {
+        this.topPublishersDataModels = publisherDataModels;
+        notifyDataSetChanged();
     }
 }
 

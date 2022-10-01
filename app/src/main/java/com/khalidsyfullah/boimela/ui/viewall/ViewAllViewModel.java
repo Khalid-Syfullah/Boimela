@@ -6,27 +6,27 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.khalidsyfullah.boimela.Repo.RemoteRepo;
+import com.khalidsyfullah.boimela.Repo.HomeRepo;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 
 import java.util.ArrayList;
 
 public class ViewAllViewModel extends AndroidViewModel {
 
-    private RemoteRepo remoteRepo;
+    private HomeRepo homeRepo;
 
     public ViewAllViewModel(@NonNull Application application) {
         super(application);
 
-        remoteRepo = new RemoteRepo(application);
+        homeRepo = new HomeRepo(application);
     }
 
     public LiveData<ArrayList<BookDataModel>> getBestSellerBooks() {
-        return remoteRepo.getBestSellerBooks();
+        return homeRepo.getBestSellerBooks();
     }
 
     public LiveData<ArrayList<BookDataModel>> getPopularBooks() {
-        return remoteRepo.getPopularBooks();
+        return homeRepo.getPopularBooks();
     }
 
 }
