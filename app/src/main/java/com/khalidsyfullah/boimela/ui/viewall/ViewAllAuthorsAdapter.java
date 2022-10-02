@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -59,7 +60,8 @@ public class ViewAllAuthorsAdapter extends RecyclerView.Adapter<ViewAllAuthorsVi
         AuthorDataModel authorDataModel = viewAllAuthorsDataModels.get(position);
 
         holder.authorName.setText(authorDataModel.getName());
-        Picasso.get().load(authorDataModel.getImage()).into(holder.authorImage);
+        Picasso.get().load(StaticData.imageDirSmall+authorDataModel.getImage()).into(holder.authorImage);
+        holder.authorName.setSelected(true);
 
         holder.authorConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +74,11 @@ public class ViewAllAuthorsAdapter extends RecyclerView.Adapter<ViewAllAuthorsVi
     @Override
     public int getItemCount() {
         return viewAllAuthorsDataModels.size();
+    }
+
+    public void setAuthorDataModels(ArrayList<AuthorDataModel> authorDataModels) {
+        this.viewAllAuthorsDataModels = authorDataModels;
+        notifyDataSetChanged();
     }
 }
 

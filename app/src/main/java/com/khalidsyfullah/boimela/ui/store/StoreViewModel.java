@@ -11,7 +11,6 @@ import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.CategoryDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublisherDataModel;
-import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 
 import java.util.ArrayList;
 
@@ -54,6 +53,10 @@ public class StoreViewModel extends AndroidViewModel {
         return storeRepo.getBookSeries();
     }
 
+    public MutableLiveData<ArrayList<BookDataModel>> getBooksOfBookSeries() {
+        return storeRepo.getBooksOfBookSeries();
+    }
+
     public MutableLiveData<ArrayList<BookDataModel>> getEditorsChoiceBooks() {
         return storeRepo.getEditorsChoiceBooks();
     }
@@ -66,8 +69,12 @@ public class StoreViewModel extends AndroidViewModel {
         return storeRepo.getPopularAuthors();
     }
 
-    public MutableLiveData<ArrayList<PublisherDataModel>> getPublishers() {
-        return storeRepo.getPublishers();
+    public MutableLiveData<ArrayList<AuthorDataModel>> getAllAuthors() {
+        return storeRepo.getAllAuthors();
+    }
+
+    public MutableLiveData<ArrayList<PublisherDataModel>> getAllPublishers() {
+        return storeRepo.getAllPublishers();
     }
 
     public MutableLiveData<ArrayList<BookDataModel>> getTopBooks() {

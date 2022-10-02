@@ -1,9 +1,11 @@
 package com.khalidsyfullah.boimela.ui.home;
 
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
 import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,6 +105,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
             @Override
             public void onClick(View v) {
 
+                CURRENT_BOOK_ID = bookDataModel.get_id();
+                Bundle bundle = new Bundle();
+                bundle.putString("book_id",bookDataModel.get_id());
+
 
                 if(fragmentName.equals("HomeFragment")){
 
@@ -110,7 +116,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
                     StaticData.bookUrl = bookDataModel.getBookUrl();
                     StaticData.audioUrl = bookDataModel.getAudioUrl();
 
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details, bundle);
                 }
                 else if(fragmentName.equals("StoreFragment")){
 
@@ -118,7 +124,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
                     StaticData.bookUrl = bookDataModel.getBookUrl();
                     StaticData.audioUrl = bookDataModel.getAudioUrl();
 
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_book_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_book_details, bundle);
                 }
 
                 else if(fragmentName.equals("SearchFragment")){
@@ -127,7 +133,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
                     StaticData.bookUrl = bookDataModel.getBookUrl();
                     StaticData.audioUrl = bookDataModel.getAudioUrl();
 
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_search_to_navigation_book_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_search_to_navigation_book_details, bundle);
                 }
 
                 else if(fragmentName.equals("AuthorDetailsFragment")){
@@ -136,7 +142,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
                     StaticData.bookUrl = bookDataModel.getBookUrl();
                     StaticData.audioUrl = bookDataModel.getAudioUrl();
 
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_author_details_to_navigation_book_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_author_details_to_navigation_book_details, bundle);
                 }
 
             }
@@ -147,7 +153,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
 
     @Override
     public int getItemCount() {
-        return bookDataModels.size();
+
+        if(bookDataModels.size() < 10) {
+            return bookDataModels.size();
+        }
+        else{
+            return 10;
+        }
     }
 
 

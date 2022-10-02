@@ -1,10 +1,11 @@
 package com.khalidsyfullah.boimela.Repo;
 
 import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
+import static com.khalidsyfullah.boimela.global.StaticData.allAuthors;
 import static com.khalidsyfullah.boimela.global.StaticData.biographyBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.bookSeriesBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.categories;
 import static com.khalidsyfullah.boimela.global.StaticData.fictionBooks;
-import static com.khalidsyfullah.boimela.global.StaticData.genreBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.historyBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
 import static com.khalidsyfullah.boimela.global.StaticData.nonFictionBooks;
@@ -15,7 +16,7 @@ import static com.khalidsyfullah.boimela.global.StaticData.popularBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.bookSeries;
 import static com.khalidsyfullah.boimela.global.StaticData.editorsChoiceBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.newReleasedBooks;
-import static com.khalidsyfullah.boimela.global.StaticData.publishers;
+import static com.khalidsyfullah.boimela.global.StaticData.allPublishers;
 import static com.khalidsyfullah.boimela.global.StaticData.religiousBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.scienceFictionBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.shortStoryBooks;
@@ -28,12 +29,10 @@ import static com.khalidsyfullah.boimela.global.StaticData.translatedBooks;
 import android.app.Application;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.khalidsyfullah.boimela.api.RestAPI;
 import com.khalidsyfullah.boimela.api.RetrofitClient;
-import com.khalidsyfullah.boimela.datamodel.AudioBooksDataModel;
 import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookCategoryDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
@@ -49,8 +48,6 @@ import com.khalidsyfullah.boimela.datamodel.PopularAuthorsDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublisherCountDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublisherDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublishersDataModel;
-import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
-import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 import com.khalidsyfullah.boimela.datamodel.TopListDataModel;
 import com.khalidsyfullah.boimela.global.StaticData;
 
@@ -78,7 +75,7 @@ public class StoreRepo {
         fetchBookSeries();
         fetchEditorsChoiceBooks();
         fetchNewReleasesBooks();
-        fetchPublishers();
+        fetchAllPublishers();
         fetchTopBooks();
         fetchTopAuthors();
         fetchTopPublishers();
@@ -278,7 +275,7 @@ public class StoreRepo {
 
 
         restAPI = RetrofitClient.createRetrofitClient();
-        Call<BookSeriesDataModel> booksCall = restAPI.getBookSeries();
+        Call<BookSeriesDataModel> booksCall = restAPI.getBookSeries("1","100");
 
         booksCall.enqueue(new Callback<BookSeriesDataModel>() {
             @Override
@@ -302,20 +299,20 @@ public class StoreRepo {
                             ArrayList<BookDataModel> bookDataModels = bookSeriesItemDataModels.get(i).getBooks();
 
                             if(bookDataModels.size() >= 3) {
-                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getName(), imageDirSmall+ bookDataModels.get(0).getImage(), imageDirSmall+ bookDataModels.get(1).getImage(), imageDirSmall+ bookDataModels.get(2).getImage(), i);
+                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getId(), bookSeriesItemDataModels.get(i).getName(), imageDirSmall+ bookDataModels.get(0).getImage(), imageDirSmall+ bookDataModels.get(1).getImage(), imageDirSmall+ bookDataModels.get(2).getImage(), i);
                                 bookSeriesDataModels.add(bookDataModel);
                             }
                             else if(bookDataModels.size() == 2){
-                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), imageDirSmall+bookDataModels.get(1).getImage(), null, i);
+                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getId(), bookSeriesItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), imageDirSmall+bookDataModels.get(1).getImage(), null, i);
                                 bookSeriesDataModels.add(bookDataModel);
                             }
                             else if(bookDataModels.size() == 1){
-                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), null, null, i);
+                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getId(), bookSeriesItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), null, null, i);
                                 bookSeriesDataModels.add(bookDataModel);
 
                             }
                             else{
-                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getName(), null, null, null, i);
+                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getId(), bookSeriesItemDataModels.get(i).getName(), null, null, null, i);
                                 bookSeriesDataModels.add(bookDataModel);
                             }
 
@@ -338,6 +335,50 @@ public class StoreRepo {
             @Override
             public void onFailure(Call<BookSeriesDataModel> call, Throwable t) {
                 Log.d("StoreRoutes","Book Series: No response from server...");
+
+            }
+        });
+
+    }
+
+    private void fetchBookSeriesBooks() {
+
+        Log.d("StoreRoutes","Fetching Books from Book Series....");
+
+
+        restAPI = RetrofitClient.createRetrofitClient();
+        Call<HomeDataModel> booksCall = restAPI.getCollectionByID(CURRENT_BOOK_ID);
+
+        booksCall.enqueue(new Callback<HomeDataModel>() {
+            @Override
+            public void onResponse(Call<HomeDataModel> call, Response<HomeDataModel> response) {
+
+                if(response.code() == 200){
+
+
+                    CollectionDataModel collectionDataModel = response.body().getCollectionDataModel();
+
+                    if(collectionDataModel.getBooks().size() != 0) {
+
+                        Log.d("StoreRoutes","Message (Books from Book Series): "+response.body().getMessage());
+                        Log.d("StoreRoutes", "Book Name: " + collectionDataModel.getBooks().get(0).getName());
+                        Log.d("StoreRoutes", "Author Name: " + collectionDataModel.getBooks().get(0).getWriter().getName());
+
+                        bookSeriesBooks.setValue(collectionDataModel.getBooks());
+                    }
+                    else{
+                        Log.d("StoreRoutes","No Books found from Book Series...");
+                    }
+                }
+                else{
+                    Log.d("StoreRoutes","Books from Book Series Response Error: "+response.code());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HomeDataModel> call, Throwable t) {
+                Log.d("StoreRoutes","Books from Book Series: No response from server...");
 
             }
         });
@@ -438,13 +479,13 @@ public class StoreRepo {
 
     }
 
-    private void fetchPublishers() {
+    private void fetchAllPublishers() {
 
-        Log.d("StoreRoutes","Fetching Publishers....");
+        Log.d("StoreRoutes","Fetching All Publishers....");
 
 
         restAPI = RetrofitClient.createRetrofitClient();
-        Call<PublishersDataModel> booksCall = restAPI.getAllPublishers("1","5");
+        Call<PublishersDataModel> booksCall = restAPI.getAllPublishers("1","100");
 
         booksCall.enqueue(new Callback<PublishersDataModel>() {
             @Override
@@ -462,24 +503,24 @@ public class StoreRepo {
                     if(publisherDataModels.size() != 0) {
 
 
-                        Log.d("StoreRoutes","Message (Publishers): "+response.body().getMessage());
+                        Log.d("StoreRoutes","Message (All Publishers): "+response.body().getMessage());
                         Log.d("StoreRoutes", "Publisher Name: " + publisherDataModels.get(0).getName());
                         Log.d("StoreRoutes", "Publisher DataModel Size: " + publisherDataModels.size());
 
-                        publishers.setValue(publisherDataModels);
+                        allPublishers.setValue(publisherDataModels);
                     }
                     else{
-                        Log.d("StoreRoutes","No Book Series found...");
+                        Log.d("StoreRoutes","All Publishers: No Publisher found...");
                     }
                 }
                 else{
-                    Log.d("StoreRoutes","Book Series Response Error: "+response.code());
+                    Log.d("StoreRoutes","All Publishers Response Error: "+response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<PublishersDataModel> call, Throwable t) {
-                Log.d("StoreRoutes","Book Series: No response from server...");
+                Log.d("StoreRoutes","All Publishers: No response from server...");
 
             }
         });
@@ -524,7 +565,7 @@ public class StoreRepo {
 
             @Override
             public void onFailure(Call<TopListDataModel> call, Throwable t) {
-                Log.d("StoreRoutes","No response from server...");
+                Log.d("StoreRoutes","Top Books: No response from server...");
 
             }
         });
@@ -568,7 +609,7 @@ public class StoreRepo {
 
             @Override
             public void onFailure(Call<TopListDataModel> call, Throwable t) {
-                Log.d("StoreRoutes","No response from server...");
+                Log.d("StoreRoutes","Top Authors: No response from server...");
 
             }
         });
@@ -612,7 +653,7 @@ public class StoreRepo {
 
             @Override
             public void onFailure(Call<TopListDataModel> call, Throwable t) {
-                Log.d("StoreRoutes","No response from server...");
+                Log.d("StoreRoutes","Top Publishers: No response from server...");
 
             }
         });
@@ -682,7 +723,7 @@ public class StoreRepo {
 
             @Override
             public void onFailure(Call<TopListDataModel> call, Throwable t) {
-                Log.d("StoreRoutes","No response from server...");
+                Log.d("StoreRoutes","Top List: No response from server...");
 
             }
         });
@@ -733,7 +774,7 @@ public class StoreRepo {
 
             @Override
             public void onFailure(Call<BookCategoryDataModel> call, Throwable t) {
-                Log.d("StoreRoutes","No response from server...");
+                Log.d("StoreRoutes","Categories: No response from server...");
 
             }
         });
@@ -774,6 +815,12 @@ public class StoreRepo {
         return bookSeries;
     }
 
+    public MutableLiveData<ArrayList<BookDataModel>> getBooksOfBookSeries() {
+
+        fetchBookSeriesBooks();
+        return bookSeriesBooks;
+    }
+
     public MutableLiveData<ArrayList<BookDataModel>> getEditorsChoiceBooks() {
         return editorsChoiceBooks;
     }
@@ -786,8 +833,12 @@ public class StoreRepo {
         return popularAuthors;
     }
 
-    public MutableLiveData<ArrayList<PublisherDataModel>> getPublishers() {
-        return publishers;
+    public MutableLiveData<ArrayList<AuthorDataModel>> getAllAuthors() {
+        return allAuthors;
+    }
+
+    public MutableLiveData<ArrayList<PublisherDataModel>> getAllPublishers() {
+        return allPublishers;
     }
 
     public MutableLiveData<ArrayList<BookDataModel>> getTopBooks() {

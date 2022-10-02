@@ -1,8 +1,17 @@
 package com.khalidsyfullah.boimela.ui.book;
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_AUTHOR_ID;
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
+import static com.khalidsyfullah.boimela.global.StaticData.audioUrl;
+import static com.khalidsyfullah.boimela.global.StaticData.authorDetails;
+import static com.khalidsyfullah.boimela.global.StaticData.bookDetails;
 import static com.khalidsyfullah.boimela.global.StaticData.bookUrl;
+import static com.khalidsyfullah.boimela.global.StaticData.fileDir;
 import static com.khalidsyfullah.boimela.global.StaticData.fileName;
+import static com.khalidsyfullah.boimela.global.StaticData.imageDirBig;
+import static com.khalidsyfullah.boimela.global.StaticData.mediaUrl;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.bookLanguage;
+import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.destination;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -21,9 +30,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,9 +46,11 @@ import com.khalidsyfullah.boimela.api.RestAPI;
 import com.khalidsyfullah.boimela.api.RetrofitClient;
 import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.datamodel.BookDetailsDataModel;
 import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
 import com.khalidsyfullah.boimela.ui.epub.ReaderActivity;
 import com.khalidsyfullah.boimela.ui.home.BookAdapter;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,13 +70,14 @@ public class AuthorDetailsFragment extends Fragment {
 
 
 
-
+    private AuthorDetailsViewModel authorDetailsViewModel;
     private TextView authorName, authorBirthday, authorLocation, authorBooksTitle, authorDescription;
     private ProgressBar authorDetailsProgress;
     private ImageView authorImage, backBtn;
     private RecyclerView authorRecycler;
     private AuthorDataModel authorDataModel;
     private ArrayList<BookDataModel> bookDataModels;
+    private ConstraintLayout authorDetailsConstraintLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +92,11 @@ public class AuthorDetailsFragment extends Fragment {
         authorDescription = root.findViewById(R.id.author_details_full_details_text);
         authorRecycler = root.findViewById(R.id.author_details_books_recycler_view);
         backBtn = root.findViewById(R.id.author_details_back);
+        authorDetailsProgress = root.findViewById(R.id.author_details_progress_bar);
+        authorDetailsConstraintLayout = root.findViewById(R.id.author_details_constraint_layout);
+
+        authorDetailsViewModel = new ViewModelProvider(getActivity()).get(AuthorDetailsViewModel.class);
+
         return root;
     }
 
@@ -84,22 +105,24 @@ public class AuthorDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        bookDataModels = new ArrayList<>();
+        authorDetails = new MutableLiveData<>();
 
-        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif","Feluda", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
-        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "TinTin", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
-        bookDataModels.add(new BookDataModel("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Kakababu", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
-        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif","Feluda", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
-        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "TinTin", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
-        bookDataModels.add(new BookDataModel("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Kakababu", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
-        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif","Feluda", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
-        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "TinTin", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
-        bookDataModels.add(new BookDataModel("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Kakababu", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+        authorDetailsProgress.setVisibility(View.VISIBLE);
+        authorDetailsConstraintLayout.setVisibility(View.GONE);
 
-        authorBooksTitle.setText(getActivity().getResources().getString(R.string.books) + " ("+bookDataModels.size()+")");
-        authorRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        BookAdapter bookAdapter = new BookAdapter(getActivity(), bookDataModels, 1, "AuthorDetailsFragment");
-        authorRecycler.setAdapter(bookAdapter);
+//        bookDataModels = new ArrayList<>();
+//
+//        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif","Feluda", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+//        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "TinTin", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+//        bookDataModels.add(new BookDataModel("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Kakababu", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+//        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif","Feluda", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+//        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "TinTin", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+//        bookDataModels.add(new BookDataModel("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Kakababu", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+//        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif","Feluda", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+//        bookDataModels.add(new BookDataModel("https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "TinTin", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+//        bookDataModels.add(new BookDataModel("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Kakababu", "Novel", "Satyagit Roy", 4, 6, "1984","https://boimelafoundation.com/1984.epub", "https://boimelafoundation.com/1984.mp3"));
+
+
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,8 +133,61 @@ public class AuthorDetailsFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Bundle bundle = getArguments();
 
 
+        if(bundle.getString("author_id") != null) {
+
+            CURRENT_AUTHOR_ID = bundle.getString("author_id");
+
+            authorDetailsViewModel.getAuthorDetails().observe(getViewLifecycleOwner(), new Observer<AuthorDataModel>() {
+
+                @Override
+                public void onChanged(AuthorDataModel authorDataModel) {
+
+                    authorDetailsProgress.setVisibility(View.GONE);
+                    authorDetailsConstraintLayout.setVisibility(View.VISIBLE);
+
+                    authorName.setText(authorDataModel.getName());
+                    Picasso.get().load(imageDirBig + authorDataModel.getImage()).placeholder(R.drawable.book_not_found).into(authorImage);
+                    authorBirthday.setText(String.valueOf(authorDataModel.getBirth() + " - " +authorDataModel.getDeath()));
+                    authorLocation.setText(authorDataModel.getLocation());
+                    authorDescription.setText(authorDataModel.getDescription());
+
+                    if(authorDataModel.getBooks() != null){
+
+                        authorBooksTitle.setText(getActivity().getResources().getString(R.string.books) + " ("+authorDataModel.getBooks().size()+")");
+
+                        if(authorDataModel.getBooks().size() != 0){
+
+                            Log.d("AuthorDetailsFragment","Author Books DataModel Size: "+authorDataModel.getBooks().size());
+
+                            authorRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
+                            BookAdapter bookAdapter = new BookAdapter(getActivity(), authorDataModel.getBooks(), 1, "AuthorDetailsFragment");
+                            authorRecycler.setAdapter(bookAdapter);
+                            authorRecycler.setVisibility(View.VISIBLE);
+
+                        }
+                        else{
+                            authorRecycler.setVisibility(View.GONE);
+                        }
+                    }
+                    else{
+                        authorRecycler.setVisibility(View.GONE);
+                    }
+
+                }
+
+            });
+
+        }
+
+
+    }
 
     @Override
     public void onDestroyView() {

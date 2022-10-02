@@ -7,6 +7,17 @@
     android:background="@color/white"
     tools:context=".ui.book.BookDetailsFragment">
 
+    <ProgressBar
+        android:id="@+id/book_details_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:id="@+id/book_details_scrollview"
         android:layout_width="match_parent"
@@ -18,6 +29,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/book_details_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -38,7 +50,7 @@
                 android:layout_width="160dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="32dp"
-                android:src="@drawable/dummy_book_1"
+                android:src="@drawable/book_2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/book_details_back" />
@@ -99,6 +111,7 @@
                 android:layout_marginEnd="16dp"
                 android:gravity="center"
                 android:orientation="vertical"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/book_details_review_amount">
@@ -220,31 +233,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/book_details_linear_layout_2" />
 
             <TextView
-                android:id="@+id/book_details_reviews_title"
-                style="@style/TextViewLabelB6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/book_reviews"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/book_details_linear_layout_3" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/book_details_reviews_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/book_details_reviews_title" />
-
-            <TextView
                 android:id="@+id/book_details_full_details_text"
                 style="@style/TextViewLabelD6"
                 android:layout_width="0dp"
@@ -257,6 +245,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/book_details_full_details" />
+
+            <TextView
+                android:id="@+id/book_details_reviews_title"
+                style="@style/TextViewLabelB6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/book_reviews"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/book_details_linear_layout_4" />
 
             <LinearLayout
                 android:id="@+id/book_details_linear_layout_3"
@@ -337,10 +339,107 @@
                         style="@style/TextViewLabelD7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/pages" />
+                        android:text="@string/random_category" />
                 </LinearLayout>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/book_details_linear_layout_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/book_details_linear_layout_3">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    tools:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/book_details_year_title"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/year" />
+
+                    <TextView
+                        android:id="@+id/book_details_year_text"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/random_year" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    tools:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/book_details_edition_title"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/edition" />
+
+                    <TextView
+                        android:id="@+id/book_details_edition_text"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/random_number" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    tools:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/book_details_subcategory_title"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/subcategory" />
+
+                    <TextView
+                        android:id="@+id/book_details_subcategory_text"
+                        style="@style/TextViewLabelD7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/random_category" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/book_details_reviews_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/book_details_reviews_title">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

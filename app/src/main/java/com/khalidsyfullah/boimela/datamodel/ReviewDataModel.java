@@ -8,6 +8,20 @@ public class ReviewDataModel {
     @SerializedName("_id")
     @Expose
     private String _id;
+;
+    @SerializedName("user")
+    @Expose
+    private UserDataModel user;
+
+    @SerializedName("rating")
+    @Expose
+    private int rating;
+
+    @SerializedName("message")
+    @Expose
+    private String message;
+    
+    
     @SerializedName("bookId")
     @Expose
     private String bookId;
@@ -44,9 +58,7 @@ public class ReviewDataModel {
     @SerializedName("dislike_1")
     @Expose
     private int dislike;
-    @SerializedName("star")
-    @Expose
-    private float rating;
+
 
 
     public ReviewDataModel(String reviewId, String userId) {
@@ -54,7 +66,7 @@ public class ReviewDataModel {
         this.userId = userId;
     }
 
-    public ReviewDataModel(String bookId, String userId, String name, String commentTitle, String commentBody, float rating) {
+    public ReviewDataModel(String bookId, String userId, String name, String commentTitle, String commentBody, int rating) {
         this.bookId = bookId;
         this.userId = userId;
         this.name = name;
@@ -63,7 +75,7 @@ public class ReviewDataModel {
         this.rating = rating;
     }
 
-    public ReviewDataModel(String name, String image, String commentTitle, String commentBody, String commentTime, int like, int dislike, float rating) {
+    public ReviewDataModel(String name, String image, String commentTitle, String commentBody, String commentTime, int like, int dislike, int rating) {
         this.name = name;
         this.image = image;
         this.commentTitle = commentTitle;
@@ -74,7 +86,7 @@ public class ReviewDataModel {
         this.rating = rating;
     }
 
-    public ReviewDataModel(String _id, String name, String image, String commentTitle, String commentBody, String commentTime, int like, int dislike, float rating) {
+    public ReviewDataModel(String _id, String name, String image, String commentTitle, String commentBody, String commentTime, int like, int dislike, int rating) {
         this._id = _id;
         this.name = name;
         this.image = image;
@@ -92,6 +104,22 @@ public class ReviewDataModel {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public UserDataModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserDataModel user) {
+        this.user = user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getBookId() {
@@ -194,7 +222,7 @@ public class ReviewDataModel {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

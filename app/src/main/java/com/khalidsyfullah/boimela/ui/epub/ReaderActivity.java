@@ -809,7 +809,13 @@ public class ReaderActivity extends AppCompatActivity {
 
     private void checkStatus(){
 
-        file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
+        if(Build.VERSION.SDK_INT > 30) {
+            file = new File(Environment.getDataDirectory().getAbsolutePath() + "/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
+        }
+        else{
+            file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
+        }
+
 
         if(!file.exists()){
             loadData();
@@ -845,7 +851,7 @@ public class ReaderActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Log.d("Download", "server contacted and has file");
+                    Log.d("ReaderActivity", "Connected to CDN server: "+response.code());
 
                     mProgressDialog.show();
 
@@ -855,7 +861,7 @@ public class ReaderActivity extends AppCompatActivity {
                         protected Void doInBackground(Void... voids) {
                             boolean writtenToDisk = writeResponseBodyToDisk(response.body());
 
-                            Log.d("Download", "file download was a success? " + writtenToDisk);
+                            Log.d("ReaderActivity", "File download was a success? " + writtenToDisk);
                             return null;
                         }
 
@@ -872,12 +878,16 @@ public class ReaderActivity extends AppCompatActivity {
                     }.execute();
                 }
                 else {
-                    Log.d("Download", "server contact failed");
+                    Log.d("ReaderActivity", "Server Response error: "+response.code());
+                    Toast.makeText(ReaderActivity.this, "Download Unsuccessful: "+response.code(), Toast.LENGTH_SHORT).show();
+
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("ReaderActivity", "No response from Server: "+t.getMessage());
+                Toast.makeText(ReaderActivity.this, "No response from Server: "+t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -886,7 +896,11 @@ public class ReaderActivity extends AppCompatActivity {
     }
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
+            if(Build.VERSION.SDK_INT > 30) {
+                file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");            }
+            else{
+                file = new File(Environment.getDownloadCacheDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
+            }
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -913,7 +927,7 @@ public class ReaderActivity extends AppCompatActivity {
                     mProgressDialog.setIndeterminate(false);
                     mProgressDialog.setMax(100);
                     mProgressDialog.setProgress((int) (fileSizeDownloaded*100/fileSize));
-                    Log.d("Download", "File download: " + fileSizeDownloaded + " of " + fileSize+ " "+fileSizeDownloaded/fileSize*100+ "%");
+                    Log.d("ReaderActivity", "File download: " + fileSizeDownloaded + " of " + fileSize+ " "+fileSizeDownloaded/fileSize*100+ "%");
                 }
 
                 outputStream.flush();
@@ -950,7 +964,14 @@ public class ReaderActivity extends AppCompatActivity {
 
 
 //        OPEN EPUB
-        destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela";
+
+        if(Build.VERSION.SDK_INT > 30) {
+            destination = Environment.getDataDirectory().getAbsolutePath() + "/data/com.khalidsyfullah.boimela";
+        }
+        else{
+            destination = Environment.getDownloadCacheDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela";
+        }
+
         file = new File(destination + File.separator + fileName + ".epub");
         //file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".epub");
         FileInputStream fileInputStream = null;
@@ -968,7 +989,12 @@ public class ReaderActivity extends AppCompatActivity {
 
 //            LOAD EPUB MANUALLY FROM FILE EXTRACTION
 //            OPEN DIRECTORY TO EXTRACT EPUB
-            destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/EPUB/"+fileName;
+            if(Build.VERSION.SDK_INT > 30) {
+                destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/EPUB/"+fileName;
+            }
+            else{
+                destination = Environment.getDownloadCacheDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/EPUB/"+fileName;
+            }
             File file2 = new File(destination);
             unzip(file, file2);
 //            unpackZip(destination,"abc.epub");
@@ -1063,7 +1089,7 @@ public class ReaderActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Void unused) {
                         super.onPostExecute(unused);
-                        Toast.makeText(ReaderActivity.this, "This EPUB doesn't support text formatting", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ReaderActivity.this, getResources().getString(R.string.unsupported_epub_version), Toast.LENGTH_SHORT).show();
 
                         if(hrefSlashSeparated.length > 1) {
 

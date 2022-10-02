@@ -340,7 +340,13 @@ public class AudioPlayerActivity extends Activity {
 
     private void checkStatus(){
 
-        file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
+        if(Build.VERSION.SDK_INT > 30) {
+            file = new File(Environment.getDataDirectory().getAbsolutePath() + "/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
+        }
+        else{
+            file = new File(Environment.getDownloadCacheDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
+        }
+
 
         if(!file.exists()){
             loadMedia();
@@ -398,7 +404,13 @@ public class AudioPlayerActivity extends Activity {
 
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
+
+            if(Build.VERSION.SDK_INT > 30) {
+                file = new File(Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
+            }
+            else{
+                file = new File(Environment.getDownloadCacheDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
+            }
             mediaUrl = file.getPath();
 
             InputStream inputStream = null;

@@ -1,7 +1,12 @@
 package com.khalidsyfullah.boimela.ui.home;
 
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
+import static com.khalidsyfullah.boimela.global.StaticData.bookSeriesBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.genreBooks;
+
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +15,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -91,7 +99,29 @@ public class BookGenreAdapter extends RecyclerView.Adapter<BookGenreViewHolder>{
         Picasso.get().load(bookDataModel.getImageB()).placeholder(R.drawable.books).into(holder.bookImageB);
         Picasso.get().load(bookDataModel.getImageC()).placeholder(R.drawable.books).into(holder.bookImageC);
 
+        holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                CURRENT_BOOK_ID = bookDataModel.get_id();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("fragment","home");
+                bundle.putString("type","books");
+                bundle.putString("query","genres");
+                bundle.putString("book_id",bookDataModel.get_id());
+
+                genreBooks = new MutableLiveData<>();
+
+                StaticData.fileName = bookDataModel.getFileName();
+                StaticData.bookUrl = bookDataModel.getBookUrl();
+                StaticData.audioUrl = bookDataModel.getAudioUrl();
+
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_view_all, bundle);
+
+
+            }
+        });
 
     }
 

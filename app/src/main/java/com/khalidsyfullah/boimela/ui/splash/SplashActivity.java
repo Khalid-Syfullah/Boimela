@@ -30,6 +30,7 @@ import com.khalidsyfullah.boimela.datamodel.HomeDataModel;
 import com.khalidsyfullah.boimela.datamodel.UserDataModel;
 import com.khalidsyfullah.boimela.global.StaticData;
 import com.khalidsyfullah.boimela.ui.auth.AuthActivity;
+import com.khalidsyfullah.boimela.ui.home.HomeViewModel;
 import com.khalidsyfullah.boimela.ui.navigation.NavigationActivity;
 import com.khalidsyfullah.boimela.R;
 
@@ -42,7 +43,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
-
 
     private ImageView imageView;
     private ProgressBar progressBar;
@@ -63,7 +63,6 @@ public class SplashActivity extends AppCompatActivity {
         imageView.startAnimation(rotateAnimation);
 
         getHomeRoutes();
-
 
 
         Handler handler =new Handler(Looper.getMainLooper());

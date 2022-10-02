@@ -1,6 +1,10 @@
 package com.khalidsyfullah.boimela.ui.home;
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_AUTHOR_ID;
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
+
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,14 +72,20 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorViewHolder>{
         holder.authorConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                CURRENT_AUTHOR_ID = authorDataModel.getId();
+                Bundle bundle = new Bundle();
+                bundle.putString("author_id",authorDataModel.getId());
+
+
                 if(fragmentName.equals("HomeFragment")) {
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_author_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_author_details, bundle);
                 }
                 else if(fragmentName.equals("StoreFragment")) {
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_author_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_author_details, bundle);
                 }
                 else if(fragmentName.equals("SearchFragment")) {
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_search_to_navigation_author_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_search_to_navigation_author_details, bundle);
                 }
             }
         });

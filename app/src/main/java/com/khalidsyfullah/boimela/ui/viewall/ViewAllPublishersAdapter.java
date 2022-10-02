@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublisherDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -60,7 +61,8 @@ public class ViewAllPublishersAdapter extends RecyclerView.Adapter<ViewAllPublis
         PublisherDataModel publisherDataModel = viewAllPublishersDataModels.get(position);
 
         holder.publisherName.setText(publisherDataModel.getName());
-        Picasso.get().load(publisherDataModel.getImage()).into(holder.publisherImage);
+        Picasso.get().load(StaticData.imageDirSmall+publisherDataModel.getImage()).placeholder(R.drawable.book_not_found).into(holder.publisherImage);
+        holder.publisherName.setSelected(true);
 
         holder.publisherConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +75,11 @@ public class ViewAllPublishersAdapter extends RecyclerView.Adapter<ViewAllPublis
     @Override
     public int getItemCount() {
         return viewAllPublishersDataModels.size();
+    }
+
+    public void setPublisherDataModels(ArrayList<PublisherDataModel> publisherDataModels) {
+        this.viewAllPublishersDataModels = publisherDataModels;
+        notifyDataSetChanged();
     }
 }
 

@@ -23,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class NavigationActivity extends AppCompatActivity {
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +34,14 @@ public class NavigationActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_main);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        boolean canWriteSettings = Settings.System.canWrite(getApplicationContext());
-        if(!canWriteSettings) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-            startActivity(intent);
-        }
+        if (Build.VERSION.SDK_INT > 30) {
+            boolean canWriteSettings = Settings.System.canWrite(getApplicationContext());
+            if (!canWriteSettings) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                startActivity(intent);
+            }
 
+        }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

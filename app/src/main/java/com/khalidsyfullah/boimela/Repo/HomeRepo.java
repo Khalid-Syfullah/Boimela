@@ -1,6 +1,10 @@
 package com.khalidsyfullah.boimela.Repo;
 
 import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
+import static com.khalidsyfullah.boimela.global.StaticData.allAuthors;
+import static com.khalidsyfullah.boimela.global.StaticData.bookSeriesBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.genreBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.homeRouteIDs;
 import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
 import static com.khalidsyfullah.boimela.global.StaticData.weeklyBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.bestSellerBooks;
@@ -8,24 +12,24 @@ import static com.khalidsyfullah.boimela.global.StaticData.popularBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.bookSeries;
 import static com.khalidsyfullah.boimela.global.StaticData.audioBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.topRatedBooks;
-import static com.khalidsyfullah.boimela.global.StaticData.genreBooks;
+import static com.khalidsyfullah.boimela.global.StaticData.genres;
 import static com.khalidsyfullah.boimela.global.StaticData.editorsChoiceBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.newReleasedBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.upcomingBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.popularAuthors;
-import static com.khalidsyfullah.boimela.global.StaticData.publishers;
-import static com.khalidsyfullah.boimela.global.StaticData.reviews;
+import static com.khalidsyfullah.boimela.global.StaticData.allPublishers;
 
 import android.app.Application;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.khalidsyfullah.boimela.api.RestAPI;
 import com.khalidsyfullah.boimela.api.RetrofitClient;
 import com.khalidsyfullah.boimela.datamodel.AudioBooksDataModel;
+import com.khalidsyfullah.boimela.datamodel.AuthorCountDataModel;
 import com.khalidsyfullah.boimela.datamodel.AuthorDataModel;
+import com.khalidsyfullah.boimela.datamodel.AuthorsDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookGenreDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookGenreItemDataModel;
@@ -38,7 +42,6 @@ import com.khalidsyfullah.boimela.datamodel.PopularAuthorsDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublisherCountDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublisherDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublishersDataModel;
-import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 import com.khalidsyfullah.boimela.global.StaticData;
 
@@ -58,19 +61,45 @@ public class HomeRepo {
 
         this.application = application;
         restAPI = RetrofitClient.createRetrofitClient();
+        fetchHomeRoutes();
         fetchWeeklyBooks();
         fetchBestSellerBooks();
         fetchPopularBooks();
         fetchBookSeries();
         fetchAudioBooks();
         fetchTopRatedBooks();
-        fetchGenreBooks();
+        fetchGenres();
         fetchEditorsChoiceBooks();
         fetchNewReleasesBooks();
-        fetchPopularAuthors();
+        fetchAllAuthors();
         fetchUpcomingBooks();
-        fetchPublishers();
+        fetchAllPublishers();
 
+    }
+
+    private void fetchHomeRoutes(){
+        RestAPI restAPI = RetrofitClient.createRetrofitClient();
+        Call<HomeDataModel> call = restAPI.getHomeRoutes();
+        call.enqueue(new Callback<HomeDataModel>() {
+            @Override
+            public void onResponse(Call<HomeDataModel> call, Response<HomeDataModel> response) {
+
+                HomeDataModel homeDataModel = response.body();
+                if(response.isSuccessful()){
+                    Log.d("HomeRoutes","message: "+homeDataModel.getMessage());
+
+                    homeRouteIDs = homeDataModel.getHome();
+                    for(int i=0;i<homeRouteIDs.length;i++){
+                        Log.d("HomeRoutes", "home: "+"#"+i+": "+homeRouteIDs[i]);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HomeDataModel> call, Throwable t) {
+
+            }
+        });
     }
 
     private void fetchWeeklyBooks() {
@@ -219,7 +248,7 @@ public class HomeRepo {
 
 
         restAPI = RetrofitClient.createRetrofitClient();
-        Call<BookSeriesDataModel> booksCall = restAPI.getBookSeries();
+        Call<BookSeriesDataModel> booksCall = restAPI.getBookSeries("1","100");
 
         booksCall.enqueue(new Callback<BookSeriesDataModel>() {
             @Override
@@ -243,20 +272,19 @@ public class HomeRepo {
                             ArrayList<BookDataModel> bookDataModels = bookSeriesItemDataModels.get(i).getBooks();
 
                             if(bookDataModels.size() >= 3) {
-                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getName(), imageDirSmall+ bookDataModels.get(0).getImage(), imageDirSmall+ bookDataModels.get(1).getImage(), imageDirSmall+ bookDataModels.get(2).getImage(), i);
+                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getId(), bookSeriesItemDataModels.get(i).getName(), imageDirSmall+ bookDataModels.get(0).getImage(), imageDirSmall+ bookDataModels.get(1).getImage(), imageDirSmall+ bookDataModels.get(2).getImage(), i);
                                 bookSeriesDataModels.add(bookDataModel);
                             }
                             else if(bookDataModels.size() == 2){
-                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), imageDirSmall+bookDataModels.get(1).getImage(), null, i);
+                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getId(), bookSeriesItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), imageDirSmall+bookDataModels.get(1).getImage(), null, i);
                                 bookSeriesDataModels.add(bookDataModel);
                             }
                             else if(bookDataModels.size() == 1){
-                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), null, null, i);
+                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getId(), bookSeriesItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), null, null, i);
                                 bookSeriesDataModels.add(bookDataModel);
-
                             }
                             else{
-                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getName(), null, null, null, i);
+                                BookDataModel bookDataModel = new BookDataModel(bookSeriesItemDataModels.get(i).getId(), bookSeriesItemDataModels.get(i).getName(), null, null, null, i);
                                 bookSeriesDataModels.add(bookDataModel);
                             }
 
@@ -279,6 +307,50 @@ public class HomeRepo {
             @Override
             public void onFailure(Call<BookSeriesDataModel> call, Throwable t) {
                 Log.d("HomeRoutes","Book Series: No response from server...");
+
+            }
+        });
+
+    }
+
+    private void fetchBookSeriesBooks() {
+
+        Log.d("HomeRoutes","Fetching Books from Book Series....");
+
+
+        restAPI = RetrofitClient.createRetrofitClient();
+        Call<HomeDataModel> booksCall = restAPI.getCollectionByID(CURRENT_BOOK_ID);
+
+        booksCall.enqueue(new Callback<HomeDataModel>() {
+            @Override
+            public void onResponse(Call<HomeDataModel> call, Response<HomeDataModel> response) {
+
+                if(response.code() == 200){
+
+
+                    CollectionDataModel collectionDataModel = response.body().getCollectionDataModel();
+
+                    if(collectionDataModel.getBooks().size() != 0) {
+
+                        Log.d("HomeRoutes","Message (Books from Book Series): "+response.body().getMessage());
+                        Log.d("HomeRoutes", "Book Name: " + collectionDataModel.getBooks().get(0).getName());
+                        Log.d("HomeRoutes", "Author Name: " + collectionDataModel.getBooks().get(0).getWriter().getName());
+
+                        bookSeriesBooks.setValue(collectionDataModel.getBooks());
+                    }
+                    else{
+                        Log.d("HomeRoutes","No Books found from Book Series...");
+                    }
+                }
+                else{
+                    Log.d("HomeRoutes","Books from Book Series Response Error: "+response.code());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HomeDataModel> call, Throwable t) {
+                Log.d("HomeRoutes","Books from Book Series: No response from server...");
 
             }
         });
@@ -379,9 +451,9 @@ public class HomeRepo {
 
     }
 
-    private void fetchGenreBooks() {
+    private void fetchGenres() {
 
-        Log.d("HomeRoutes","Fetching Genre Books....");
+        Log.d("HomeRoutes","Fetching Genres....");
 
         restAPI = RetrofitClient.createRetrofitClient();
         Call<BookGenreDataModel> booksCall = restAPI.getGenreBooks();
@@ -403,46 +475,90 @@ public class HomeRepo {
                             ArrayList<BookDataModel> bookDataModels = bookGenreItemDataModels.get(i).getBooks();
 
                             if(bookDataModels.size() >= 3) {
-                                BookDataModel bookDataModel = new BookDataModel(bookGenreItemDataModels.get(i).getName(), imageDirSmall+ bookDataModels.get(0).getImage(), imageDirSmall+ bookDataModels.get(1).getImage(), imageDirSmall+ bookDataModels.get(2).getImage(), i);
+                                BookDataModel bookDataModel = new BookDataModel(bookGenreItemDataModels.get(i).getId(), bookGenreItemDataModels.get(i).getName(), imageDirSmall+ bookDataModels.get(0).getImage(), imageDirSmall+ bookDataModels.get(1).getImage(), imageDirSmall+ bookDataModels.get(2).getImage(), i);
                                 genreBooksDataModels.add(bookDataModel);
                             }
                             else if(bookDataModels.size() == 2){
-                                BookDataModel bookDataModel = new BookDataModel(bookGenreItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), imageDirSmall+bookDataModels.get(1).getImage(), null, i);
+                                BookDataModel bookDataModel = new BookDataModel(bookGenreItemDataModels.get(i).getId(), bookGenreItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), imageDirSmall+bookDataModels.get(1).getImage(), null, i);
                                 genreBooksDataModels.add(bookDataModel);
                             }
                             else if(bookDataModels.size() == 1){
-                                BookDataModel bookDataModel = new BookDataModel(bookGenreItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), null, null, i);
+                                BookDataModel bookDataModel = new BookDataModel(bookGenreItemDataModels.get(i).getId(), bookGenreItemDataModels.get(i).getName(), imageDirSmall+bookDataModels.get(0).getImage(), null, null, i);
                                 genreBooksDataModels.add(bookDataModel);
 
                             }
                             else{
-                                BookDataModel bookDataModel = new BookDataModel(bookGenreItemDataModels.get(i).getName(), null, null, null, i);
+                                BookDataModel bookDataModel = new BookDataModel(bookGenreItemDataModels.get(i).getId(), bookGenreItemDataModels.get(i).getName(), null, null, null, i);
                                 genreBooksDataModels.add(bookDataModel);
                             }
 
                         }
 
-                        Log.d("HomeRoutes","Message (Genre Books): "+response.body().getMessage());
+                        Log.d("HomeRoutes","Message (Genres): "+response.body().getMessage());
                         Log.d("HomeRoutes", "Genre Name: " + bookGenreItemDataModels.get(0).getName());
                         Log.d("HomeRoutes", "Genre DataModel Size: " + bookGenreItemDataModels.size());
 
-                        genreBooks.setValue(genreBooksDataModels);
+                        genres.setValue(genreBooksDataModels);
                     }
                     else{
-                        Log.d("HomeRoutes","No Genre Books found...");
+                        Log.d("HomeRoutes","No Genres found...");
 
                     }
                 }
 
                 else{
-                    Log.d("HomeRoutes","Genre Books Response Error: "+response.code());
+                    Log.d("HomeRoutes","Genres Response Error: "+response.code());
                 }
 
             }
 
             @Override
             public void onFailure(Call<BookGenreDataModel> call, Throwable t) {
-                Log.d("HomeRoutes","No response from server...");
+                Log.d("HomeRoutes","Genres: No response from server...");
+
+            }
+        });
+
+    }
+
+    private void fetchGenreBooks() {
+
+        Log.d("HomeRoutes","Fetching Genre Books....");
+
+
+        restAPI = RetrofitClient.createRetrofitClient();
+        Call<HomeDataModel> booksCall = restAPI.getCollectionByID(CURRENT_BOOK_ID);
+
+        booksCall.enqueue(new Callback<HomeDataModel>() {
+            @Override
+            public void onResponse(Call<HomeDataModel> call, Response<HomeDataModel> response) {
+
+                if(response.code() == 200){
+
+
+                    CollectionDataModel collectionDataModel = response.body().getCollectionDataModel();
+
+                    if(collectionDataModel.getBooks().size() != 0) {
+
+                        Log.d("HomeRoutes","Message (Genre Books): "+response.body().getMessage());
+                        Log.d("HomeRoutes", "Book Name: " + collectionDataModel.getBooks().get(0).getName());
+                        Log.d("HomeRoutes", "Author Name: " + collectionDataModel.getBooks().get(0).getWriter().getName());
+
+                        genreBooks.setValue(collectionDataModel.getBooks());
+                    }
+                    else{
+                        Log.d("HomeRoutes","Genre Books: No Books found from Genre...");
+                    }
+                }
+                else{
+                    Log.d("HomeRoutes","Genre Books Response Error: "+response.code());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HomeDataModel> call, Throwable t) {
+                Log.d("HomeRoutes","Genre Books: No response from server...");
 
             }
         });
@@ -633,13 +749,61 @@ public class HomeRepo {
 
     }
 
-    private void fetchPublishers() {
+    private void fetchAllAuthors() {
 
-        Log.d("HomeRoutes","Fetching Publishers....");
+        Log.d("HomeRoutes","Fetching All Authors....");
 
 
         restAPI = RetrofitClient.createRetrofitClient();
-        Call<PublishersDataModel> booksCall = restAPI.getAllPublishers("1","5");
+        Call<AuthorsDataModel> booksCall = restAPI.getAllAuthors("1","100");
+
+        booksCall.enqueue(new Callback<AuthorsDataModel>() {
+            @Override
+            public void onResponse(Call<AuthorsDataModel> call, Response<AuthorsDataModel> response) {
+
+                if(response.code() == 200){
+
+
+                    AuthorsDataModel authorsDataModel = response.body();
+
+                    AuthorCountDataModel authorCountDataModel = authorsDataModel.getAuthors();
+
+                    ArrayList<AuthorDataModel> authorDataModels = authorCountDataModel.getAuthors();
+
+                    if(authorDataModels.size() != 0) {
+
+
+                        Log.d("HomeRoutes","Message (All Authors): "+response.body().getMessage());
+                        Log.d("HomeRoutes", "Author Name: " + authorDataModels.get(0).getName());
+                        Log.d("HomeRoutes", "Author DataModel Size: " + authorDataModels.size());
+
+                        allAuthors.setValue(authorDataModels);
+                    }
+                    else{
+                        Log.d("HomeRoutes","All Authors: No Author found...");
+                    }
+                }
+                else{
+                    Log.d("HomeRoutes","All Authors Response Error: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthorsDataModel> call, Throwable t) {
+                Log.d("HomeRoutes","All Authors: No response from server...");
+
+            }
+        });
+
+    }
+
+    private void fetchAllPublishers() {
+
+        Log.d("HomeRoutes","Fetching All Publishers....");
+
+
+        restAPI = RetrofitClient.createRetrofitClient();
+        Call<PublishersDataModel> booksCall = restAPI.getAllPublishers("1","100");
 
         booksCall.enqueue(new Callback<PublishersDataModel>() {
             @Override
@@ -657,24 +821,24 @@ public class HomeRepo {
                     if(publisherDataModels.size() != 0) {
 
 
-                        Log.d("HomeRoutes","Message (Publishers): "+response.body().getMessage());
+                        Log.d("HomeRoutes","Message (All Publishers): "+response.body().getMessage());
                         Log.d("HomeRoutes", "Publisher Name: " + publisherDataModels.get(0).getName());
                         Log.d("HomeRoutes", "Publisher DataModel Size: " + publisherDataModels.size());
 
-                        publishers.setValue(publisherDataModels);
+                        allPublishers.setValue(publisherDataModels);
                     }
                     else{
-                        Log.d("HomeRoutes","No Book Series found...");
+                        Log.d("HomeRoutes","All Publishers: No Publisher found...");
                     }
                 }
                 else{
-                    Log.d("HomeRoutes","Book Series Response Error: "+response.code());
+                    Log.d("HomeRoutes","All Publishers Response Error: "+response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<PublishersDataModel> call, Throwable t) {
-                Log.d("HomeRoutes","Book Series: No response from server...");
+                Log.d("HomeRoutes","All Publishers: No response from server...");
 
             }
         });
@@ -697,6 +861,12 @@ public class HomeRepo {
         return bookSeries;
     }
 
+    public MutableLiveData<ArrayList<BookDataModel>> getBooksOfBookSeries() {
+
+        fetchBookSeriesBooks();
+        return bookSeriesBooks;
+    }
+
     public MutableLiveData<ArrayList<BookDataModel>> getAudioBooks() {
         return audioBooks;
     }
@@ -705,7 +875,13 @@ public class HomeRepo {
         return topRatedBooks;
     }
 
+    public MutableLiveData<ArrayList<BookDataModel>> getGenres() {
+        return genres;
+    }
+
     public MutableLiveData<ArrayList<BookDataModel>> getGenreBooks() {
+
+        fetchGenreBooks();
         return genreBooks;
     }
 
@@ -721,62 +897,20 @@ public class HomeRepo {
         return popularAuthors;
     }
 
+    public MutableLiveData<ArrayList<AuthorDataModel>> getAllAuthors() {
+        return allAuthors;
+    }
+
     public MutableLiveData<ArrayList<BookDataModel>> getUpcomingBooks() {
         return upcomingBooks;
     }
 
-    public MutableLiveData<ArrayList<PublisherDataModel>> getPublishers() {
-        return publishers;
+    public MutableLiveData<ArrayList<PublisherDataModel>> getAllPublishers() {
+        return allPublishers;
     }
 
 
-    public LiveData<ArrayList<ReviewDataModel>> fetchReviews(){
 
-        RestAPI restAPI = RetrofitClient.createRetrofitClient();
-        Call getReviewCall = restAPI.getReviews(StaticData.accessToken.getValue());
-        getReviewCall.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-
-                if(response.code() == 200){
-
-
-                    ArrayList<ReviewDataModel> reviewDataModelsFetch = (ArrayList<ReviewDataModel>) response.body();
-                    ArrayList<ReviewDataModel> reviewDataModels = new ArrayList<>();
-
-                    if(reviewDataModelsFetch != null) {
-                        for (int i = 0; i < reviewDataModelsFetch.size(); i++) {
-
-                            ReviewDataModel reviewDataModel = reviewDataModelsFetch.get(i);
-
-                            if (reviewDataModel.getBookId().equals(CURRENT_BOOK_ID)) {
-
-                                reviewDataModel.setLike(reviewDataModel.getLikes().length);
-                                reviewDataModel.setDislike(reviewDataModel.getDislikes().length);
-
-                                reviewDataModels.add(reviewDataModel);
-                            }
-
-                        }
-                    }
-
-                    reviews.setValue(reviewDataModels);
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-
-            }
-        });
-
-        return reviews;
-    }
-
-    public void setReviews(ArrayList<ReviewDataModel> reviews) {
-        StaticData.reviews.setValue(reviews);
-    }
 
 
 }

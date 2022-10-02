@@ -258,7 +258,7 @@ public class StoreViewPager1 extends Fragment {
         nonFictionRecycler.setAdapter(nonFictionAdapter);
 
         seriesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        seriesAdapter = new BookSeriesAdapter(getActivity(),seriesDataModels);
+        seriesAdapter = new BookSeriesAdapter(getActivity(),seriesDataModels,"StoreFragment");
         seriesRecycler.setAdapter(seriesAdapter);
 
         shortStoriesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
@@ -604,7 +604,7 @@ public class StoreViewPager1 extends Fragment {
             }
         });
 
-        storeViewModel.getPublishers().observe(getViewLifecycleOwner(), new Observer<ArrayList<PublisherDataModel>>() {
+        storeViewModel.getAllPublishers().observe(getViewLifecycleOwner(), new Observer<ArrayList<PublisherDataModel>>() {
             @Override
             public void onChanged(ArrayList<PublisherDataModel> publisherDataModels) {
 

@@ -4,8 +4,11 @@ package com.khalidsyfullah.boimela.api;
 
 import com.khalidsyfullah.boimela.datamodel.AudioBooksDataModel;
 import com.khalidsyfullah.boimela.datamodel.AuthDataModel;
+import com.khalidsyfullah.boimela.datamodel.AuthorDetailsDataModel;
+import com.khalidsyfullah.boimela.datamodel.AuthorsDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookCategoryDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.datamodel.BookGetDetailsDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookGenreDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookSeriesDataModel;
 import com.khalidsyfullah.boimela.datamodel.HomeDataModel;
@@ -23,7 +26,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -48,14 +50,14 @@ public interface RestAPI {
     @GET("/api/v1/auth/resetPassword")
     Call<UserDataModel> resetPassword(@Body UserDataModel userDataModel);
 
-    @GET("/api/v1/home/")
+    @GET("/api/v1/home")
     Call<HomeDataModel> getHomeRoutes();
 
     @GET("/api/v1/collection/id/{collection_id}")
     Call<HomeDataModel> getCollectionByID(@Path("collection_id") String collectionID);
 
-    @GET("/api/v1/series?page=1&limit=5")
-    Call<BookSeriesDataModel> getBookSeries();
+    @GET("/api/v1/series")
+    Call<BookSeriesDataModel> getBookSeries(@Query("page") String page, @Query("limit") String limit);
 
     @GET("/api/v1/home/audio")
     Call<AudioBooksDataModel> getAudioBooks();
@@ -66,6 +68,9 @@ public interface RestAPI {
     @GET("/api/v1/home/popularAuthor")
     Call<PopularAuthorsDataModel> getPopularAuthors();
 
+    @GET("/api/v1/author")
+    Call<AuthorsDataModel> getAllAuthors(@Query("page") String page, @Query("limit") String limit);
+
     @GET("/api/v1/publisher")
     Call<PublishersDataModel> getAllPublishers(@Query("page") String page, @Query("limit") String limit);
 
@@ -74,6 +79,12 @@ public interface RestAPI {
 
     @GET("/api/v1/category")
     Call<BookCategoryDataModel> getAllCategories();
+
+    @GET("/api/v1/book/{book_id}")
+    Call<BookGetDetailsDataModel> getBookDetailsByID(@Path("book_id") String bookID);
+
+    @GET("/api/v1/author/{author_id}")
+    Call<AuthorDetailsDataModel> getAuthorDetailsByID(@Path("author_id") String authorID);
 
     @GET("/api/user/review")
     Call<ArrayList<ReviewDataModel>> getReviews(@Header("auth-token") String authToken);

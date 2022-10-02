@@ -39,14 +39,14 @@ import java.util.Timer;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private TextView titleBestSeller, titlePopularBooks, titleSeries, titleAudioBook, titleTopRated, titleGenres, titleEditorsChoice, titleNewReleases, titlePopularAuthors, titleUpcoming;
-    private TextView viewAllBestSeller, viewAllPopularBooks, viewAllSeries, viewAllAudioBook, viewAllTopRated, viewAllGenres, viewAllEditorsChoice, viewAllNewReleases, viewAllPopularAuthors, viewAllUpcoming;
-    private RecyclerView bestSellerRecycler, popularBooksRecycler, seriesRecycler, audiobookRecycler, topRatedRecycler, genresRecycler, editorsChoiceRecycler, newReleasesRecycler, popularAuthorsRecycler, upcomingRecycler1, upcomingRecycler2;
+    private TextView titleBestSeller, titlePopularBooks, titleSeries, titleAudioBook, titleTopRated, titleGenres, titleEditorsChoice, titleNewReleases, titleAllAuthors, titleUpcoming;
+    private TextView viewAllBestSeller, viewAllPopularBooks, viewAllSeries, viewAllAudioBook, viewAllTopRated, viewAllGenres, viewAllEditorsChoice, viewAllNewReleases, viewAllAuthors, viewAllUpcoming;
+    private RecyclerView bestSellerRecycler, popularBooksRecycler, seriesRecycler, audiobookRecycler, topRatedRecycler, genresRecycler, editorsChoiceRecycler, newReleasesRecycler, allAuthorsRecycler, upcomingRecycler1, upcomingRecycler2;
     private BookAdapter bestSellerAdapter, popularAdapter, audioBooksAdapter, editorsChoiceAdapter;
     private BookSeriesAdapter bookSeriesAdapter;
     private TopRatedBookAdapter topRatedBookAdapter, newReleasesAdapter;
     private BookGenreAdapter bookGenreAdapter;
-    private AuthorAdapter popularAuthorsAdapter;
+    private AuthorAdapter allAuthorsAdapter;
     private BookScrollAdapter bookScrollAdapterA, bookScrollAdapterB;
     private ArrayList<BookDataModel> bestSellerDataModels, popularDataModels, bookSeriesDataModels, topRatedBookDataModels, bookGenreDataModels, audioBooksDataModels, editorsChoiceDataModels, newReleaseDataModels, upcomingDataModelsA, upcomingDataModelsB;
     private ArrayList<SliderDataModel> sliderDataModels;
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
         genresRecycler = root.findViewById(R.id.dashboard_best_seller_recyclerview6);
         editorsChoiceRecycler = root.findViewById(R.id.dashboard_best_seller_recyclerview7);
         newReleasesRecycler = root.findViewById(R.id.dashboard_best_seller_recyclerview8);
-        popularAuthorsRecycler = root.findViewById(R.id.dashboard_best_seller_recyclerview9);
+        allAuthorsRecycler = root.findViewById(R.id.dashboard_best_seller_recyclerview9);
         upcomingRecycler1 = root.findViewById(R.id.dashboard_best_seller_recyclerview10);
         upcomingRecycler2 = root.findViewById(R.id.dashboard_best_seller_recyclerview11);
 
@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
         titleGenres = root.findViewById(R.id.dashboard_best_seller_title6);
         titleEditorsChoice = root.findViewById(R.id.dashboard_best_seller_title7);
         titleNewReleases = root.findViewById(R.id.dashboard_best_seller_title8);
-        titlePopularAuthors = root.findViewById(R.id.dashboard_best_seller_title9);
+        titleAllAuthors = root.findViewById(R.id.dashboard_best_seller_title9);
         titleUpcoming = root.findViewById(R.id.dashboard_best_seller_title10);
 
         viewAllBestSeller = root.findViewById(R.id.dashboard_best_seller_viewall);
@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
         viewAllGenres = root.findViewById(R.id.dashboard_best_seller_viewall6);
         viewAllEditorsChoice = root.findViewById(R.id.dashboard_best_seller_viewall7);
         viewAllNewReleases = root.findViewById(R.id.dashboard_best_seller_viewall8);
-        viewAllPopularAuthors = root.findViewById(R.id.dashboard_best_seller_viewall9);
+        viewAllAuthors = root.findViewById(R.id.dashboard_best_seller_viewall9);
         viewAllUpcoming = root.findViewById(R.id.dashboard_best_seller_viewall10);
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -300,7 +300,7 @@ public class HomeFragment extends Fragment {
         popularBooksRecycler.setAdapter(popularAdapter);
 
         seriesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        bookSeriesAdapter = new BookSeriesAdapter(getActivity(),bookSeriesDataModels);
+        bookSeriesAdapter = new BookSeriesAdapter(getActivity(),bookSeriesDataModels,"HomeFragment");
         seriesRecycler.setAdapter(bookSeriesAdapter);
 
         topRatedRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
@@ -323,9 +323,9 @@ public class HomeFragment extends Fragment {
         newReleasesAdapter = new TopRatedBookAdapter(getActivity(),newReleaseDataModels);
         newReleasesRecycler.setAdapter(newReleasesAdapter);
 
-        popularAuthorsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        popularAuthorsAdapter = new AuthorAdapter(getActivity(),authorDataModels, "HomeFragment");
-        popularAuthorsRecycler.setAdapter(popularAuthorsAdapter);
+        allAuthorsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
+        allAuthorsAdapter = new AuthorAdapter(getActivity(),authorDataModels, "HomeFragment");
+        allAuthorsRecycler.setAdapter(allAuthorsAdapter);
 
         LinearLayoutManager linearLayoutManagerA = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false);
         upcomingRecycler1.setLayoutManager(linearLayoutManagerA);
@@ -434,13 +434,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        viewAllPopularAuthors.setOnClickListener(new View.OnClickListener() {
+        viewAllAuthors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("fragment","home");
-                bundle.putString("query","popular-authors");
+                bundle.putString("query","all-authors");
                 bundle.putString("type","authors");
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_view_all, bundle);
             }
@@ -572,7 +572,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel.getGenreBooks().observe(getViewLifecycleOwner(), new Observer<ArrayList<BookDataModel>>() {
+        homeViewModel.getGenres().observe(getViewLifecycleOwner(), new Observer<ArrayList<BookDataModel>>() {
             @Override
             public void onChanged(ArrayList<BookDataModel> bookDataModels) {
 
@@ -629,21 +629,21 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel.getPopularAuthors().observe(getViewLifecycleOwner(), new Observer<ArrayList<AuthorDataModel>>() {
+        homeViewModel.getAllAuthors().observe(getViewLifecycleOwner(), new Observer<ArrayList<AuthorDataModel>>() {
             @Override
             public void onChanged(ArrayList<AuthorDataModel> authorDataModels) {
 
-                popularAuthorsAdapter.setAuthorDataModels(authorDataModels);
+                allAuthorsAdapter.setAuthorDataModels(authorDataModels);
 
                 if(authorDataModels.size() != 0) {
-                    titlePopularAuthors.setVisibility(View.VISIBLE);
-                    popularAuthorsRecycler.setVisibility(View.VISIBLE);
-                    viewAllPopularAuthors.setVisibility(View.VISIBLE);
+                    titleAllAuthors.setVisibility(View.VISIBLE);
+                    allAuthorsRecycler.setVisibility(View.VISIBLE);
+                    viewAllAuthors.setVisibility(View.VISIBLE);
                 }
                 else{
-                    titlePopularAuthors.setVisibility(View.GONE);
-                    popularAuthorsRecycler.setVisibility(View.GONE);
-                    viewAllPopularAuthors.setVisibility(View.GONE);
+                    titleAllAuthors.setVisibility(View.GONE);
+                    allAuthorsRecycler.setVisibility(View.GONE);
+                    viewAllAuthors.setVisibility(View.GONE);
                 }
             }
         });

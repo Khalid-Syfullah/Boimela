@@ -56,6 +56,7 @@ public class BookScrollAdapter extends RecyclerView.Adapter<BookScrollViewHolder
         BookDataModel bookDataModel = bookDataModels.get(position);
 
         Picasso.get().load(StaticData.imageDirSmall+bookDataModel.getImage()).placeholder(R.drawable.book_slider).into(holder.image);
+
     }
 
     @Override

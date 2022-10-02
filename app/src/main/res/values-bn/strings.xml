@@ -186,4 +186,10 @@
     <string name="random_location">Kolkata</string>
     <string name="not_found">Not Found!</string>
     <string name="enter_another_keyword">Enter another keyword</string>
+    <string name="ratings">Ratings</string>
+    <string name="subcategory">Subcategory</string>
+    <string name="edition">Edition</string>
+    <string name="year">Year</string>
+    <string name="random_year">2022</string>
+    <string name="unsupported_epub_version">This EPUB may not support text formatting</string>
 </resources>

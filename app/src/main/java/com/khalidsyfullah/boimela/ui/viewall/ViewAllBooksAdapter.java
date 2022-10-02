@@ -1,7 +1,11 @@
 package com.khalidsyfullah.boimela.ui.viewall;
 
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
+import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
+
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -68,16 +73,38 @@ public class ViewAllBooksAdapter extends RecyclerView.Adapter<ViewAllBooksViewHo
 
         BookDataModel bookDataModel = bookDataModels.get(position);
 
-        holder.bookTitle.setText(bookDataModel.getName());
-        holder.bookAuthor.setText(bookDataModel.getAuthor());
+        if(bookDataModel.getTitle() != null) {
+            holder.bookTitle.setText(bookDataModel.getTitle());
+        }
+        else{
+            holder.bookTitle.setText(bookDataModel.getName());
+        }
+
+        if(bookDataModel.getWriter() != null) {
+            holder.bookAuthor.setText(bookDataModel.getWriter().getName());
+        }
+        else{
+            holder.bookAuthor.setText(bookDataModel.getAuthor());
+
+        }
         holder.bookRating.setRating(bookDataModel.getRating());
-        holder.bookReview.setText(String.valueOf(bookDataModel.getNumberOfRating())+" "+activity.getResources().getString(R.string.review));
-        Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
+        holder.bookReview.setText(bookDataModel.getNumberOfRating() +" "+activity.getResources().getString(R.string.reviews));
+//        Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
+
+        Picasso.get().load(imageDirSmall + bookDataModel.getImage()).placeholder(R.drawable.book_not_found).into(holder.bookImage);
+
+        holder.bookTitle.setSelected(true);
+        holder.bookAuthor.setSelected(true);
 
         holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_view_all_to_navigation_book_details);
+
+                CURRENT_BOOK_ID = bookDataModel.get_id();
+                Bundle bundle = new Bundle();
+                bundle.putString("book_id",bookDataModel.get_id());
+
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_view_all_to_navigation_book_details, bundle);
             }
         });
     }
