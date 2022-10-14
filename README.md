@@ -13,7 +13,7 @@ BOIMELA: A Cross-platform E-book app with EPUB 3, MVVM Architecture, OAUTH2.0 AP
 <br />
 <p align="center">
   <a href="https://github.com/khalid-syfullah/boimela">
-    <img src="app/src/main/res/mipmap-hdpi/app_icon.png" alt="Logo" width="256" height="256">
+    <img src="app/src/main/res/drawable/app_icon.png" alt="Logo" width="256" height="256">
   </a>
  
 
