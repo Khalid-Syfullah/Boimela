@@ -17,12 +17,12 @@ BOIMELA: A Cross-platform E-book app with EPUB 3, MVVM Architecture, OAUTH2.0 AP
   </a>
  
 
-  <h3 align="center">Plasma+</h3>
+  <h3 align="center">Boimela</h3>
 
   <p align="center">
     BOIMELA: A Cross-platform E-book app with EPUB 3, MVVM Architecture, OAUTH2.0 API Access Authentication and Content Personalization
     <br />
-    <a href="https://play.google.com/store/apps/details?id=com.ece.cov19"><strong>Download App for Android</strong></a>
+    <a href="https://play.google.com/store/apps/details?id=com.boimelafoundation.boimela"><strong>Download App for Android</strong></a>
     <br />
     <br />
     <a href="https://www.youtube.com/watch?v=5m7xHHdIbIc">Video Tutorial</a>
