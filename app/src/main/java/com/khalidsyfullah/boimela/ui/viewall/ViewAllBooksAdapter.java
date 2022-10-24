@@ -104,6 +104,10 @@ public class ViewAllBooksAdapter extends RecyclerView.Adapter<ViewAllBooksViewHo
                 Bundle bundle = new Bundle();
                 bundle.putString("book_id",bookDataModel.get_id());
 
+                StaticData.fileName = bookDataModel.getFileName();
+                StaticData.bookUrl = bookDataModel.getBookUrl();
+                StaticData.audioUrl = bookDataModel.getAudioUrl();
+
                 Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_view_all_to_navigation_book_details, bundle);
             }
         });

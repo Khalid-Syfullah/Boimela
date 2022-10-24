@@ -355,7 +355,7 @@ public class PhoneVerificationFragment extends Fragment {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(getActivity(), "Auto Phone Verification Failed!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Phone Verification Failed: "+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 

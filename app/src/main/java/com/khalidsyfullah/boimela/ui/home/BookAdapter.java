@@ -94,7 +94,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
         }
         holder.bookRating.setRating(bookDataModel.getRating());
         holder.bookReview.setText(bookDataModel.getNumberOfRating() +" "+activity.getResources().getString(R.string.reviews));
-//        Picasso.get().load(bookDataModel.getImage()).into(holder.bookImage);
 
         Picasso.get().load(imageDirSmall + bookDataModel.getImage()).placeholder(R.drawable.book_not_found).into(holder.bookImage);
 

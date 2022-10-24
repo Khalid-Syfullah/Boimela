@@ -55,6 +55,9 @@ import com.khalidsyfullah.boimela.api.RestAPI;
 import com.khalidsyfullah.boimela.api.RetrofitClient;
 import com.khalidsyfullah.boimela.datamodel.BookmarkDataModel;
 import com.khalidsyfullah.boimela.datamodel.ContentDataModel;
+import com.khalidsyfullah.boimela.datamodel.OPFGuideDataModel;
+import com.khalidsyfullah.boimela.datamodel.OPFItemDataModel;
+import com.khalidsyfullah.boimela.datamodel.OPFItemrefDataModel;
 import com.khalidsyfullah.boimela.datamodel.SliderDataModel;
 
 import org.jsoup.Jsoup;
@@ -84,6 +87,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import nl.siegmann.epublib.domain.Book;
+import nl.siegmann.epublib.domain.MediaType;
+import nl.siegmann.epublib.domain.SpineReference;
 import nl.siegmann.epublib.domain.TOCReference;
 import nl.siegmann.epublib.epub.EpubReader;
 import okhttp3.ResponseBody;
@@ -117,11 +122,15 @@ public class ReaderActivity extends AppCompatActivity {
     private File file;
     public static ArrayList<ContentDataModel> contentDataModels;
     public static ArrayList<BookmarkDataModel> bookmarkDataModels;
-    public static boolean isFormattingSupported = true, isLegacyFormattingSupported = false;
+    private ArrayList<OPFItemDataModel> manifestItems;
+    private ArrayList<OPFItemrefDataModel> spineItems;
+    private ArrayList<OPFGuideDataModel> guideItems;
+    public static String currentContent = "";
+    public static boolean isFormattingSupported = true, isLegacyFormattingSupported = false, isDownloadSuccess = false, isException = false;
 
     private boolean isGranted = false;
 
-    private String line, line1 = "", finalstr = "";
+    private String line, line1 = "", finalstr = "", indexHref = "";
     private int i = 0;
 
     public static String letterSpacing="0px";
@@ -306,15 +315,15 @@ public class ReaderActivity extends AppCompatActivity {
         contentDataModels = new ArrayList<>();
         bookmarkDataModels = new ArrayList<>();
 
-        sliderDataModels.add(new SliderDataModel("Feluda","https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif", "Fruits"));
-        sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
-        sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
-        sliderDataModels.add(new SliderDataModel("Feluda","https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif", "Fruits"));
-        sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
-        sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
-        sliderDataModels.add(new SliderDataModel("Feluda","https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif", "Fruits"));
-        sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
-        sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
+//        sliderDataModels.add(new SliderDataModel("Feluda","https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif", "Fruits"));
+//        sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
+//        sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
+//        sliderDataModels.add(new SliderDataModel("Feluda","https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif", "Fruits"));
+//        sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
+//        sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
+//        sliderDataModels.add(new SliderDataModel("Feluda","https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/975c8e23feb4_42863.gif", "Fruits"));
+//        sliderDataModels.add(new SliderDataModel("Kakababu","https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1589747006l/12733425.jpg", "Fruits"));
+//        sliderDataModels.add(new SliderDataModel("Tintin", "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/17958d12aa34_51326.gif", "Fruits"));
 
 //
 //
@@ -860,6 +869,7 @@ public class ReaderActivity extends AppCompatActivity {
                         @Override
                         protected Void doInBackground(Void... voids) {
                             boolean writtenToDisk = writeResponseBodyToDisk(response.body());
+                            isDownloadSuccess = writtenToDisk;
 
                             Log.d("ReaderActivity", "File download was a success? " + writtenToDisk);
                             return null;
@@ -870,8 +880,14 @@ public class ReaderActivity extends AppCompatActivity {
                             super.onPostExecute(unused);
 
                             mProgressDialog.dismiss();
+                            if(isDownloadSuccess) {
 
-                            showEbook();
+                                showEbook();
+                            }
+                            else{
+                                Toast.makeText(ReaderActivity.this, "Download is unsuccessful!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
 
 
                         }
@@ -953,14 +969,14 @@ public class ReaderActivity extends AppCompatActivity {
     private void showEbook(){
 
 
-//                                progressBar.setVisibility(View.GONE);
-//                                AssetManager assetManager = getActivity().getAssets();
-//                                InputStream fileInputStream = null;
-//                                try {
-//                                    fileInputStream = assetManager.open("the-alchemist.epub");
-//                                    // Load Book from fileInputStream
-//                                    Book book = (new EpubReader()).readEpub(fileInputStream);
-//                                    data = new String(book.getContents().get(3).getData());
+//        progressBar.setVisibility(View.GONE);
+//        AssetManager assetManager = getActivity().getAssets();
+//        InputStream fileInputStream = null;
+//        try {
+//            fileInputStream = assetManager.open("the-alchemist.epub");
+//            // Load Book from fileInputStream
+//            Book book = (new EpubReader()).readEpub(fileInputStream);
+//            data = new String(book.getContents().get(3).getData());
 
 
 //        OPEN EPUB
@@ -990,10 +1006,10 @@ public class ReaderActivity extends AppCompatActivity {
 //            LOAD EPUB MANUALLY FROM FILE EXTRACTION
 //            OPEN DIRECTORY TO EXTRACT EPUB
             if(Build.VERSION.SDK_INT > 30) {
-                destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/EPUB/"+fileName;
+                destination = Environment.getDataDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/EPUB/"+ fileName;
             }
             else{
-                destination = Environment.getDownloadCacheDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/EPUB/"+fileName;
+                destination = Environment.getDownloadCacheDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela/EPUB/"+ fileName;
             }
             File file2 = new File(destination);
             unzip(file, file2);
@@ -1007,14 +1023,58 @@ public class ReaderActivity extends AppCompatActivity {
             Log.d("XMLParser","Parsed: "+parsedDir);
 
             String[] rootFileSeparated = parsedDir. split("/");
-            rootDir = rootFileSeparated[0];
-            String opfUrl = rootFileSeparated[1];
+
+            if(rootFileSeparated.length > 1){
+                rootDir = rootFileSeparated[0];
+
+            }
+            else{
+                rootDir = "";
+
+            }
             Log.d("XMLParser","fullDir: "+destination+ File.separator + rootDir);
 
 //            PARSE INDEX FILE NAME
-            String indexHref = book.getTableOfContents().getTocReferences().get(0).getCompleteHref();
-            Log.d("XMLParser","Parsed BeginningHref: "+indexHref);
+            if(book != null) {
+                if(book.getTableOfContents() != null) {
 
+                    if (book.getTableOfContents().getTocReferences() != null && book.getTableOfContents().getTocReferences().size() != 0) {
+                        indexHref = book.getTableOfContents().getTocReferences().get(0).getCompleteHref();
+                    }
+
+                    else if (manifestItems != null && manifestItems.size() != 0) {
+                        indexHref = manifestItems.get(0).getHref();
+                        Log.d("XMLParser", "Manifest Href[0]: " + manifestItems.get(0).getHref());
+                    }
+
+                    else if (book.getGuide() != null && book.getGuide().getCoverReference() != null) {
+                        indexHref = book.getGuide().getCoverReference().getCompleteHref();
+                        Log.d("XMLParser", "Guide Href: " + book.getGuide().getCoverReference().getCompleteHref());
+                    }
+                    else if (book.getCoverPage() != null && book.getCoverPage().getHref() != null) {
+                        indexHref = book.getCoverPage().getHref();
+                        Log.d("XMLParser", "CoverPage Href: " + book.getCoverPage().getHref());
+                    }
+                    else{
+                        Toast.makeText(ReaderActivity.this, "No TOC/OPF Reference Found!", Toast.LENGTH_SHORT).show();
+                        isException = true;
+                        finish();
+                    }
+                    Log.d("XMLParser", "TOC Href: " + indexHref);
+
+
+                }
+                else{
+                    Toast.makeText(ReaderActivity.this, "No Table of Contents Found!", Toast.LENGTH_SHORT).show();
+                    isException = true;
+                    finish();
+                }
+            }
+            else{
+                Toast.makeText(ReaderActivity.this, "No Book Found!", Toast.LENGTH_SHORT).show();
+                isException = true;
+                finish();
+            }
 //            LOOK FOR # VALUE
             String[] hrefHashSeparated = indexHref.split("#");
             Log.d("XMLParser","Parsed hrefHashSeparated[0]: "+hrefHashSeparated[0]);
@@ -1033,30 +1093,29 @@ public class ReaderActivity extends AppCompatActivity {
                 href = hrefSlashSeparated[1];
                 subrootDir = hrefSlashSeparated[0];
                 baseUrl = "file://"+destination + File.separator + rootDir + File.separator + subrootDir + File.separator;
-
+                if(baseUrl.substring(baseUrl.length() - 2).equals("//")) {
+                    baseUrl = "file://"+destination + File.separator + rootDir + File.separator + subrootDir;
+                }
             }
             else{
                 href = hrefSlashSeparated[0];
                 subrootDir = "";
+
                 baseUrl = "file://"+destination + File.separator + rootDir + File.separator;
+
+                if(baseUrl.substring(baseUrl.length() - 2).equals("//")) {
+                    baseUrl = "file://"+destination + File.separator + rootDir;
+                }
+                Log.d("XMLParser","BaseUrl Short: "+baseUrl);
 
             }
 
+            Log.d("XMLParser","BaseUrl Updated: "+baseUrl);
 
 //             DATA PARSING
 
-
-////            REPLACE <HEAD> TAG
-//            File f1 = new File(destination+ File.separator + rootDir, hrefHashSeparated[0]);
-//            FileInputStream fileInputStream2 = new FileInputStream(f1);
-//            byte [] bytes = new byte[(int) f1.length()];
-//            fileInputStream2.read(bytes);
-//            data = new String(bytes);
-//            data = data.replaceFirst("(?s)(<head>)(.*?)(</head>)","$1$3");
-//            Log.d("XMLParser", "DATA: "+data);
-
 //            PARSE BODY OF HTML
-            File f1 = new File(destination+ File.separator + rootDir, hrefHashSeparated[0]);
+            File f1 = new File(destination + File.separator + rootDir, hrefHashSeparated[0]);
             data = getHtmlFromWeb(f1);
 
 //            UPDATE WEBVIEW
@@ -1076,8 +1135,10 @@ public class ReaderActivity extends AppCompatActivity {
                             isLegacyFormattingSupported = true;
 
                         } catch (FileNotFoundException e) {
+                            isException = true;
                             e.printStackTrace();
                         } catch (IOException e) {
+                            isException = true;
                             e.printStackTrace();
                         }
 
@@ -1089,16 +1150,18 @@ public class ReaderActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Void unused) {
                         super.onPostExecute(unused);
-                        Toast.makeText(ReaderActivity.this, getResources().getString(R.string.unsupported_epub_version), Toast.LENGTH_SHORT).show();
 
-                        if(hrefSlashSeparated.length > 1) {
+                        if(!isException) {
+                            Toast.makeText(ReaderActivity.this, getResources().getString(R.string.unsupported_epub_version), Toast.LENGTH_SHORT).show();
 
-                            webView.loadUrl(baseUrl + hrefSlashSeparated[1]);
+                            if (hrefSlashSeparated.length > 1) {
+
+                                webView.loadUrl(baseUrl + hrefSlashSeparated[1]);
+                            } else {
+                                webView.loadUrl(baseUrl + hrefSlashSeparated[0]);
+                            }
+                            progressSliderLeftText.setText(book.getTableOfContents().getTocReferences().get(0).getTitle());
                         }
-                        else{
-                            webView.loadUrl(baseUrl + hrefSlashSeparated[0]);
-                        }
-                        progressSliderLeftText.setText(book.getTableOfContents().getTocReferences().get(0).getTitle());
                     }
                 }.execute();
 
@@ -1124,8 +1187,10 @@ public class ReaderActivity extends AppCompatActivity {
 
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
+                            isException = true;
                         } catch (IOException e) {
                             e.printStackTrace();
+                            isException = true;
                         }
 
 
@@ -1136,14 +1201,18 @@ public class ReaderActivity extends AppCompatActivity {
                     protected void onPostExecute(Void unused) {
                         super.onPostExecute(unused);
 
-                        if(hrefSlashSeparated.length > 1) {
-                            webView.loadUrl(baseUrl + hrefSlashSeparated[1]);
-                        }
-                        else{
-                            webView.loadUrl(baseUrl + hrefSlashSeparated[0]);
-                        }
-                        progressSliderLeftText.setText(book.getTableOfContents().getTocReferences().get(0).getTitle());
 
+                        if(!isException) {
+                            if (hrefSlashSeparated.length > 1) {
+                                webView.loadUrl(baseUrl + hrefSlashSeparated[1]);
+                            } else {
+                                webView.loadUrl(baseUrl + hrefSlashSeparated[0]);
+                            }
+
+                            if(book.getTableOfContents().getTocReferences() != null && book.getTableOfContents().getTocReferences().size() != 0) {
+                                progressSliderLeftText.setText(book.getTableOfContents().getTocReferences().get(0).getTitle());
+                            }
+                        }
                     }
 
                 }.execute();
@@ -1175,8 +1244,11 @@ public class ReaderActivity extends AppCompatActivity {
 //            Log.d("EPUB title", " : " + book.getTitle());
 //
 //            // Log the tale of contents
+
             logTableOfContents(book.getTableOfContents().getTocReferences(), 0);
-//
+//            logSpineReferences(book.getSpine().getSpineReferences());
+            parseOPF(new FileInputStream(Environment.getDataDirectory().getAbsolutePath() + "/data/com.khalidsyfullah.boimela/EPUB/"+ fileName + "/"+ parsedDir));
+
             Log.d("EPUB","Model Size: "+ contentDataModels.size());
 
 //            Handler handler = new Handler();
@@ -1196,14 +1268,88 @@ public class ReaderActivity extends AppCompatActivity {
 
 
         } catch (FileNotFoundException e) {
+            Toast.makeText(this, "File Not Found!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+            finish();
+
         } catch (IOException e) {
+            Toast.makeText(this, "IO Error!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+            finish();
         } catch (XmlPullParserException e) {
+            Toast.makeText(this, "XML Parse Failed!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+            finish();
         }
 
     }
+
+    private void logTableOfContents(List<TOCReference> tocReferences, int depth) {
+        if (tocReferences == null) {
+
+//            for(int i=0;i<manifestItems.size();i++) {
+//                contentDataModels.add(new ContentDataModel(manifestItems.get(i).getId(), "", manifestItems.get(i).getHref(),1));
+//            }
+            return;
+        }
+
+
+        for (TOCReference tocReference : tocReferences) {
+            StringBuilder tocString = new StringBuilder();
+            for (int i = 0; i < depth; i++) {
+                tocString.append("\t");
+            }
+            tocString.append(tocReference.getTitle());
+            Log.i("TOC", tocString.toString());
+            Log.i("TOC","TOC Children: " + tocReference.getChildren());
+            Log.i("TOC","TOC Href: " + tocReference.getCompleteHref());
+            Log.d("TOC", "Length: "+tocString.length());
+            Log.d("TOC","Size: "+contentDataModels.size());
+
+            contentDataModels.add(new ContentDataModel(tocString.toString(), String.valueOf(tocString.length()), tocReference.getCompleteHref() ,depth+1));
+
+            logTableOfContents(tocReference.getChildren(), depth + 1);
+        }
+
+
+        contentsAdapter.setContentDataModels(contentDataModels);
+
+        Log.d("TOC","Total Size: "+contentDataModels.size());
+
+
+//        webView.loadDataWithBaseURL("", finalstr, "text/html", "UTF-8", "");
+    }
+
+    private void logSpineReferences(List<SpineReference> spineReferences) {
+        if (spineReferences == null) {
+
+//            for(int i=0;i<manifestItems.size();i++) {
+//                contentDataModels.add(new ContentDataModel(manifestItems.get(i).getId(), "", manifestItems.get(i).getHref(),1));
+//            }
+            return;
+        }
+
+        for (SpineReference spineReference : spineReferences) {
+
+            Log.i("Spine", "Spine ID: "+spineReference.getResource().getId());
+            Log.i("Spine", "Spine Title: "+spineReference.getResource().getTitle());
+            Log.i("Spine","Spine Href: " + spineReference.getResource().getHref());
+            Log.i("Spine","Spine Media-Type: " + spineReference.getResource().getMediaType());
+
+            if(spineReference.getResource().getMediaType().equals("application/xhtml+xml")) {
+                contentDataModels.add(new ContentDataModel(spineReference.getResource().getId(), String.valueOf(spineReference.getResource().getSize()), spineReference.getResource().getHref(), 1));
+            }
+        }
+
+
+        contentsAdapter.setContentDataModels(contentDataModels);
+
+        Log.d("Spine","Total Size: "+contentDataModels.size());
+
+
+//        webView.loadDataWithBaseURL("", finalstr, "text/html", "UTF-8", "");
+    }
+
 
     private String xmlParser(InputStream inputStream, String tag, String attribute) throws XmlPullParserException, IOException {
 
@@ -1231,6 +1377,68 @@ public class ReaderActivity extends AppCompatActivity {
 
         return value;
     }
+
+    private void parseOPF(InputStream inputStream) {
+        XmlPullParserFactory xmlPullParserFactory;
+        try {
+            xmlPullParserFactory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = xmlPullParserFactory.newPullParser();
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(inputStream, null);
+
+            processParsing(parser);
+
+        } catch (XmlPullParserException e) {
+
+        } catch (IOException e) {
+        }
+    }
+
+    private void processParsing(XmlPullParser parser) throws IOException, XmlPullParserException{
+
+
+        manifestItems = new ArrayList<>();
+        spineItems = new ArrayList<>();
+        guideItems = new ArrayList<>();
+        int eventType = parser.getEventType();
+
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+
+            switch (eventType) {
+                case XmlPullParser.START_TAG:
+
+                    Log.d("XMLParser","Element Name: "+parser.getName());
+
+                    if (parser.getName().equals("item")) {
+                        OPFItemDataModel opfItemDataModel = new OPFItemDataModel(parser.getAttributeValue(null, "id"), parser.getAttributeValue(null, "href"), parser.getAttributeValue(null, "media-type"));
+                        manifestItems.add(opfItemDataModel);
+
+                        if(opfItemDataModel.getMediaType().equals("application/xhtml+xml")) {
+                            contentDataModels.add(new ContentDataModel(opfItemDataModel.getId(), "", opfItemDataModel.getHref(), 1));
+                        }
+                    }
+
+                    if (parser.getName().equals("itemref")) {
+                        OPFItemrefDataModel opfItemrefDataModel = new OPFItemrefDataModel(parser.getAttributeValue(null, "idref"));
+                        spineItems.add(opfItemrefDataModel);
+
+                    }
+
+                    break;
+            }
+
+            eventType = parser.next();
+        }
+
+        for(int i=0;i<manifestItems.size();i++){
+            Log.d("XMLParser",i+": "+manifestItems.get(i).getId()+manifestItems.get(i).getHref()+manifestItems.get(i).getMediaType());
+        }
+        for(int i=0;i<spineItems.size();i++){
+            Log.d("XMLParser",i+": "+spineItems.get(i).getId());
+        }
+    }
+
+
 
     public static String getHtmlFromWeb(File file) {
 
@@ -1374,56 +1582,6 @@ public class ReaderActivity extends AppCompatActivity {
 
     }
 
-    private void logTableOfContents(List<TOCReference> tocReferences, int depth) {
-        if (tocReferences == null) {
-            return;
-        }
-
-        for (TOCReference tocReference : tocReferences) {
-            StringBuilder tocString = new StringBuilder();
-            for (int i = 0; i < depth; i++) {
-                tocString.append("\t");
-            }
-            tocString.append(tocReference.getTitle());
-            Log.i("TOC", tocString.toString());
-            Log.i("TOC","TOC Children: " + tocReference.getChildren());
-            Log.i("TOC","TOC Href: " + tocReference.getCompleteHref());
-            Log.d("TOC", "Length: "+tocString.length());
-            Log.d("TOC","Size: "+contentDataModels.size());
-
-            contentDataModels.add(new ContentDataModel(tocString.toString(), String.valueOf(tocString.length()), tocReference.getCompleteHref() ,depth+1));
-
-//            try {
-//                InputStream is = tocReference.getResource().getInputStream();
-//                BufferedReader r = new BufferedReader(new InputStreamReader(is));
-//
-//                while ((line = r.readLine()) != null) {
-//                    // line1 = Html.fromHtml(line).toString();
-//                    Log.v("line" + i, Html.fromHtml(line).toString());
-//                    // line1 = (tocString.append(Html.fromHtml(line).toString()+
-//                    // "\n")).toString();
-//                    line1 = line1.concat(Html.fromHtml(line).toString());
-//                }
-//                finalstr = finalstr.concat("\n").concat(line1);
-//                // Log.v("Content " + i, finalstr);
-//                i++;
-//            } catch (IOException e) {
-//
-//            }
-
-            logTableOfContents(tocReference.getChildren(), depth + 1);
-        }
-
-
-        Log.d("TOC","Total Size: "+contentDataModels.size());
-        //Log.d("TOC","Href: "+contentDataModels.get(0).getHref());
-        contentsAdapter.setContentDataModels(contentDataModels);
-
-
-
-//        webView.loadDataWithBaseURL("", finalstr, "text/html", "UTF-8", "");
-    }
-
 
 
 
@@ -1466,12 +1624,6 @@ public class ReaderActivity extends AppCompatActivity {
         TransitionManager.beginDelayedTransition(parent, transition);
         redLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
     }
-
-
-
-
-
-
 
     // slide the view from below itself to the current position
     public void slideUp(View view){

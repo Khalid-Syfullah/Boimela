@@ -1,7 +1,11 @@
 package com.khalidsyfullah.boimela.ui.home;
 
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
+import static com.khalidsyfullah.boimela.global.StaticData.bookSeriesBooks;
+
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,11 +54,13 @@ public class TopRatedBookAdapter extends RecyclerView.Adapter<TopRatedBookViewHo
     
     private ArrayList<BookDataModel> bookDataModels;
     private Activity activity;
+    private String fragmentName;
 
-    public TopRatedBookAdapter(Activity activity, ArrayList<BookDataModel> booksDataModels) {
+    public TopRatedBookAdapter(Activity activity, ArrayList<BookDataModel> booksDataModels, String fragmentName) {
         
         this.activity = activity;
         this.bookDataModels = booksDataModels;
+        this.fragmentName = fragmentName;
     }
 
     @NonNull
@@ -119,10 +126,22 @@ public class TopRatedBookAdapter extends RecyclerView.Adapter<TopRatedBookViewHo
         holder.bookReview.setText(bookDataModel.getNumberOfRating() +" "+activity.getResources().getString(R.string.reviews));
         Picasso.get().load(StaticData.imageDirSmall+ bookDataModel.getImage()).placeholder(R.drawable.book_slider).into(holder.bookImage);
 
+
         holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details);
+
+                CURRENT_BOOK_ID = bookDataModel.get_id();
+                Bundle bundle = new Bundle();
+                bundle.putString("book_id",bookDataModel.get_id());
+
+                if(fragmentName.equals("HomeFragment")){
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details, bundle);
+                }
+                else if(fragmentName.equals("StoreFragment")){
+
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_book_details, bundle);
+                }
             }
         });
 

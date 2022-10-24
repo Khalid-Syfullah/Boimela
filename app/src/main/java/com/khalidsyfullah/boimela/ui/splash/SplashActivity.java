@@ -62,23 +62,9 @@ public class SplashActivity extends AppCompatActivity {
         Animation rotateAnimation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.accelerate_rotate);
         imageView.startAnimation(rotateAnimation);
 
+        progressBar.setVisibility(View.VISIBLE);
         getHomeRoutes();
 
-
-        Handler handler =new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                checkSharedPrefs();
-
-//                progressBar.setVisibility(View.GONE);
-//                Intent intent =new Intent(SplashActivity.this, AuthActivity.class);
-//                startActivity(intent);
-//                finish();
-
-            }
-        },2000);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,9 +87,54 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
+    private void getHomeRoutes(){
+
+        RestAPI restAPI = RetrofitClient.createRetrofitClient();
+        Call<HomeDataModel> call = restAPI.getHomeRoutes();
+        call.enqueue(new Callback<HomeDataModel>() {
+            @Override
+            public void onResponse(Call<HomeDataModel> call, Response<HomeDataModel> response) {
+
+                HomeDataModel homeDataModel = response.body();
+                if(response.isSuccessful()){
+
+
+                    Log.d("HomeRoutes","message: "+homeDataModel.getMessage());
+
+                    homeRouteIDs = homeDataModel.getHome();
+                    for(int i=0;i<homeRouteIDs.length;i++){
+                        Log.d("HomeRoutes", "home: "+"#"+i+": "+homeRouteIDs[i]);
+                    }
+
+
+                    Handler handler =new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            checkSharedPrefs();
+
+//                progressBar.setVisibility(View.GONE);
+//                Intent intent =new Intent(SplashActivity.this, AuthActivity.class);
+//                startActivity(intent);
+//                finish();
+
+                        }
+                    },2000);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HomeDataModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     private void checkSharedPrefs() {
 
-        progressBar.setVisibility(View.VISIBLE);
         SharedPreferences sharedPreferences = getSharedPreferences(StaticData.LOGIN_SHARED_PREFS, MODE_PRIVATE);
         String phone, password;
         if (sharedPreferences.contains(LOGIN_USER_PHONE) && sharedPreferences.contains(LOGIN_USER_PASS)) {
@@ -123,11 +154,28 @@ public class SplashActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(String msg) {
 
+                            authRepo.userProfile(StaticData.accessToken.getValue(), new RemoteRequestInterface() {
+                                @Override
+                                public void onSuccess(String msg) {
+                                    Intent intent = new Intent(SplashActivity.this, NavigationActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finishAffinity();
+                                    Log.d("SplashActivity","User Profile read success!");
+                                }
 
-                            Intent intent = new Intent(SplashActivity.this, NavigationActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finishAffinity();
+                                @Override
+                                public void onFailure(String msg) {
+                                    progressBar.setVisibility(View.GONE);
+                                    loginBtn.setVisibility(View.VISIBLE);
+                                    signupBtn.setVisibility(View.VISIBLE);
+                                    StaticData.failureAlertDialog(SplashActivity.this,"Login Failed: "+msg);
+                                    Log.d("SplashActivity","User Profile read failure!");
+                                }
+                            });
+
+
+
                         }
 
                         @Override
@@ -137,6 +185,7 @@ public class SplashActivity extends AppCompatActivity {
                             loginBtn.setVisibility(View.VISIBLE);
                             signupBtn.setVisibility(View.VISIBLE);
                             StaticData.failureAlertDialog(SplashActivity.this,"Login Failed: "+msg);
+                            Log.d("SplashActivity","User Profile read failure, no connection!");
 
                         }
                     });
@@ -160,38 +209,17 @@ public class SplashActivity extends AppCompatActivity {
         else{
 
             progressBar.setVisibility(View.GONE);
-            loginBtn.setVisibility(View.VISIBLE);
-            signupBtn.setVisibility(View.VISIBLE);
+            Intent intent = new Intent(SplashActivity.this, NavigationActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finishAffinity();
+//            loginBtn.setVisibility(View.VISIBLE);
+//            signupBtn.setVisibility(View.VISIBLE);
         }
 
 
     }
 
-    private void getHomeRoutes(){
-
-        RestAPI restAPI = RetrofitClient.createRetrofitClient();
-        Call<HomeDataModel> call = restAPI.getHomeRoutes();
-        call.enqueue(new Callback<HomeDataModel>() {
-            @Override
-            public void onResponse(Call<HomeDataModel> call, Response<HomeDataModel> response) {
-
-                HomeDataModel homeDataModel = response.body();
-                if(response.isSuccessful()){
-                    Log.d("HomeRoutes","message: "+homeDataModel.getMessage());
-
-                    homeRouteIDs = homeDataModel.getHome();
-                    for(int i=0;i<homeRouteIDs.length;i++){
-                        Log.d("HomeRoutes", "home: "+"#"+i+": "+homeRouteIDs[i]);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<HomeDataModel> call, Throwable t) {
-
-            }
-        });
-    }
 
 
 

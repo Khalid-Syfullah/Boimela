@@ -5,6 +5,7 @@ import static com.khalidsyfullah.boimela.global.StaticData.allAuthors;
 import static com.khalidsyfullah.boimela.global.StaticData.biographyBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.bookSeriesBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.categories;
+import static com.khalidsyfullah.boimela.global.StaticData.categoryBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.fictionBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.historyBooks;
 import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
@@ -41,6 +42,7 @@ import com.khalidsyfullah.boimela.datamodel.BookGenreItemDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookSeriesCountDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookSeriesDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookSeriesItemDataModel;
+import com.khalidsyfullah.boimela.datamodel.CategoryBooksDataModel;
 import com.khalidsyfullah.boimela.datamodel.CategoryDataModel;
 import com.khalidsyfullah.boimela.datamodel.CollectionDataModel;
 import com.khalidsyfullah.boimela.datamodel.HomeDataModel;
@@ -781,6 +783,48 @@ public class StoreRepo {
 
     }
 
+    private void fetchCategoryBooks() {
+
+        Log.d("StoreRoutes","Fetching Category Books....");
+
+        restAPI = RetrofitClient.createRetrofitClient();
+        Call<CategoryBooksDataModel> booksCall = restAPI.getCategoryBooksByID(CURRENT_BOOK_ID);
+
+        booksCall.enqueue(new Callback<CategoryBooksDataModel>() {
+            @Override
+            public void onResponse(Call<CategoryBooksDataModel> call, Response<CategoryBooksDataModel> response) {
+
+                if(response.code() == 200){
+
+                    ArrayList<BookDataModel> bookDataModels = response.body().getBooks();
+
+                    if(bookDataModels.size() != 0) {
+
+                        Log.d("StoreRoutes", "Message (Category Books): " + response.body().getMessage());
+                        Log.d("StoreRoutes", "Book Name: " + bookDataModels.get(0).getName());
+                        Log.d("StoreRoutes", "Author Name: " + bookDataModels.get(0).getWriter().getName());
+
+                        categoryBooks.setValue(bookDataModels);
+                    }
+
+                    else{
+                        Log.d("StoreRoutes","No Category Books found...");
+                    }
+
+                }
+                else{
+                    Log.d("StoreRoutes","Category Books Response Error: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoryBooksDataModel> call, Throwable t) {
+                Log.d("StoreRoutes","No response from server...");
+
+            }
+        });
+
+    }
 
 
     public MutableLiveData<ArrayList<BookDataModel>> getPopularBooks() {
@@ -855,6 +899,12 @@ public class StoreRepo {
 
     public MutableLiveData<ArrayList<CategoryDataModel>> getCategories() {
         return categories;
+    }
+
+    public MutableLiveData<ArrayList<BookDataModel>> getCategoryBooks() {
+
+        fetchCategoryBooks();
+        return categoryBooks;
     }
 
 

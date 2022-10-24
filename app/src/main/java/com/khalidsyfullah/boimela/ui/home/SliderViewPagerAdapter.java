@@ -33,6 +33,7 @@ public class SliderViewPagerAdapter extends FragmentStatePagerAdapter {
 
         bundle.putString("title", sliderDataModels.get(position).getTitle());
         bundle.putString("imgUrl", sliderDataModels.get(position).getImgUrl());
+        bundle.putString("book_id", sliderDataModels.get(position).getLink());
 
         SliderFragment sliderFragment = new SliderFragment();
         sliderFragment.setArguments(bundle);

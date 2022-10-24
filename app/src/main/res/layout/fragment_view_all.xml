@@ -6,36 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.viewall.ViewAllFragment">
 
-    <EditText
-        android:id="@+id/view_all_searchview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/search_background"
-        android:drawableStart="@drawable/search_icon"
-        android:drawablePadding="16dp"
-        android:hint="@string/enter_keyword"
-        android:singleLine="true"
-        android:paddingStart="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/view_all_clear_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/view_all_clear_text"
-        style="@style/TextViewLabelD2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/clear"
-        app:layout_constraintBottom_toBottomOf="@+id/view_all_searchview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/view_all_searchview"
-        app:layout_constraintTop_toTopOf="@+id/view_all_searchview" />
-
     <ProgressBar
         android:id="@+id/view_all_progress_bar"
         style="?android:attr/progressBarStyle"
@@ -48,68 +18,110 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/view_all_empty_container"
+        android:id="@+id/view_all_constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:visibility="gone"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32999998">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/view_all_searchview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/search_background"
+            android:drawableStart="@drawable/search_icon"
+            android:drawablePadding="16dp"
+            android:hint="@string/enter_keyword"
+            android:paddingStart="16dp"
+            android:singleLine="true"
+            app:layout_constraintEnd_toStartOf="@+id/view_all_clear_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ImageView
-            android:id="@+id/view_all_empty_image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/empty_category"
+        <TextView
+            android:id="@+id/view_all_clear_text"
+            style="@style/TextViewLabelD2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/clear"
+            app:layout_constraintBottom_toBottomOf="@+id/view_all_searchview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_all_searchview"
+            app:layout_constraintTop_toTopOf="@+id/view_all_searchview" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_all_empty_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.32999998">
 
-        <TextView
-            android:id="@+id/view_all_empty_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/not_found"
-            app:layout_constraintEnd_toEndOf="@+id/view_all_empty_image"
-            app:layout_constraintStart_toStartOf="@+id/view_all_empty_image"
-            app:layout_constraintTop_toBottomOf="@+id/view_all_empty_image" />
 
-        <TextView
-            android:id="@+id/view_all_empty_no_order_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:text="@string/enter_another_keyword"
-            app:layout_constraintEnd_toEndOf="@+id/view_all_empty_image"
-            app:layout_constraintStart_toStartOf="@+id/view_all_empty_image"
-            app:layout_constraintTop_toBottomOf="@+id/view_all_empty_text" />
+            <ImageView
+                android:id="@+id/view_all_empty_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/empty_category"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
+
+            <TextView
+                android:id="@+id/view_all_empty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/not_found"
+                app:layout_constraintEnd_toEndOf="@+id/view_all_empty_image"
+                app:layout_constraintStart_toStartOf="@+id/view_all_empty_image"
+                app:layout_constraintTop_toBottomOf="@+id/view_all_empty_image" />
+
+            <TextView
+                android:id="@+id/view_all_empty_no_order_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:text="@string/enter_another_keyword"
+                app:layout_constraintEnd_toEndOf="@+id/view_all_empty_image"
+                app:layout_constraintStart_toStartOf="@+id/view_all_empty_image"
+                app:layout_constraintTop_toBottomOf="@+id/view_all_empty_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/view_all_recycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_all_searchview"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/view_all_recycler"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_all_searchview"
-        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

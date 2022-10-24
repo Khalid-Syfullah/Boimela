@@ -20,7 +20,7 @@
     </group>
 
     <group>
-        <item android:title="@string/contact_us">
+        <item android:title="@string/extras">
             <menu>
                 <item
                     android:id="@+id/shareApp"
@@ -38,6 +38,16 @@
                     android:id="@+id/rateApp"
                     android:icon="@android:drawable/btn_star"
                     android:title="@string/rate_app" />
+
+                <item
+                    android:id="@+id/login"
+                    android:icon="@drawable/logout"
+                    android:title="@string/login" />
+
+                <item
+                    android:id="@+id/logout"
+                    android:icon="@drawable/logout"
+                    android:title="@string/logout" />
             </menu>
         </item>
     </group>

@@ -192,4 +192,8 @@
     <string name="year">Year</string>
     <string name="random_year">2022</string>
     <string name="unsupported_epub_version">This EPUB may not support text formatting</string>
+    <string name="login_first">You need to Login first!</string>
+    <string name="login_required">Login Required</string>
+    <string name="back">Back</string>
+    <string name="extras">Extras</string>
 </resources>

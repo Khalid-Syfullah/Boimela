@@ -117,6 +117,16 @@ public class BookDataModel{
         this.audioUrl = audioUrl;
     }
 
+    public BookDataModel(String _id, String image, String name, String category, String author, int rating, int numberOfRating) {
+        this._id = _id;
+        this.image = image;
+        this.name = name;
+        this.category = category;
+        this.author = author;
+        this.rating = rating;
+        this.numberOfRating = numberOfRating;
+    }
+
     public BookDataModel(String image, String title, String category, String author, int rating, int review) {
         this.image = image;
         this.title = title;

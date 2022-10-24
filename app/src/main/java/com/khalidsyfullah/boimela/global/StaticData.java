@@ -75,14 +75,19 @@ public class StaticData {
     public static MutableLiveData<ArrayList<BookDataModel>> fictionBooks = new MutableLiveData<>();
     public static MutableLiveData<ArrayList<BookDataModel>> historyBooks = new MutableLiveData<>();
     public static MutableLiveData<ArrayList<CategoryDataModel>> categories = new MutableLiveData<>();
+    public static MutableLiveData<ArrayList<BookDataModel>> categoryBooks = new MutableLiveData<>();
 
     public static MutableLiveData<BookDetailsDataModel> bookDetails = new MutableLiveData<>();
     public static MutableLiveData<AuthorDataModel> authorDetails = new MutableLiveData<>();
+    public static MutableLiveData<PublisherDataModel> publisherDetails = new MutableLiveData<>();
+
     public static MutableLiveData<ArrayList<ReviewDataModel>> reviews = new MutableLiveData<>();
+    public static MutableLiveData<String> currentContentMutable = new MutableLiveData<>();
 
     public static final String LOGIN_SHARED_PREFS = "login_pref";
     public static final String LOGIN_USER_PHONE = "login_phone";
     public static final String LOGIN_USER_PASS = "login_pass";
+
     public static String CURRENT_BOOK_ID="";
     public static String CURRENT_AUTHOR_ID="";
     public static String CURRENT_PUBLISHER_ID="";
@@ -93,6 +98,9 @@ public class StaticData {
     public static String mediaUrl="";
     public static String fileName="";
     public static String bookUrl="";
+    public static String bookName="";
+    public static String authorName="";
+    public static String bookImgUrl="";
     public static String audioUrl="";
     public static String [] homeRouteIDs;
     public static String imageDirSmall = "http://api.boimelafoundation.com/data/image/small/";

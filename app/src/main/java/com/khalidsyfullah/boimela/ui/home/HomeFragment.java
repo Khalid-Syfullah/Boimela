@@ -304,7 +304,7 @@ public class HomeFragment extends Fragment {
         seriesRecycler.setAdapter(bookSeriesAdapter);
 
         topRatedRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        topRatedBookAdapter = new TopRatedBookAdapter(getActivity(),topRatedBookDataModels);
+        topRatedBookAdapter = new TopRatedBookAdapter(getActivity(),topRatedBookDataModels, "HomeFragment");
         topRatedRecycler.setAdapter(topRatedBookAdapter);
 
         genresRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
@@ -320,7 +320,7 @@ public class HomeFragment extends Fragment {
         editorsChoiceRecycler.setAdapter(editorsChoiceAdapter);
 
         newReleasesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        newReleasesAdapter = new TopRatedBookAdapter(getActivity(),newReleaseDataModels);
+        newReleasesAdapter = new TopRatedBookAdapter(getActivity(),newReleaseDataModels, "HomeFragment");
         newReleasesRecycler.setAdapter(newReleasesAdapter);
 
         allAuthorsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));

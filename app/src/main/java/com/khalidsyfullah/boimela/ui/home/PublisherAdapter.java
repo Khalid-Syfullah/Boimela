@@ -1,6 +1,11 @@
 package com.khalidsyfullah.boimela.ui.home;
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_AUTHOR_ID;
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_PUBLISHER_ID;
+
 import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,14 +73,20 @@ public class PublisherAdapter extends RecyclerView.Adapter<PublisherViewHolder>{
         holder.publisherConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                CURRENT_PUBLISHER_ID = publisherDataModel.getId();
+                Bundle bundle = new Bundle();
+                bundle.putString("publisher_id",publisherDataModel.getId());
+
+
                 if(fragmentName.equals("HomeFragment")) {
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_publisher_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_publisher_details, bundle);
                 }
                 else if(fragmentName.equals("StoreFragment")) {
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_publisher_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_publisher_details, bundle);
                 }
                 else if(fragmentName.equals("SearchFragment")) {
-                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_search_to_navigation_publisher_details);
+                    Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_search_to_navigation_publisher_details, bundle);
                 }
             }
         });

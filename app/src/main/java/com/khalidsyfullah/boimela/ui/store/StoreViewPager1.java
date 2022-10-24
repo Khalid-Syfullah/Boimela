@@ -274,7 +274,7 @@ public class StoreViewPager1 extends Fragment {
         religiousRecycler.setAdapter(religiousAdapter);
 
         newReleasesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        newReleasesAdapter = new TopRatedBookAdapter(getActivity(),newReleasesDataModels);
+        newReleasesAdapter = new TopRatedBookAdapter(getActivity(),newReleasesDataModels, "StoreFragment");
         newReleasesRecycler.setAdapter(newReleasesAdapter);
 
         poetryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
@@ -282,7 +282,7 @@ public class StoreViewPager1 extends Fragment {
         poetryRecycler.setAdapter(poetryAdapter);
 
         editorsChoiceRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        editorsChoiceAdapter = new TopRatedBookAdapter(getActivity(),editorsChoiceDataModels);
+        editorsChoiceAdapter = new TopRatedBookAdapter(getActivity(),editorsChoiceDataModels, "StoreFragment");
         editorsChoiceRecycler.setAdapter(editorsChoiceAdapter);
 
         publishersRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));

@@ -1,6 +1,9 @@
 package com.khalidsyfullah.boimela.ui.store;
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
+
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +13,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.CategoryDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublisherDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -91,6 +97,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder>{
             Picasso.get().load(R.drawable.book_3).placeholder(R.drawable.book_3).into(holder.categoryImage);
 
         }
+
+        holder.categoryConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                StaticData.categoryBooks = new MutableLiveData<>();
+
+                CURRENT_BOOK_ID = categoryDataModel.getId();
+                Bundle bundle = new Bundle();
+                bundle.putString("book_id",categoryDataModel.getId());
+                bundle.putString("fragment","store");
+                bundle.putString("query","category-books");
+                bundle.putString("type","books");
+
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_view_all, bundle);
+
+            }
+        });
     }
 
     @Override

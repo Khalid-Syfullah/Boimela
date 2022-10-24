@@ -2,6 +2,7 @@ package com.khalidsyfullah.boimela.ui.epub;
 
 import static com.khalidsyfullah.boimela.global.StaticData.audioUrl;
 import static com.khalidsyfullah.boimela.global.StaticData.fileName;
+import static com.khalidsyfullah.boimela.global.StaticData.imageDirBig;
 import static com.khalidsyfullah.boimela.global.StaticData.isMediaActive;
 import static com.khalidsyfullah.boimela.global.StaticData.isMediaReset;
 import static com.khalidsyfullah.boimela.global.StaticData.mediaPlayer;
@@ -42,6 +43,8 @@ import androidx.navigation.Navigation;
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.api.RestAPI;
 import com.khalidsyfullah.boimela.api.RetrofitClient;
+import com.khalidsyfullah.boimela.global.StaticData;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -92,6 +95,10 @@ public class FragmentViewPager2 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         updateMediaUi();
+
+        audioTitle.setText(StaticData.bookName);
+        Picasso.get().load(imageDirBig + StaticData.bookImgUrl).placeholder(R.drawable.audio_play_bordered).into(bookImage);
+        authorTitle.setText(StaticData.authorName);
 
         seekBarHandler = new Handler();
 
@@ -226,7 +233,12 @@ public class FragmentViewPager2 extends Fragment {
 
     private void checkStatus(){
 
-        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator + fileName + ".mp3");
+        if(Build.VERSION.SDK_INT > 30) {
+            file = new File(Environment.getDataDirectory().getAbsolutePath() + "/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
+        }
+        else{
+            file = new File(Environment.getDownloadCacheDirectory().getAbsolutePath()+"/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".mp3");
+        }
 
         if(!file.exists()){
             loadMedia();

@@ -1,6 +1,9 @@
 package com.khalidsyfullah.boimela.ui.viewall;
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_AUTHOR_ID;
+
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +69,14 @@ public class ViewAllAuthorsAdapter extends RecyclerView.Adapter<ViewAllAuthorsVi
         holder.authorConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_author_details);
+
+
+                CURRENT_AUTHOR_ID = authorDataModel.getId();
+                Bundle bundle = new Bundle();
+                bundle.putString("author_id",authorDataModel.getId());
+
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_view_all_to_navigation_author_details, bundle);
+
             }
         });
     }

@@ -12,7 +12,9 @@ import static com.khalidsyfullah.boimela.global.StaticData.mediaUrl;
 import static com.khalidsyfullah.boimela.ui.epub.ReaderActivity.bookLanguage;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -23,6 +25,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -47,6 +51,8 @@ import com.khalidsyfullah.boimela.api.RetrofitClient;
 import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookDetailsDataModel;
 import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
+import com.khalidsyfullah.boimela.global.StaticData;
+import com.khalidsyfullah.boimela.ui.auth.AuthActivity;
 import com.khalidsyfullah.boimela.ui.epub.ReaderActivity;
 import com.squareup.picasso.Picasso;
 
@@ -58,6 +64,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -135,7 +142,6 @@ public class BookDetailsFragment extends Fragment {
             public void onClick(View view) {
 
                 checkForPermissions();
-                bookLanguage = "en";
 
             }
         });
@@ -165,6 +171,13 @@ public class BookDetailsFragment extends Fragment {
                 @Override
                 public void onChanged(BookDetailsDataModel bookDetailsDataModel) {
 
+
+                    if(bookDetailsDataModel.getLanguage().equals("বাংলা")) {
+                        bookLanguage = "bn";
+                    }
+                    else{
+                        bookLanguage = "en";
+                    }
                     bookName.setText(bookDetailsDataModel.getName());
                     Picasso.get().load(imageDirBig + bookDetailsDataModel.getImage()).placeholder(R.drawable.book_not_found).into(bookImage);
                     authorName.setText(bookDetailsDataModel.getWriter().getName());
@@ -185,6 +198,9 @@ public class BookDetailsFragment extends Fragment {
                     bookUrl = fileDir + bookDetailsDataModel.getPdfFile();
                     audioUrl = fileDir + bookDetailsDataModel.getAudioFile();
                     mediaUrl = fileDir + bookDetailsDataModel.getAudioFile();
+                    StaticData.bookName = bookDetailsDataModel.getName();
+                    StaticData.authorName = bookDetailsDataModel.getWriter().getName();
+                    StaticData.bookImgUrl = bookDetailsDataModel.getImage();
 
                     openReaderBtn.setVisibility(View.VISIBLE);
                     bookDetailsConstraintLayout.setVisibility(View.VISIBLE);
@@ -233,19 +249,22 @@ public class BookDetailsFragment extends Fragment {
     private void checkStatus(){
 
 
-        if(Build.VERSION.SDK_INT > 30) {
-            file = new File(Environment.getDataDirectory().getAbsolutePath() + "/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
-        }
-        else{
-            file = new File(Environment.getDownloadCacheDirectory().getAbsolutePath() + "/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
+        if(StaticData.currentUserData.getValue() != null) {
+            if (Build.VERSION.SDK_INT > 30) {
+                file = new File(Environment.getDataDirectory().getAbsolutePath() + "/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
+            } else {
+                file = new File(Environment.getDownloadCacheDirectory().getAbsolutePath() + "/data/com.khalidsyfullah.boimela" + File.separator + fileName + ".epub");
 
-        }
-        if(!file.exists()){
-            loadData();
+            }
+            if (!file.exists()) {
+                loadData();
+            } else {
+                Intent intent = new Intent(getActivity(), ReaderActivity.class);
+                getActivity().startActivity(intent);
+            }
         }
         else{
-            Intent intent = new Intent(getActivity(), ReaderActivity.class);
-            getActivity().startActivity(intent);
+            loginAlertDialog(getResources().getString(R.string.login_required), getResources().getString(R.string.login_first), getResources().getString(R.string.login), getResources().getString(R.string.back));
         }
 
     }
@@ -371,5 +390,44 @@ public class BookDetailsFragment extends Fragment {
             return false;
         }
     }
+
+    private void loginAlertDialog(String title, String message, String submit, String cancel) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
+
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.alert_custom_title, null);
+        TextView titleText = view.findViewById(R.id.alert_custom_title);
+        TextView messageText = view.findViewById(R.id.alert_custom_message);
+        Button submitBtn = view.findViewById(R.id.alert_custom_title_submit_btn);
+        Button cancelBtn = view.findViewById(R.id.alert_custom_title_cancel_btn);
+
+        titleText.setText(title);
+        messageText.setText(message);
+        submitBtn.setText(submit);
+        cancelBtn.setText(cancel);
+
+        builder.setView(view);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getActivity(), AuthActivity.class);
+                getActivity().startActivity(intent);
+                alertDialog.dismiss();
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                alertDialog.dismiss();
+            }
+        });
+    }
+
 
 }

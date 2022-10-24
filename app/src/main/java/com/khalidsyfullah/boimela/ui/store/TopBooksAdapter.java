@@ -1,9 +1,11 @@
 package com.khalidsyfullah.boimela.ui.store;
 
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
 import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,12 +89,44 @@ public class TopBooksAdapter extends RecyclerView.Adapter<TopBooksViewHolder>{
         holder.bookReview.setText(bookDataModel.getNumberOfRating() +" "+activity.getResources().getString(R.string.reviews));
         Picasso.get().load(imageDirSmall + bookDataModel.getImage()).placeholder(R.drawable.book_not_found).into(holder.bookImage);
 
-        holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
+        holder.bookRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_book_details);
+
+                CURRENT_BOOK_ID = bookDataModel.get_id();
+                Bundle bundle = new Bundle();
+                bundle.putString("book_id",bookDataModel.get_id());
+
+                StaticData.fileName = bookDataModel.getFileName();
+                StaticData.bookUrl = bookDataModel.getBookUrl();
+                StaticData.audioUrl = bookDataModel.getAudioUrl();
+
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_book_details, bundle);
+
+
             }
         });
+
+        holder.bookConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CURRENT_BOOK_ID = bookDataModel.get_id();
+                Bundle bundle = new Bundle();
+                bundle.putString("book_id",bookDataModel.get_id());
+
+                StaticData.fileName = bookDataModel.getFileName();
+                StaticData.bookUrl = bookDataModel.getBookUrl();
+                StaticData.audioUrl = bookDataModel.getAudioUrl();
+
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_book_details, bundle);
+
+
+
+            }
+        });
+
+
     }
 
     @Override

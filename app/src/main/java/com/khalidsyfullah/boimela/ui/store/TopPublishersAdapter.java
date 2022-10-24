@@ -1,6 +1,9 @@
 package com.khalidsyfullah.boimela.ui.store;
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_PUBLISHER_ID;
+
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +83,12 @@ public class TopPublishersAdapter extends RecyclerView.Adapter<TopPublishersView
         holder.publisherConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_publisher_details);
+
+                CURRENT_PUBLISHER_ID = publisherDataModel.getId();
+                Bundle bundle = new Bundle();
+                bundle.putString("publisher_id",publisherDataModel.getId());
+
+                Navigation.findNavController(activity, R.id.nav_host_fragment_main).navigate(R.id.action_navigation_store_to_navigation_publisher_details, bundle);
             }
         });
     }

@@ -62,18 +62,7 @@ public class HomeRepo {
         this.application = application;
         restAPI = RetrofitClient.createRetrofitClient();
         fetchHomeRoutes();
-        fetchWeeklyBooks();
-        fetchBestSellerBooks();
-        fetchPopularBooks();
-        fetchBookSeries();
-        fetchAudioBooks();
-        fetchTopRatedBooks();
-        fetchGenres();
-        fetchEditorsChoiceBooks();
-        fetchNewReleasesBooks();
-        fetchAllAuthors();
-        fetchUpcomingBooks();
-        fetchAllPublishers();
+
 
     }
 
@@ -92,6 +81,19 @@ public class HomeRepo {
                     for(int i=0;i<homeRouteIDs.length;i++){
                         Log.d("HomeRoutes", "home: "+"#"+i+": "+homeRouteIDs[i]);
                     }
+
+                    fetchWeeklyBooks();
+                    fetchBestSellerBooks();
+                    fetchPopularBooks();
+                    fetchBookSeries();
+                    fetchAudioBooks();
+                    fetchTopRatedBooks();
+                    fetchGenres();
+                    fetchEditorsChoiceBooks();
+                    fetchNewReleasesBooks();
+                    fetchAllAuthors();
+                    fetchUpcomingBooks();
+                    fetchAllPublishers();
                 }
             }
 
@@ -102,7 +104,7 @@ public class HomeRepo {
         });
     }
 
-    private void fetchWeeklyBooks() {
+    private void    fetchWeeklyBooks() {
 
         Log.d("HomeRoutes","Fetching Weekly Books....");
 
@@ -417,18 +419,12 @@ public class HomeRepo {
 
                     if(collectionDataModel.getBooks().size() != 0) {
 
-                        ArrayList<BookDataModel> bookDataModels = collectionDataModel.getBooks();
-                        ArrayList<BookDataModel> topRatedBookDataModels = new ArrayList<>();
+                        topRatedBooks.setValue(collectionDataModel.getBooks());
 
-                        for (int i=0;i<bookDataModels.size();i++) {
-                            BookDataModel bookDataModel = new BookDataModel(bookDataModels.get(i).getImage(), bookDataModels.get(i).getName(), bookDataModels.get(i).getWriter().getName(), (i+1)%10);
-                            topRatedBookDataModels.add(bookDataModel);
-                        }
                         Log.d("HomeRoutes", "Message (Top Rated Books): " + response.body().getMessage());
                         Log.d("HomeRoutes", "Book Name: " + collectionDataModel.getBooks().get(0).getName());
                         Log.d("HomeRoutes", "Author Name: " + collectionDataModel.getBooks().get(0).getWriter().getName());
 
-                        topRatedBooks.setValue(topRatedBookDataModels);
                     }
 
                     else{

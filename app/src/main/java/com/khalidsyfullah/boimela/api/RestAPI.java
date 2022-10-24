@@ -11,13 +11,17 @@ import com.khalidsyfullah.boimela.datamodel.BookDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookGetDetailsDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookGenreDataModel;
 import com.khalidsyfullah.boimela.datamodel.BookSeriesDataModel;
+import com.khalidsyfullah.boimela.datamodel.CategoryBooksDataModel;
 import com.khalidsyfullah.boimela.datamodel.HomeDataModel;
 import com.khalidsyfullah.boimela.datamodel.PopularAuthorsDataModel;
+import com.khalidsyfullah.boimela.datamodel.PublisherDetailsDataModel;
 import com.khalidsyfullah.boimela.datamodel.PublishersDataModel;
 import com.khalidsyfullah.boimela.datamodel.ResponseDataModel;
 import com.khalidsyfullah.boimela.datamodel.ReviewDataModel;
+import com.khalidsyfullah.boimela.datamodel.StoreBooksDataModel;
 import com.khalidsyfullah.boimela.datamodel.TopListDataModel;
 import com.khalidsyfullah.boimela.datamodel.UserDataModel;
+import com.khalidsyfullah.boimela.datamodel.UserProfileDataModel;
 
 import java.util.ArrayList;
 
@@ -37,6 +41,9 @@ public interface RestAPI {
 
     @POST("/api/v1/auth/login")
     Call<UserDataModel> loginUser(@Body UserDataModel userDataModel);
+
+    @GET("/api/v1/profile")
+    Call<UserProfileDataModel> userProfile(@Header("Authorization") String authToken);
 
     @POST("/api/v1/auth/refreshToken")
     Call<ResponseDataModel> refreshToken(@Header("Cookie") String cookie);
@@ -65,6 +72,9 @@ public interface RestAPI {
     @GET("/api/v1/home/class")
     Call<BookGenreDataModel> getGenreBooks();
 
+    @GET("/api/v1/home/allClass")
+    Call<StoreBooksDataModel> getStoreBooks();
+
     @GET("/api/v1/home/popularAuthor")
     Call<PopularAuthorsDataModel> getPopularAuthors();
 
@@ -80,11 +90,17 @@ public interface RestAPI {
     @GET("/api/v1/category")
     Call<BookCategoryDataModel> getAllCategories();
 
+    @GET("/api/v1/category/{category_id}")
+    Call<CategoryBooksDataModel> getCategoryBooksByID(@Path("category_id") String categoryID);
+
     @GET("/api/v1/book/{book_id}")
     Call<BookGetDetailsDataModel> getBookDetailsByID(@Path("book_id") String bookID);
 
     @GET("/api/v1/author/{author_id}")
     Call<AuthorDetailsDataModel> getAuthorDetailsByID(@Path("author_id") String authorID);
+
+    @GET("/api/v1/publisher/{publisher_id}")
+    Call<PublisherDetailsDataModel> getPublisherDetailsByID(@Path("publisher_id") String publisherID);
 
     @GET("/api/user/review")
     Call<ArrayList<ReviewDataModel>> getReviews(@Header("auth-token") String authToken);

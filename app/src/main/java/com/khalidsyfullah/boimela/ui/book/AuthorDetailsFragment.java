@@ -72,12 +72,12 @@ public class AuthorDetailsFragment extends Fragment {
 
     private AuthorDetailsViewModel authorDetailsViewModel;
     private TextView authorName, authorBirthday, authorLocation, authorBooksTitle, authorDescription;
-    private ProgressBar authorDetailsProgress;
     private ImageView authorImage, backBtn;
     private RecyclerView authorRecycler;
     private AuthorDataModel authorDataModel;
     private ArrayList<BookDataModel> bookDataModels;
     private ConstraintLayout authorDetailsConstraintLayout;
+    private ProgressBar authorDetailsProgress;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -166,8 +166,14 @@ public class AuthorDetailsFragment extends Fragment {
 
                             Log.d("AuthorDetailsFragment","Author Books DataModel Size: "+authorDataModel.getBooks().size());
 
+                            ArrayList<BookDataModel> authorBooks = new ArrayList<>();
+
+                            for(int i=0;i<authorDataModel.getBooks().size();i++){
+                                BookDataModel bookDataModel = new BookDataModel(authorDataModel.getBooks().get(i).get_id(), authorDataModel.getBooks().get(i).getImage(), authorDataModel.getBooks().get(i).getName(), authorDataModel.getBooks().get(i).getCategory(), authorName.getText().toString(), authorDataModel.getBooks().get(i).getRating(), authorDataModel.getBooks().get(i).getNumberOfRating());
+                                authorBooks.add(bookDataModel);
+                            }
                             authorRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-                            BookAdapter bookAdapter = new BookAdapter(getActivity(), authorDataModel.getBooks(), 1, "AuthorDetailsFragment");
+                            BookAdapter bookAdapter = new BookAdapter(getActivity(), authorBooks, 1, "AuthorDetailsFragment");
                             authorRecycler.setAdapter(bookAdapter);
                             authorRecycler.setVisibility(View.VISIBLE);
 

@@ -1,5 +1,6 @@
 package com.khalidsyfullah.boimela.ui.home;
 
+import static com.khalidsyfullah.boimela.global.StaticData.CURRENT_BOOK_ID;
 import static com.khalidsyfullah.boimela.global.StaticData.imageDirSmall;
 
 import android.os.Bundle;
@@ -44,7 +45,14 @@ public class SliderFragment extends Fragment {
         sliderConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details);
+
+                if (getArguments().getString("book_id") != null) {
+                    CURRENT_BOOK_ID = getArguments().getString("book_id");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("book_id", getArguments().getString("book_id"));
+
+                    Navigation.findNavController(getActivity(), R.id.nav_host_fragment_main).navigate(R.id.action_navigation_home_to_navigation_book_details, bundle);
+                }
             }
         });
 

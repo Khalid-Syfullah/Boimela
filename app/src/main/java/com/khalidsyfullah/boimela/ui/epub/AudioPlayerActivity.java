@@ -2,6 +2,7 @@ package com.khalidsyfullah.boimela.ui.epub;
 
 import static com.khalidsyfullah.boimela.global.StaticData.audioUrl;
 import static com.khalidsyfullah.boimela.global.StaticData.fileName;
+import static com.khalidsyfullah.boimela.global.StaticData.imageDirBig;
 import static com.khalidsyfullah.boimela.global.StaticData.isMediaActive;
 import static com.khalidsyfullah.boimela.global.StaticData.isMediaReset;
 import static com.khalidsyfullah.boimela.global.StaticData.mediaPlayer;
@@ -41,6 +42,8 @@ import androidx.navigation.Navigation;
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.api.RestAPI;
 import com.khalidsyfullah.boimela.api.RetrofitClient;
+import com.khalidsyfullah.boimela.global.StaticData;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -113,6 +116,11 @@ public class AudioPlayerActivity extends Activity {
 
 
         checkForPermissions();
+
+        audioTitle.setText(StaticData.bookName);
+        Picasso.get().load(imageDirBig + StaticData.bookImgUrl).placeholder(R.drawable.audiotrack).into(audioImage);
+        authorTitle.setText(StaticData.authorName);
+        voiceTitle.setText(StaticData.authorName);
 
         seekBarHandler = new Handler();
 

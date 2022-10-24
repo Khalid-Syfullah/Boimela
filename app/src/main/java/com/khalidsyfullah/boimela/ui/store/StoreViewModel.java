@@ -93,4 +93,9 @@ public class StoreViewModel extends AndroidViewModel {
         return storeRepo.getCategories();
     }
 
+    public MutableLiveData<ArrayList<BookDataModel>> getCategoryBooks() {
+        return storeRepo.getCategoryBooks();
+    }
+
+
 }

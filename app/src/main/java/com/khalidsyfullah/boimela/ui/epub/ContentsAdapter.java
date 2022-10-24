@@ -45,10 +45,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.datamodel.ContentDataModel;
+import com.khalidsyfullah.boimela.ui.home.HomeViewModel;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -131,22 +133,6 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsViewHolder>{
             @Override
             public void onClick(View v) {
 
-                //                    File f1 = new File(destination+ File.separator + rootDir + File.separator + hrefHashSeparated[0]);
-//                    FileInputStream fileInputStream2 = new FileInputStream(f1);
-//                    byte [] bytes = new byte[(int) f1.length()];
-//                    fileInputStream2.read(bytes);
-//                    data = new String(bytes);
-//                    data = data.replaceFirst("(?s)(<head>)(.*?)(</head>)","$1$3");
-//                    Log.d("EPUB","Separated[1] "+hrefHashSeparated[1]);
-
-                //data = xmlParser(fileInputStream2, "div","id",hrefHashSeparated[1]);
-
-//                    Document doc = Jsoup.parse(f1);
-//                    Element content = doc.getElementById(hrefHashSeparated[1]);
-//
-//                    if(content != null) {
-//                        data = content.text();
-//                    }
 
                 String [] hrefHashSeparated = contentDataModel.getHref().split("#");
                 String [] hrefSlashSeparated = contentDataModel.getHref().split("/");

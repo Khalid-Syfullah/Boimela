@@ -45,7 +45,7 @@ public class ViewAllFragment extends Fragment {
     private ViewAllBooksAdapter viewAllBooksAdapter;
     private ViewAllAuthorsAdapter viewAllAuthorsAdapter;
     private ViewAllPublishersAdapter viewAllPublishersAdapter;
-    private ConstraintLayout viewAllEmptyConstraintLayout;
+    private ConstraintLayout viewAllEmptyConstraintLayout, constraintLayout;
     private ProgressBar viewAllProgressBar;
     private String searchString="";
 
@@ -59,6 +59,7 @@ public class ViewAllFragment extends Fragment {
         clearText = root.findViewById(R.id.view_all_clear_text);
         viewAllRecycler = root.findViewById(R.id.view_all_recycler);
         viewAllEmptyConstraintLayout = root.findViewById(R.id.view_all_empty_container);
+        constraintLayout = root.findViewById(R.id.view_all_constraint_layout);
         viewAllProgressBar = root.findViewById(R.id.view_all_progress_bar);
 
         homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
@@ -75,6 +76,10 @@ public class ViewAllFragment extends Fragment {
         bookDataModels = new ArrayList<>();
         authorDataModels = new ArrayList<>();
         publisherDataModels = new ArrayList<>();
+
+        constraintLayout.setVisibility(View.GONE);
+
+
 
         int id = getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchEditText = (EditText) searchView.findViewById(id);
@@ -102,6 +107,15 @@ public class ViewAllFragment extends Fragment {
 
             }
         });
+
+
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         Bundle bundle = getArguments();
 
@@ -145,9 +159,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -166,9 +182,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -191,9 +209,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -212,9 +232,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -233,9 +255,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -256,9 +280,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -277,9 +303,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -298,9 +326,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -319,9 +349,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -345,9 +377,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -366,9 +400,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -389,9 +425,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -411,9 +449,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -432,9 +472,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -453,9 +495,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -475,9 +519,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -496,9 +542,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -518,9 +566,36 @@ public class ViewAllFragment extends Fragment {
                                 viewAllBooksAdapter.setBookDataModels(bookDataModels);
 
                                 if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
+                                    viewAllEmptyConstraintLayout.setVisibility(View.GONE);
+                                    viewAllRecycler.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
+
+                    }
+
+                    else if(query.equals("category-books")) {
+
+                        StaticData.CURRENT_BOOK_ID = bundle.getString("book_id");
+
+                        storeViewModel.getCategoryBooks().observe(getViewLifecycleOwner(), new Observer<ArrayList<BookDataModel>>() {
+                            @Override
+                            public void onChanged(ArrayList<BookDataModel> bookDataModels) {
+
+                                viewAllProgressBar.setVisibility(View.GONE);
+                                viewAllBooksAdapter.setBookDataModels(bookDataModels);
+
+                                if (bookDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
+                                    viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
+                                    viewAllRecycler.setVisibility(View.GONE);
+                                } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -575,9 +650,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllAuthorsAdapter.setAuthorDataModels(authorDataModels);
 
                                 if (authorDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -600,9 +677,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllAuthorsAdapter.setAuthorDataModels(authorDataModels);
 
                                 if (authorDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -648,9 +727,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllPublishersAdapter.setPublisherDataModels(publisherDataModels);
 
                                 if (publisherDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -673,9 +754,11 @@ public class ViewAllFragment extends Fragment {
                                 viewAllPublishersAdapter.setPublisherDataModels(publisherDataModels);
 
                                 if (publisherDataModels.size() == 0) {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.VISIBLE);
                                     viewAllRecycler.setVisibility(View.GONE);
                                 } else {
+                                    constraintLayout.setVisibility(View.VISIBLE);
                                     viewAllEmptyConstraintLayout.setVisibility(View.GONE);
                                     viewAllRecycler.setVisibility(View.VISIBLE);
                                 }
@@ -687,14 +770,5 @@ public class ViewAllFragment extends Fragment {
             }
         }
 
-
-
-
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 }

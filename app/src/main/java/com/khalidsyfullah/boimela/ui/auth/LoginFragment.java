@@ -26,6 +26,7 @@ import androidx.navigation.Navigation;
 import com.khalidsyfullah.boimela.R;
 import com.khalidsyfullah.boimela.Repo.AuthRepo;
 import com.khalidsyfullah.boimela.Repo.RemoteRequestInterface;
+import com.khalidsyfullah.boimela.datamodel.LoginDataModel;
 import com.khalidsyfullah.boimela.datamodel.ResponseDataModel;
 import com.khalidsyfullah.boimela.datamodel.UserDataModel;
 import com.khalidsyfullah.boimela.global.StaticData;
@@ -150,6 +151,8 @@ public class LoginFragment extends Fragment {
                 public void onSuccess(String msg) {
 
                     Log.d("Cookie","Saved Cookie: "+StaticData.cookie.getValue());
+
+
                     authRepo.refreshToken(StaticData.cookie.getValue(), new RemoteRequestInterface() {
                         @Override
                         public void onSuccess(String msg) {
@@ -161,19 +164,31 @@ public class LoginFragment extends Fragment {
                             loginPrefsEditor.putString(LOGIN_USER_PASS, finalPassword);
                             loginPrefsEditor.apply();
 
+                            authRepo.userProfile(StaticData.accessToken.getValue(), new RemoteRequestInterface() {
+                                @Override
+                                public void onSuccess(String msg) {
+                                    StaticData.successAlertDialog(getActivity(),"Login Successful: "+msg);
 
-                            StaticData.successAlertDialog(getActivity(),"Login Successful: "+msg);
+                                    getActivity().finishAffinity();
+                                    Intent intent = new Intent(getActivity(), NavigationActivity.class);
+                                    getActivity().startActivity(intent);
 
 
+                                }
 
-                            Intent intent = new Intent(getActivity(), NavigationActivity.class);
-                            getActivity().startActivity(intent);
-                            getActivity().finish();
+                                @Override
+                                public void onFailure(String msg) {
+                                    StaticData.failureAlertDialog(getActivity(),"Login Failed: "+msg);
+
+                                }
+                            });
+
+
                         }
 
                         @Override
                         public void onFailure(String msg) {
-
+                            Log.d("LoginFragment","Login Failed: "+msg);
                             StaticData.failureAlertDialog(getActivity(),"Login Failed: "+msg);
 
                         }
@@ -182,6 +197,7 @@ public class LoginFragment extends Fragment {
 
                 @Override
                 public void onFailure(String msg) {
+                    Log.d("LoginFragment","Login Failed: "+msg);
                     StaticData.failureAlertDialog(getActivity(),"Connection failed: "+msg);
 
                 }

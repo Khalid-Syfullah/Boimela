@@ -121,15 +121,18 @@
     <TextView
         android:id="@+id/recyclerview_top_books_open"
         style="@style/ButtonA"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="14dp"
         android:drawableLeft="@drawable/book_white"
         android:elevation="0dp"
         android:maxWidth="120dp"
+        android:text="@string/open"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/recyclerview_top_books_review"
         app:layout_constraintTop_toBottomOf="@+id/recyclerview_top_books_review" />
 
@@ -142,7 +145,7 @@
         android:drawableLeft="@drawable/play_orange"
         android:elevation="0dp"
         android:maxWidth="120dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@+id/recyclerview_top_books_open"
         app:layout_constraintTop_toTopOf="@+id/recyclerview_top_books_open" />
 
