@@ -46,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private ProgressBar progressBar;
-    private TextView loginBtn, signupBtn;
+    private TextView loginBtn, signupBtn, retryBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +57,11 @@ public class SplashActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.splash_progressbar);
         loginBtn = findViewById(R.id.splash_login_btn);
         signupBtn = findViewById(R.id.splash_signup_btn);
-
+        retryBtn = findViewById(R.id.splash_retry_btn);
 
         Animation rotateAnimation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.accelerate_rotate);
         imageView.startAnimation(rotateAnimation);
 
-        progressBar.setVisibility(View.VISIBLE);
         getHomeRoutes();
 
 
@@ -85,9 +84,19 @@ public class SplashActivity extends AppCompatActivity {
                 finishAffinity();
             }
         });
+
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getHomeRoutes();
+            }
+        });
     }
 
     private void getHomeRoutes(){
+
+        progressBar.setVisibility(View.VISIBLE);
+        retryBtn.setVisibility(View.GONE);
 
         RestAPI restAPI = RetrofitClient.createRetrofitClient();
         Call<HomeDataModel> call = restAPI.getHomeRoutes();
@@ -123,10 +132,18 @@ public class SplashActivity extends AppCompatActivity {
                     },2000);
 
                 }
+                else{
+                    progressBar.setVisibility(View.GONE);
+                    retryBtn.setVisibility(View.VISIBLE);
+                    Toast.makeText(SplashActivity.this, response.code() + ": " + response.message(), Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(Call<HomeDataModel> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                retryBtn.setVisibility(View.VISIBLE);
+                Toast.makeText(SplashActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });

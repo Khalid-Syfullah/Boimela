@@ -196,4 +196,6 @@
     <string name="login_required">Login Required</string>
     <string name="back">Back</string>
     <string name="extras">Extras</string>
+    <string name="timeout">No Response from Server!</string>
+    <string name="error">Server Error!</string>
 </resources>
