@@ -200,7 +200,6 @@ BOIMELA - An E-Book platform with the EPUB3 standard, MVVM design, OAuthv2.0 API
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //implementation files('libs/your jar file.jar')
     api 'tk.zielony:carbon:0.16.0.1'
     implementation 'org.jsoup:jsoup:1.15.2'
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
@@ -253,7 +252,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@khalid_syfullah](https://twitter.com/khalid_syfullah) - khalidsyfullah@gmail.com
+Khalid Syfullah - [@khalid_syfullah](https://twitter.com/khalid_syfullah) - khalidsyfullah@gmail.com
 
 Project Link: [https://github.com/khalid-syfullah/boimela](https://github.com/khalid-syfullah/boimela)
 
