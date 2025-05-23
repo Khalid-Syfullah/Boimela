@@ -208,9 +208,9 @@ BOIMELA - An E-Book platform with the EPUB3 standard, MVVM design, OAuthv2.0 API
    ```
 
    <p align="center">
-       <img src="Screenshots/Latest/JPG/Slide-3.001.jpeg" alt="Architecture" width="960" height="540">
-       <img src="Screenshots/Latest/JPG/Slide-13.001.jpeg" alt="Architecture" width="960" height="540">
-       <img src="Screenshots/Latest/JPG/Slide-17.001.jpeg" alt="Architecture" width="960" height="540">
+       <img src="Screenshots/Latest/JPG/Slide-3.001.jpeg" alt="Architecture" width="960" height="500">
+       <img src="Screenshots/Latest/JPG/Slide-13.001.jpeg" alt="Architecture" width="960" height="500">
+       <img src="Screenshots/Latest/JPG/Slide-17.001.jpeg" alt="Architecture" width="960" height="500">
    </p>
 
 
